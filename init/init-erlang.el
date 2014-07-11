@@ -4,9 +4,9 @@
 (require 'erlang-start)
 
 
-(add-to-list 'load-path "/home/eyemzha/.emacs.d/distel/elisp")
-(require 'distel)
-(distel-setup)
+;;(add-to-list 'load-path "/home/eyemzha/.emacs.d/distel/elisp")
+;;(require 'distel)
+;;(distel-setup)
 
 (setq distel-tags-compliant nil)
 
@@ -35,7 +35,7 @@
 (shell-command "scp /home/eyemzha/dmx/dmxc/out/opt/dmxc/lib/erlang/lib/dmxc-4.0/ebin/* root@SC-2-1:/persistent/dmx/active/dmxc/dev_patches/" nil)
 (erl-reload-modules "dmxc1@SC-2-1"))
 
-(define-key erlang-mode-map (kbd "<f5>") 'dmx-compile)
-(define-key erlang-mode-map (kbd "<f6>") 'dmx-reload)
+;;(define-key erlang-mode-map (kbd "<f5>") 'dmx-compile)
+;;(define-key erlang-mode-map (kbd "<f6>") 'dmx-reload)
 
 (provide 'init-erlang)
