@@ -2,7 +2,7 @@
 (add-to-list 'load-path "/home/eyemzha/.emacs.d/smex")
 (add-to-list 'load-path "/home/eyemzha/.emacs.d/helm")
 (add-to-list 'load-path "/home/eyemzha/.emacs.d/xcscope")
-(add-to-list 'load-path "/home/eyemzha/.emacs.d/mu/mu4e")
+;;(add-to-list 'load-path "/home/eyemzha/.emacs.d/mu/mu4e")
 (add-to-list 'load-path "/home/eyemzha/.emacs.d/magit")
 (add-to-list 'load-path "/home/eyemzha/.emacs.d/init")
 (require 'init-helm)
@@ -17,7 +17,7 @@
 (require 'init-erlang)
 ;;(require 'init-erc)
 ;;(require 'init-wanderlust)
-(require 'init-mu4e)
+;;(require 'init-mu4e)
 ;;(require 'init-ibus)
 (require 'init-appearance)
 
