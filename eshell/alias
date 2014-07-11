@@ -1,0 +1,8 @@
+alias .h /bin/grep $1 $eshell-history-file-name
+alias e find-file-other-window $1
+alias -h eshell-cd-history | grep $1
+alias l ls -lh $*
+alias v view-file-other-window $1
+alias more find-file-other-window $1
+alias pm sudo pacman $*
+alias sudo *sudo $*
