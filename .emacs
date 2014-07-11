@@ -1,6 +1,7 @@
 (add-to-list 'load-path "/home/eyemzha/.emacs.d")
 (add-to-list 'load-path "/home/eyemzha/.emacs.d/smex")
 (add-to-list 'load-path "/home/eyemzha/.emacs.d/helm")
+(add-to-list 'load-path "/home/eyemzha/.emacs.d/xcscope")
 (add-to-list 'load-path "/home/eyemzha/.emacs.d/mu/mu4e")
 (add-to-list 'load-path "/home/eyemzha/.emacs.d/magit")
 (add-to-list 'load-path "/home/eyemzha/.emacs.d/init")

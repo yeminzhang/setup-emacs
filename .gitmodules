@@ -7,3 +7,6 @@
 [submodule "zenburn"]
 	path = zenburn
 	url = git@github.com:bbatsov/zenburn-emacs.git
+[submodule "xcscope"]
+	path = xcscope
+	url = git@github.com:dkogan/xcscope.el.git
