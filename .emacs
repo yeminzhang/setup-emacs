@@ -22,6 +22,11 @@
 (require 'init-appearance)
 
 
+(require 'package)
+(add-to-list 'package-archives
+             '("melpa" . "http://melpa.milkbox.net/packages/") t)
+
+
 ;; dired
 (setq dired-listing-switches "-lhaD")
 (setq dired-isearch-filenames t)
@@ -62,7 +67,7 @@
 
 
 (defun labssh (hostname)
-(interactive (list (ido-completing-read "Node is: " (list "dmx1" "dmx2"))))
+(interactive (list (ido-completing-read "Node is: " (list "dmx1" "dmx2" "hub"))))
 (if (eq (get-buffer hostname) nil)
 (progn (setq line (shell-command-to-string (concat "grep " hostname " ~/utils/lab_hosts")))
 (setq ssh_ip (nth 1 (split-string line)))
