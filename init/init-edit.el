@@ -74,9 +74,9 @@
                    (t (if helm-locate-case-fold-search
                           ignore-case-flag
                           case-sensitive-flag)))
-				 (replace-regexp-in-string " " ".*" helm-pattern)))
+				 (replace-regexp-in-string " " ".*" args)))
       (set-process-sentinel
-       (get-process "locate-process")
+       (get-process helm-buffer)
        #'(lambda (process event)
            (if (string= event "finished\n")
                (with-helm-window
@@ -94,19 +94,84 @@
 
 
 
+(defun my-new-helm-locate-init ()
+  "Initialize async locate process for `helm-source-locate'."
+  (let* ((locate-is-es (string-match "\\`es" helm-locate-command))
+         (real-locate (string-match "\\`locate" helm-locate-command))
+         (case-sensitive-flag (if locate-is-es "-i" ""))
+         (ignore-case-flag (if (or locate-is-es
+                                   (not real-locate)) "" "-i"))
+         process-connection-type
+         (args (split-string helm-pattern " ")))
+    (prog1
+        (start-process-shell-command
+         "locate-process" helm-buffer
+         (format helm-locate-command
+                 (cl-case helm-locate-case-fold-search
+                   (smart (let ((case-fold-search nil))
+                            (if (string-match "[A-Z]" helm-pattern)
+                                case-sensitive-flag
+                              ignore-case-flag)))
+                   (t (if helm-locate-case-fold-search
+                          ignore-case-flag
+                        case-sensitive-flag)))
+                  ;; The pattern itself.
+		 (shell-quote-argument (mapconcat 'identity args ".*"))))
+;;(shell-quote-argument "dmxc.*capturing")))
+;;		  (replace-regexp-in-string " " ".*" args)))
+;;                 (concat
+;;                  (shell-quote-argument (car args)) " "
+                  ;; Possible locate args added
+                  ;; after pattern, don't quote them.
+  ;;                (mapconcat 'identity (cdr args) " "))))
+      (set-process-sentinel
+       (get-buffer-process helm-buffer)
+       #'(lambda (_process event)
+           (if (string= event "finished\n")
+               (with-helm-window
+                 (setq mode-line-format
+                       '(" " mode-line-buffer-identification " "
+                         (:eval (format "L%s" (helm-candidate-number-at-point))) " "
+                         (:eval (propertize
+                                 (format "[Locate Process Finish- (%s results)]"
+                                         (max (1- (count-lines
+                                                   (point-min) (point-max)))
+                                              0))
+                                 'face 'helm-locate-finish))))
+                 (force-mode-line-update))
+             (helm-log "Error: Locate %s"
+                       (replace-regexp-in-string "\n" "" event))))))))
+
+
+
+
 (defvar my-helm-source-locate
   `((name . "Locate")
     (init . helm-locate-set-command)
-    (candidates-process . my-helm-locate-init)
+    (candidates-process . my-new-helm-locate-init)
     (type . file)
     (requires-pattern . 3)
     (history . ,'helm-file-name-history)
     (keymap . ,helm-generic-files-map)
     (help-message . helm-generic-file-help-message)
     (candidate-number-limit . 9999)
-    (mode-line . helm-generic-file-mode-line-string)
-    (delayed))
+    (mode-line . helm-generic-file-mode-line-string))
   "Find files matching the current input pattern with locate.")
+
+(defvar my-new-helm-source-locate
+  `((name . "Locate")
+    (init . helm-locate-set-command)
+    (candidates-process . my-new-helm-locate-init)
+    (type . file)
+    (requires-pattern . 3)
+    (history . ,'helm-file-name-history)
+    (keymap . ,helm-generic-files-map)
+    (help-message . helm-generic-file-help-message)
+    (candidate-number-limit . 9999)
+;;    (no-matchplugin)
+    (mode-line . helm-generic-file-mode-line-string))
+  "Find files matching the current input pattern with locate.")
+
 
 ;; file a file
 (global-set-key (kbd "C-x C-f")
@@ -119,7 +184,7 @@
 	   helm-source-files-in-current-dir ;; current dir
 		helm-c-source-recentf               ;; recent files
 ;;	   helm-source-find-files
-        my-helm-source-locate))))            ;; use 'locate'
+        helm-source-locate))))            ;; use 'locate'
 
 (setq helm-dir-db-file "/home/eyemzha/.emacs.d/allfolder")
 
