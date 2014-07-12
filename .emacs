@@ -27,11 +27,6 @@
              '("melpa" . "http://melpa.milkbox.net/packages/") t)
 
 
-(require 'package)
-(add-to-list 'package-archives
-             '("melpa" . "http://melpa.milkbox.net/packages/") t)
-
-
 ;; dired
 (setq dired-listing-switches "-lhaD")
 (setq dired-isearch-filenames t)
