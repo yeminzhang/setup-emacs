@@ -35,7 +35,8 @@
 (shell-command "scp /home/eyemzha/dmx/dmxc/out/opt/dmxc/lib/erlang/lib/dmxc-4.0/ebin/* root@SC-2-1:/persistent/dmx/active/dmxc/dev_patches/" nil)
 (erl-reload-modules "dmxc1@SC-2-1"))
 
-;;(define-key erlang-mode-map (kbd "<f5>") 'dmx-compile)
+(add-hook 'erlang-mode-hook #'(lambda ()
+(define-key erlang-mode-map (kbd "<f5>") 'dmx-compile)))
 ;;(define-key erlang-mode-map (kbd "<f6>") 'dmx-reload)
 
 (provide 'init-erlang)
