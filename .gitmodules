@@ -13,3 +13,9 @@
 [submodule "magit-filenotify"]
 	path = magit-filenotify
 	url = git@github.com:magit/magit-filenotify.git
+[submodule "git-modes"]
+	path = git-modes
+	url = git@github.com:magit/git-modes.git
+[submodule "magit"]
+	path = magit
+	url = git@github.com:magit/magit.git

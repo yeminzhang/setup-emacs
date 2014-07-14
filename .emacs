@@ -5,6 +5,8 @@
 ;;(add-to-list 'load-path "/home/eyemzha/.emacs.d/mu/mu4e")
 (add-to-list 'load-path "/home/eyemzha/.emacs.d/magit-filenotify")
 (add-to-list 'load-path "/home/eyemzha/.emacs.d/init")
+(add-to-list 'load-path "/home/eyemzha/.emacs.d/git-modes")
+(add-to-list 'load-path "/home/eyemzha/.emacs.d/magit")
 (require 'init-helm)
 (require 'init-edit)
 (require 'init-buffer)
@@ -23,9 +25,9 @@
 (require 'init-appearance)
 
 ;;package
-(require 'package)
-(add-to-list 'package-archives
-             '("melpa" . "http://melpa.milkbox.net/packages/") t)
+;;(require 'package)
+;;(add-to-list 'package-archives
+  ;;           '("melpa" . "http://melpa.milkbox.net/packages/") t)
 
 
 ;; dired
