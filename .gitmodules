@@ -10,3 +10,6 @@
 [submodule "xcscope"]
 	path = xcscope
 	url = git@github.com:dkogan/xcscope.el.git
+[submodule "magit-filenotify"]
+	path = magit-filenotify
+	url = git@github.com:magit/magit-filenotify.git

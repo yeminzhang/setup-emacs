@@ -3,7 +3,7 @@
 (add-to-list 'load-path "/home/eyemzha/.emacs.d/helm")
 (add-to-list 'load-path "/home/eyemzha/.emacs.d/xcscope")
 ;;(add-to-list 'load-path "/home/eyemzha/.emacs.d/mu/mu4e")
-(add-to-list 'load-path "/home/eyemzha/.emacs.d/magit")
+(add-to-list 'load-path "/home/eyemzha/.emacs.d/magit-filenotify")
 (add-to-list 'load-path "/home/eyemzha/.emacs.d/init")
 (require 'init-helm)
 (require 'init-edit)
@@ -19,6 +19,7 @@
 ;;(require 'init-wanderlust)
 ;;(require 'init-mu4e)
 ;;(require 'init-ibus)
+(require 'init-magit)
 (require 'init-appearance)
 
 ;;package
