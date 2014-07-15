@@ -39,12 +39,6 @@
 
 (add-hook 'after-load-functions 'smex-update-after-load)
 
-;; tramp
-(require 'tramp)
-(setq password-cache-expiry nil)
-(setq tramp-default-method "scp")
-(setq tramp-default-user "root")
-(setq recentf-auto-cleanup 'never)
 
     (defun chomp (str)
       "Chomp leading and tailing whitespace from STR."

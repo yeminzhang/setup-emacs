@@ -13,7 +13,7 @@
 (require 'init-view)
 (require 'init-term)
 (require 'init-eshell)
-;;(require 'init-w3m)
+(require 'init-dired)
 (require 'init-elisp)
 (require 'init-c)
 (require 'init-erlang)
@@ -28,22 +28,6 @@
 ;;(require 'package)
 ;;(add-to-list 'package-archives
   ;;           '("melpa" . "http://melpa.milkbox.net/packages/") t)
-
-
-;; dired
-(setq dired-listing-switches "-lhaD")
-(setq dired-isearch-filenames t)
-(setq dired-recursive-deletes 1)
-(setq delete-by-moving-to-trash t)
-(setq dired-recursive-copies "always")
-;; underline the current line in dired mode
-(add-hook 'dired-mode-hook #'(lambda () (hl-line-mode 1)))
-(add-hook 'dired-mode-hook #'(lambda () (local-set-key (kbd "b") 'scroll-down-command)))
-(add-hook 'dired-mode-hook #'(lambda () (local-set-key (kbd " ") 'scroll-up-command)))
-(add-hook 'dired-mode-hook #'(lambda () (rename-buffer (concat "d-" (buffer-name)))))
-;;(setq auto-revert-interval 3)
-;;(add-hook 'dired-mode-hook #'(lambda () (auto-revert-mode 1)))
-(setq dired-auto-revert-buffer t)
 
 
 
