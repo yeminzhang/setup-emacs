@@ -18,7 +18,7 @@
 
 (eval-after-load 'info
   '(progn (info-initialize)
-          (add-to-list 'Info-directory-list "/home/eyemzha/.emacs.d/magit/")))
+          (add-to-list 'Info-directory-list "~/.emacs.d/magit/")))
 
 (global-set-key (kbd "<f4>")
   (lambda() (interactive)

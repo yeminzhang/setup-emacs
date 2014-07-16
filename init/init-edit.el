@@ -180,7 +180,7 @@
 ;;	   helm-source-find-files
         helm-source-locate))))            ;; use 'locate'
 
-(setq helm-dir-db-file "/home/eyemzha/.emacs.d/allfolder")
+(setq helm-dir-db-file "~/.emacs.d/allfolder")
 
 
 (defvar my-helm-source-find-dir
