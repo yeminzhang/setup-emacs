@@ -51,19 +51,46 @@
 ;;(setenv "n1dell4" "/n1dell4:/root")
 ;;(setenv "n1dell1" "/n1dell1:/root")
 
+;; Minimal information about nodes.
+;; More info in ~/.ssh/config
+(setq machine-list 
+'(
+(:id "gateway" :password "eyemzha")
+(:id "js" :password "js")
+(:id "js2" :password "js")
+(:id "iptb-console" :password "auto")
+(:id "mylab-dmx1" :password "rootroot")
+(:id "mylab-dmx2" :password "rootroot")
+))
 
-
-(defun labssh (hostname)
-(interactive (list (ido-completing-read "Node is: " (list "dmx1" "dmx2" "hub"))))
-(if (eq (get-buffer hostname) nil)
-(progn (setq line (shell-command-to-string (concat "grep " hostname " ~/utils/lab_hosts")))
-(setq ssh_ip (nth 1 (split-string line)))
-(setq ssh_username (nth 2 (split-string line)))
-(setq ssh_password (nth 3 (split-string line)))
-(eshell-exec-visual "sshpass" "-p" ssh_password "ssh" (format "%s@%s" ssh_username ssh_ip))
+(defun nodeconnect (host-id)
+(interactive (list (ido-completing-read "Node is: " 
+;;(list "dmx1" "dmx2" "hub")
+(progn
+(setq local-machine-list machine-list)
+(setq id-list '())
+(while local-machine-list
+  (setq id-list (append id-list (list (plist-get (pop local-machine-list) :id))))
+)
+id-list
+)
+)))
+(if (eq (get-buffer host-id) nil)
+(progn 
+(setq local-machine-list machine-list)
+(setq id "")
+(setq password "")
+(while local-machine-list
+(setq machine (pop local-machine-list))
+(if (eq (plist-get machine :id) host-id)
+(progn
+(setq password (plist-get machine :password))
+)
+))
+(eshell-exec-visual "sshpass" "-p" password "ssh" host-id)
 (set-buffer (get-buffer "*sshpass*"))
-(rename-buffer hostname))
-(if (eq (get-buffer-process hostname) nil) (progn (kill-buffer hostname) (labssh hostname)) (switch-to-buffer hostname))))
+(rename-buffer host-id))
+(if (eq (get-buffer-process host-id) nil) (progn (kill-buffer host-id) (nodeconnect host-id)) (switch-to-buffer host-id))))
 
 (defun labtelnet (hostname)
 (interactive (list (ido-completing-read "Node is: " (list "n1dell1" "n1dell2"))))

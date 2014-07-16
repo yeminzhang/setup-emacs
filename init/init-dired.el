@@ -56,3 +56,5 @@
 (setq tramp-default-method "ssh")
 (setq tramp-default-user nil)
 (setq recentf-auto-cleanup 'never)
+
+(provide 'init-dired)
