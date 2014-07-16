@@ -1,3 +1,7 @@
+;;(add-to-list 'load-path (concat emacs-configuration-root-dir "magit-filenotify"))
+(add-to-list 'load-path (concat emacs-configuration-root-dir "git-modes"))
+(add-to-list 'load-path (concat emacs-configuration-root-dir "magit"))
+
 (require 'magit)
 
 ;; reservered for future use when emacs 24.4 is ready
@@ -18,7 +22,7 @@
 
 (eval-after-load 'info
   '(progn (info-initialize)
-          (add-to-list 'Info-directory-list "~/.emacs.d/magit/")))
+          (add-to-list 'Info-directory-list (concat emacs-configuration-root-dir "magit/"))))
 
 (global-set-key (kbd "<f4>")
   (lambda() (interactive)

@@ -29,6 +29,7 @@
 (add-hook 'ido-minibuffer-setup-hook #'(lambda () (local-set-key (kbd "ö") 'ido-exit-minibuffer)))
 
 ;; smex
+(add-to-list 'load-path (concat emacs-configuration-root-dir "smex"))
 (require 'smex)
 (global-set-key (kbd "C-ö") 'smex)
 
@@ -180,7 +181,7 @@
 ;;	   helm-source-find-files
         helm-source-locate))))            ;; use 'locate'
 
-(setq helm-dir-db-file "~/.emacs.d/allfolder")
+(setq helm-dir-db-file (concat emacs-configuration-root-dir "allfolder"))
 
 
 (defvar my-helm-source-find-dir

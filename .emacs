@@ -1,12 +1,7 @@
-(add-to-list 'load-path "~/.emacs.d")
-(add-to-list 'load-path "~/.emacs.d/smex")
-(add-to-list 'load-path "~/.emacs.d/helm")
-(add-to-list 'load-path "~/.emacs.d/xcscope")
-;;(add-to-list 'load-path "/home/eyemzha/.emacs.d/mu/mu4e")
-(add-to-list 'load-path "~/.emacs.d/magit-filenotify")
-(add-to-list 'load-path "~/.emacs.d/init")
-(add-to-list 'load-path "~/.emacs.d/git-modes")
-(add-to-list 'load-path "~/.emacs.d/magit")
+(setq emacs-configuration-root-dir "~/.emacs.d/")
+(add-to-list 'load-path emacs-configuration-root-dir)
+(load (concat emacs-configuration-root-dir "env.el"))
+(add-to-list 'load-path (concat emacs-configuration-root-dir "init"))
 (require 'init-helm)
 (require 'init-edit)
 (require 'init-buffer)
@@ -51,17 +46,6 @@
 ;;(setenv "n1dell4" "/n1dell4:/root")
 ;;(setenv "n1dell1" "/n1dell1:/root")
 
-;; Minimal information about nodes.
-;; More info in ~/.ssh/config
-(setq machine-list
-'(
-(:id "gateway" :password "eyemzha")
-(:id "js" :password "js")
-(:id "js2" :password "js")
-(:id "iptb-console" :password "auto")
-(:id "mylab-dmx1" :password "rootroot")
-(:id "mylab-dmx2" :password "rootroot")
-))
 
 (defun nodeconnect (host-id)
 (interactive (list (ido-completing-read "Node is: " 

@@ -44,7 +44,7 @@
 (setq max-mini-window-height 1)
 
 ;; color theme
-(add-to-list 'custom-theme-load-path "~/.emacs.d/zenburn/")
+(add-to-list 'custom-theme-load-path (concat emacs-configuration-root-dir "zenburn/"))
 (load-theme 'zenburn t)
 
 (provide 'init-appearance)

@@ -1,6 +1,5 @@
-(add-to-list 'load-path "~/opt/lib/erlang/lib/tools-2.6.12/emacs")
-(setq erlang-root-dir "~/opt")
-(add-to-list 'exec-path "~/opt/bin")
+(add-to-list 'load-path (concat erlang-root-dir "lib/erlang/lib/tools-2.6.12/emacs"))
+(add-to-list 'exec-path (concat erlang-root-dir "bin"))
 (require 'erlang-start)
 
 
@@ -9,16 +8,6 @@
 ;;(distel-setup)
 
 (setq distel-tags-compliant nil)
-
-;;TODO
-(defun essim-connect ()
-(interactive)
-(async-shell-command "~/essim/my_start_essim.sh ~/essim/ ~/dmx/"))
-
-;;TODO
-(defun dmx-start ()
-(interactive)
-(shell-command "sudo ~/essim/start_essim.sh ~/essim/ ~/dmx/ &" "mybuffer"))
 
 
 (defun dmx-compile ()

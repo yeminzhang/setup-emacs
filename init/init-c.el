@@ -1,3 +1,4 @@
+(add-to-list 'load-path (concat emacs-configuration-root-dir "xcscope"))
 (require 'xcscope)
 (setq next-error-highlight t)
 ;;(require 'flymake-cursor)
