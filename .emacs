@@ -130,6 +130,7 @@ id-list
 
 (add-to-list 'load-path (concat emacs-configuration-root-dir "workgroups2/src"))
 (require 'workgroups2)
+(setq wg-mode-line-disable t)
 (workgroups-mode 1)
 
 (add-hook 'emacs-startup-hook #'(lambda () (wg-reload-session)))
