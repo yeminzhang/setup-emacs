@@ -19,6 +19,7 @@
 (require 'init-magit)
 (require 'init-appearance)
 
+
 ;;package
 ;;(require 'package)
 ;;(add-to-list 'package-archives
@@ -126,4 +127,10 @@ id-list
 
 ;; todo
 ;;(unless splitted (progn (split-window-right) (setq splitted t)))
+
+(add-to-list 'load-path (concat emacs-configuration-root-dir "workgroups2/src"))
+(require 'workgroups2)
+(workgroups-mode 1)
+
+(add-hook 'emacs-startup-hook #'(lambda () (wg-reload-session)))
 

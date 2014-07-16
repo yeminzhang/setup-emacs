@@ -19,3 +19,6 @@
 [submodule "magit"]
 	path = magit
 	url = git@github.com:magit/magit.git
+[submodule "workgroups2"]
+	path = workgroups2
+	url = git@github.com:pashinin/workgroups2.git
