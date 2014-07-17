@@ -17,6 +17,7 @@
 ;;(require 'init-mu4e)
 ;;(require 'init-ibus)
 (require 'init-magit)
+(require 'init-company)
 (require 'init-appearance)
 
 
