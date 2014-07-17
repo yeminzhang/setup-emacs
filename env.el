@@ -16,5 +16,14 @@
 
 ;; Configure erlang
 (setq erlang-root-dir "~/opt/")
+;; Configure erlang targets
+
+;; Configure project
+;; should have following attributes
+;;   :id bsp
+;;   :type(optional) erlang
+;;   :root-dir ~/dmx/dmxc/
+;;   :compile-command(to be executed under root-dir. if ommit, then it is make) make
+;;   :tag-file-path(if ommit, then it is root-dir/TAGS) absolute path 
 
 (provide 'env)
