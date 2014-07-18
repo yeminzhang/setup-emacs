@@ -24,6 +24,10 @@
 ;;   :type(optional) erlang
 ;;   :root-dir ~/dmx/dmxc/
 ;;   :compile-command(to be executed under root-dir. if ommit, then it is make) make
-;;   :tag-file-path(if ommit, then it is root-dir/TAGS) absolute path 
+;;   :tag-filename(if ommit, then it is root-dir/TAGS) relative path to root-dir
+(setq project-list
+'(
+(:id "dmxc" :type "erlang" :root-dir "~/dmx/dmxc/" :tag-command "etags src/*")
+))
 
 (provide 'env)

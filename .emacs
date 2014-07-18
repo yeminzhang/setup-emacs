@@ -1,6 +1,7 @@
 (setq emacs-configuration-root-dir "~/.emacs.d/")
 (add-to-list 'load-path emacs-configuration-root-dir)
 (load (concat emacs-configuration-root-dir "env.el"))
+(require 'project)
 (add-to-list 'load-path (concat emacs-configuration-root-dir "init"))
 (require 'init-helm)
 (require 'init-edit)

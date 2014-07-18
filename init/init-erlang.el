@@ -10,12 +10,6 @@
 (setq distel-tags-compliant nil)
 
 
-(defun dmx-compile ()
-(interactive)
-(save-some-buffers 1)
-(recompile)
-)
-
 
 (defun dmx-reload ()
 (interactive)
@@ -26,15 +20,5 @@
 (interactive)
 (erlang-find-tag (erlang-find-tag-default))
 )
-
-(add-hook 'erlang-mode-hook #'(lambda ()
-(define-key erlang-mode-map (kbd "<f5>") 'dmx-compile)))
-;;(define-key erlang-mode-map (kbd "<f6>") 'dmx-reload)
-
-(add-hook 'erlang-mode-hook #'(lambda ()
-(define-key erlang-mode-map (kbd "M-.") 'erlang-find-tag-under-point)))
-
-(add-hook 'erlang-mode-hook #'(lambda ()
-(define-key erlang-mode-map (kbd "M-,") 'pop-tag-mark)))
 
 (provide 'init-erlang)

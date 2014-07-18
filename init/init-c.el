@@ -91,52 +91,6 @@ t
 (gud-restore-window-configuration)
 )
 
-
-(defun bury-compile-buffer-if-successful (buffer string)
-
-"Bury a compilation buffer if succeeded without warnings "
-
-(if (and
-
-   (string-match "compilation" (buffer-name buffer))
-
-   (string-match "finished" string)
-
-   (not
-
-    (with-current-buffer buffer
-
-      (goto-char 1)
-
-      (search-forward "warning" nil t))))
-
-  (run-with-timer 1 nil
-
-                  (lambda (buf)
-
-                    (bury-buffer buf)
-
-                    (switch-to-prev-buffer (get-buffer-window buf) 'bury))
-
-                  buffer)))
-
-;;(add-hook 'compilation-finish-functions 'bury-compile-buffer-if-successful)
-
-
-  ;; Close the compilation window if there was no error at all.
-  (setq compilation-exit-message-function
-        (lambda (status code msg)
-          ;; If M-x compile exists with a 0
-          (when (and (eq status 'exit) (zerop code))
-            ;; then bury the *compilation* buffer, so that C-x b doesn't go there
-  	  (bury-buffer "*compilation*")
-  	  ;; and return to whatever were looking at before
-  	  (replace-buffer-in-windows "*compilation*"))
-          ;; Always return the anticipated result of compilation-exit-message-function
-  	(cons msg code)))
-
-
-(global-set-key (kbd "<f5>") 'recompile)
 (global-set-key (kbd "<f6>") 'rerun-program)
 (global-set-key (kbd "<f7>") 'redebug-program)
 
