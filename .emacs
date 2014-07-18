@@ -50,7 +50,7 @@
 ;;(setenv "n1dell1" "/n1dell1:/root")
 
 
-(defun nodeconnect (host-id)
+(defun connect-host (host-id)
 (interactive (list (ido-completing-read "Node is: " 
 ;;(list "dmx1" "dmx2" "hub")
 (progn
