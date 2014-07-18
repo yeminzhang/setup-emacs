@@ -212,12 +212,15 @@
 
 (defun updatedb ()
 (interactive)
-(shell-command "sudo updatedb"))
+(if (boundp 'updatedb-options)
+(async-shell-command (concat "updatedb " updatedb-options))
+(shell-command "sudo updatedb")))
 
 (defun updatedir-db ()
 (interactive)
 (shell-command (concat "find / -type d 2>/dev/null 1>" helm-dir-db-file)))
 
+;;(run-with-idle-timer 60 t 'updatedb)
 
 (set-language-environment "UTF-8")
 

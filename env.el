@@ -30,4 +30,7 @@
 (:id "dmxc" :type "erlang" :root-dir "~/dmx/dmxc/" :tag-command "etags src/*")
 ))
 
+;; Configure updatedb options
+(setq updatedb-options "--localpaths=/etc --netpaths=/home/eyemzha --output=/home/eyemzha/locatedb --prunepaths=\"/home/eyemzha/.snapshot\"")
+
 (provide 'env)
