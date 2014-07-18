@@ -26,12 +26,12 @@
 (ido-mode 'both)
 (setq ido-enable-flex-matching t)
 
-(add-hook 'ido-minibuffer-setup-hook #'(lambda () (local-set-key (kbd "ö") 'ido-exit-minibuffer)))
+(add-hook 'ido-minibuffer-setup-hook #'(lambda () (local-set-key (kbd "Ã¶") 'ido-exit-minibuffer)))
 
 ;; smex
 (add-to-list 'load-path (concat emacs-configuration-root-dir "smex"))
 (require 'smex)
-(global-set-key (kbd "C-ö") 'smex)
+(global-set-key (kbd "C-Ã¶") 'smex)
 
 ;; auto update smex cache after load a file
 (defun smex-update-after-load (unused)
