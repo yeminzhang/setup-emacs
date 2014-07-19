@@ -69,7 +69,15 @@
 	(if (string= "emacs-lisp-mode" major-mode) (elisp-find-function-under-point))
 	))
 
+(defun project-run ()
+  (interactive)
+      (progn
+;;	(if (string= "erlang-mode" major-mode) (erlang-find-tag-under-point))
+	(if (string= "emacs-lisp-mode" major-mode) (elisp-save-and-eval-buffer))
+	))
+
 (global-set-key (kbd "<f5>") 'project-compile)
+(global-set-key (kbd "<f6>") 'project-run)
 (global-set-key (kbd "M-.") 'project-find-tag)
 (global-set-key (kbd "M-,") 'pop-tag-mark)
 

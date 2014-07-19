@@ -91,7 +91,7 @@ t
 (gud-restore-window-configuration)
 )
 
-(global-set-key (kbd "<f6>") 'rerun-program)
+;;(global-set-key (kbd "<f6>") 'rerun-program)
 (global-set-key (kbd "<f7>") 'redebug-program)
 
 (provide 'init-c)

@@ -97,6 +97,8 @@ id-list
 (interactive)
 (message (current-time-string)))
 
+(global-set-key (kbd "<f1>") 'print-time)
+
 ;; eshell auto completion
 
 ;;(defconst pcmpl-cd-history '("ab" "cd") "List of cd history")
