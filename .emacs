@@ -73,10 +73,13 @@ id-list
 (if (eq (plist-get machine :id) host-id)
 (progn
 (setq password (plist-get machine :password))
+(setq prompt (plist-get machine :prompt))
+(setq user2 (or (plist-get machine :user2) ""))
+(setq password2 (or (plist-get machine :password2) ""))
 )
 ))
-(eshell-exec-visual "sshpass" "-p" password "ssh" host-id)
-(set-buffer (get-buffer "*sshpass*"))
+(eshell-exec-visual "tclsh8.5" (concat emacs-configuration-root-dir "tools/remote_login") host-id password prompt user2 password2)
+(set-buffer (get-buffer "*tclsh8.5*"))
 (rename-buffer host-id))
 (if (eq (get-buffer-process host-id) nil) (progn (kill-buffer host-id) (nodeconnect host-id)) (switch-to-buffer host-id))))
 

@@ -6,6 +6,7 @@
 (add-to-list 'eshell-visual-commands "telnet")
 (add-to-list 'eshell-visual-commands "ssh")
 (add-to-list 'eshell-visual-commands "sshpass")
+(add-to-list 'eshell-visual-commands "tclsh8.5")
 
 
 (add-hook 'eshell-post-command-hook 'eshell-modify-cmd-history)

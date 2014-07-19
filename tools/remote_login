@@ -1,0 +1,93 @@
+# Expect script to supply root/admin password for remote ssh server 
+# and execute command.
+# This script needs three argument to(s) connect to remote server:
+# password = Password of remote UNIX server, for root user.
+# ipaddr = IP Addreess of remote UNIX server, no hostname
+# scriptname = Path to remote script which will execute on remote server
+# For example:
+#  ./remote-login.exp host-id password username password
+# ------------------------------------------------------------------------
+# Copyright (c) 2004 nixCraft project <http://cyberciti.biz/fb/>
+# This script is licensed under GNU GPL version 2.0 or above
+# -------------------------------------------------------------------------
+# This script is part of nixCraft shell script collection (NSSC)
+# Visit http://bash.cyberciti.biz/ for more information.
+# ----------------------------------------------------------------------
+package require Expect
+# set Variables
+set hostid [lrange $argv 0 0] 
+set password1 [lrange $argv 1 1]
+set expected_prompt [lrange $argv 2 2]
+set user [lrange $argv 3 3] 
+set password2 [lrange $argv 4 4]
+set timeout 5
+# now connect to remote UNIX box (ipaddr) with given script to execute
+spawn ssh  $hostid
+#match_max 100000
+#send -- "\n"
+
+#expect {
+ #   -re "(yes/no)?" {
+#	send "yes\r"
+#	exp_continue
+ #   }
+#    -nocase "password:*" {
+#	send "$password1\r"
+ #   }
+  #  timeout {
+#	puts "timeout le\n"
+#	exit
+ #   }
+  #  eof {
+#	puts "eof\n"
+#	exit
+ #   }
+#}
+
+expect "*?assword*"
+send "$password1\r"
+
+# send blank line (\r) to make sure we get back to gui
+#send -- "\n"
+#expect eof
+
+expect {
+    -re ".*Entering server port*" {
+	#puts "this is port\n"
+	send "\n"
+	exp_continue
+    }
+    -re ".*ast login.*" {
+	puts "last login!\n"
+	exp_continue
+    }
+    -re ".*$expected_prompt.*" {
+	puts "reach prompt!\n"
+    }
+    -re ".*login.*" {
+	puts "sent user!\n"
+	send "$user\n"
+	exp_continue
+    }
+    "*?assword:*" {
+	send "$password2\n"
+	puts "sent password!\n"
+	expect {
+	    -re ".*$expected_prompt.*" {
+		puts "reach prompt 2!\n"
+	    }
+	    timeout {
+		puts "timeout!\n"
+		exit
+	    }
+	}
+    }
+    timeout {
+	puts "timeout!\n"
+	exit
+    }
+    eof {
+	exit
+    }
+}
+interact

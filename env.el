@@ -10,8 +10,8 @@
 (:id "js" :password "js")
 (:id "js2" :password "js")
 (:id "iptb-console" :password "auto")
-(:id "mylab-dmx1" :password "rootroot")
-(:id "mylab-dmx2" :password "rootroot")
+(:id "mylab-dmx1" :password "rootroot" :prompt "SC-2-1")
+(:id "mylab-dmx2" :password "rootroot" :prompt "SC-2-2")
 ))
 
 ;; Configure erlang
