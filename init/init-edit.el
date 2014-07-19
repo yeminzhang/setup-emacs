@@ -25,6 +25,8 @@
 (require 'ido)
 (ido-mode 'both)
 (setq ido-enable-flex-matching t)
+(setq ido-enable-dot-prefix t)
+(setq ido-enable-regexp nil)
 
 (add-hook 'ido-minibuffer-setup-hook #'(lambda () (local-set-key (kbd "ö") 'ido-exit-minibuffer)))
 
