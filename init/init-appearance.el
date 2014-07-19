@@ -4,7 +4,7 @@
  (scroll-bar-mode -1)
  (blink-cursor-mode 0)
  (setq inhibit-startup-message t)
-(display-time)
+;;(display-time)
 (fset 'yes-or-no-p 'y-or-n-p)
 (show-paren-mode t)
 (setq max-mini-window-height nil)

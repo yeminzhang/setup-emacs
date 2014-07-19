@@ -3,8 +3,11 @@
 (helm-mode 1)
 (setq helm-idle-delay 0.1)
 (setq helm-input-idle-delay 0.1)
-(define-key helm-map (kbd "\366") 'helm-maybe-exit-minibuffer)
+(if (and (boundp 'keyboard-layout) (string= keyboard-layout "sv"))
+(setq helm-exit-minibuffer-key "\366")
+(setq helm-exit-minibuffer-key ";"))
+(define-key helm-map (kbd helm-exit-minibuffer-key) 'helm-maybe-exit-minibuffer)
 (setq helm-completion-mode-string "")
-(setq helm-full-frame t)
+(setq helm-full-frame nil)
 
 (provide 'init-helm)

@@ -10,7 +10,10 @@
 
 ;; ido
 (require 'ido)
-(global-set-key (kbd "C-ö") 'ido-switch-buffer)
+(if (and (boundp 'keyboard-layout) (string= keyboard-layout "sv"))
+(setq ido-switch-buffer-key "C-ö")
+(setq ido-switch-buffer-key "C-;"))
+(global-set-key (kbd ido-switch-buffer-key) 'ido-switch-buffer)
 
 ;; jump to bookmarked buffer
 (global-set-key (kbd "C-x r b")

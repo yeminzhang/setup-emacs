@@ -93,6 +93,10 @@ id-list
 (rename-buffer (concat hostname "-telnet")))
 
 
+(defun print-time ()
+(interactive)
+(message (current-time-string)))
+
 ;; eshell auto completion
 
 ;;(defconst pcmpl-cd-history '("ab" "cd") "List of cd history")

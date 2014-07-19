@@ -28,7 +28,10 @@
 (setq ido-enable-dot-prefix t)
 (setq ido-enable-regexp nil)
 
-(add-hook 'ido-minibuffer-setup-hook #'(lambda () (local-set-key (kbd "\366") 'ido-exit-minibuffer)))
+(if (and (boundp 'keyboard-layout) (string= keyboard-layout "sv"))
+(setq ido-exit-minibuffer-key "\366")
+(setq ido-exit-minibuffer-key ";"))
+(add-hook 'ido-minibuffer-setup-hook #'(lambda () (local-set-key (kbd ido-exit-minibuffer-key) 'ido-exit-minibuffer)))
 
 ;; smex
 (add-to-list 'load-path (concat emacs-configuration-root-dir "smex"))
