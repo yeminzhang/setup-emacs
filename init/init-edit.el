@@ -33,7 +33,7 @@
 ;; smex
 (add-to-list 'load-path (concat emacs-configuration-root-dir "smex"))
 (require 'smex)
-(global-set-key (kbd "C-ö") 'smex)
+(global-set-key (kbd "M-x") 'smex)
 
 ;; auto update smex cache after load a file
 (defun smex-update-after-load (unused)
