@@ -9,7 +9,7 @@
 
 (setq distel-tags-compliant nil)
 
-
+(add-hook 'erlang-mode-hook #'(lambda () (company-mode 1)))
 
 (defun dmx-reload ()
 (interactive)
@@ -18,7 +18,12 @@
 
 (defun erlang-find-tag-under-point ()
 (interactive)
-(erlang-find-tag (erlang-find-tag-default))
-)
+(let
+    ((project-id (project-get-id buffer-file-name)))
+  (if project-id 
+      (progn
+	(setq tags-file-name (concat (project-get-attribute project-id :root-dir) "TAGS"))
+	(erlang-find-tag (erlang-find-tag-default))
+	))))
 
 (provide 'init-erlang)

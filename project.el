@@ -64,13 +64,10 @@
 
 (defun project-find-tag ()
   (interactive)
-  (let
-      ((project-id (project-get-id buffer-file-name)))
-    (unless (eq nil project-id)
       (progn
-	(setq tags-file-name (concat (project-get-attribute project-id :root-dir) "TAGS"))
-	(if (string= "erlang" (project-get-attribute project-id :type)) (erlang-find-tag-under-point))
-	))))
+	(if (string= "erlang-mode" major-mode) (erlang-find-tag-under-point))
+	(if (string= "emacs-lisp-mode" major-mode) (elisp-find-function-under-point))
+	))
 
 (global-set-key (kbd "<f5>") 'project-compile)
 (global-set-key (kbd "M-.") 'project-find-tag)
