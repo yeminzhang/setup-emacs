@@ -3,7 +3,7 @@
 (helm-mode 1)
 (setq helm-idle-delay 0.1)
 (setq helm-input-idle-delay 0.1)
-(define-key helm-map (kbd "ö") 'helm-exit-minibuffer)
+(define-key helm-map (kbd "\366") 'helm-maybe-exit-minibuffer)
 (setq helm-completion-mode-string "")
 (setq helm-full-frame t)
 

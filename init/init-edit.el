@@ -28,7 +28,7 @@
 (setq ido-enable-dot-prefix t)
 (setq ido-enable-regexp nil)
 
-(add-hook 'ido-minibuffer-setup-hook #'(lambda () (local-set-key (kbd "ö") 'ido-exit-minibuffer)))
+(add-hook 'ido-minibuffer-setup-hook #'(lambda () (local-set-key (kbd "\366") 'ido-exit-minibuffer)))
 
 ;; smex
 (add-to-list 'load-path (concat emacs-configuration-root-dir "smex"))

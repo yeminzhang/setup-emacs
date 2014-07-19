@@ -10,7 +10,7 @@
 
 ;; ido
 (require 'ido)
-(global-set-key (kbd "ö") 'ido-switch-buffer)
+(global-set-key (kbd "C-ö") 'ido-switch-buffer)
 
 ;; jump to bookmarked buffer
 (global-set-key (kbd "C-x r b")
