@@ -140,10 +140,11 @@ id-list
 ;; todo
 ;;(unless splitted (progn (split-window-right) (setq splitted t)))
 
-(add-to-list 'load-path (concat emacs-configuration-root-dir "workgroups2/src"))
-(require 'workgroups2)
-(setq wg-mode-line-disable t)
-(workgroups-mode 1)
+;;(add-to-list 'load-path (concat emacs-configuration-root-dir "workgroups2/src"))
+;;(require 'workgroups2)
+;;(setq wg-mode-line-disable t)
+;;(setq wg-modeline-string "")
+;;(workgroups-mode 1)
 
-(add-hook 'emacs-startup-hook #'(lambda () (wg-reload-session)))
+;;(add-hook 'emacs-startup-hook #'(lambda () (wg-reload-session)))
 

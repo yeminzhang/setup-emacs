@@ -47,4 +47,6 @@
 (add-to-list 'custom-theme-load-path (concat emacs-configuration-root-dir "zenburn/"))
 (load-theme 'zenburn t)
 
+(split-window-right)
+
 (provide 'init-appearance)
