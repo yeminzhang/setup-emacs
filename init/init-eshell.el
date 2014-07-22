@@ -1,13 +1,6 @@
 ;; eshell
 (require 'eshell)
-(if (eq (get-buffer eshell-buffer-name) nil) (eshell))
-(add-to-list 'eshell-visual-commands "vim")
-(add-to-list 'eshell-visual-commands "git log")
-(add-to-list 'eshell-visual-commands "telnet")
-(add-to-list 'eshell-visual-commands "ssh")
-(add-to-list 'eshell-visual-commands "sshpass")
-(add-to-list 'eshell-visual-commands "tclsh8.5")
-
+;;(if (eq (get-buffer eshell-buffer-name) nil) (eshell))
 
 (add-hook 'eshell-post-command-hook 'eshell-modify-cmd-history)
 (setq eshell-history-size 512)
@@ -95,7 +88,36 @@
 (global-set-key (kbd "<f2>") 'my-eshell-execute-history)
 
 (add-hook 'eshell-mode-hook #'
-  (lambda()
-	(local-set-key (kbd "C-r") 'my-eshell-execute-history)))
+	  (lambda()
+	    (progn
+	      (local-set-key (kbd "C-r") 'my-eshell-execute-history)
+	      (add-to-list 'eshell-visual-commands "vim")
+	      (add-to-list 'eshell-visual-commands "git log")
+	      (add-to-list 'eshell-visual-commands "telnet")
+	      (add-to-list 'eshell-visual-commands "ssh")
+	      (add-to-list 'eshell-visual-commands "sshpass")
+	      (add-to-list 'eshell-visual-commands "tclsh8.5")
+	      )))
+
+
+
+
+;; save eshell buffer when save desktop
+(defun eshell-register-desktop-save ()
+  "Set `desktop-save-buffer' to a function returning nothing."
+  (setq desktop-save-buffer (lambda (desktop-dirname) "")))
+
+(add-hook 'eshell-mode-hook 'eshell-register-desktop-save)
+
+(defun eshell-restore-desktop-buffer (d-b-file-name d-b-name d-b-misc)
+  "Restore a `eshell' buffer on `desktop' load."
+(progn
+(require 'eshell)
+(eshell)
+(get-buffer "*eshell*")
+))
+
+(add-to-list 'desktop-buffer-mode-handlers '(eshell-mode . eshell-restore-desktop-buffer))
+
 
 (provide 'init-eshell)
