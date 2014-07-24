@@ -64,11 +64,12 @@
                                         (reverse candidates)))
     (candidate-number-limit . 9999)
     (action . (lambda (candidate)
-;;		(switch-to-buffer eshell-buffer-name))))
-		(end-of-buffer))))
-  ;;              (eshell-kill-input)
-    ;;            (insert candidate)
-;;		(eshell-send-input))))
+		(progn
+		  (switch-to-buffer eshell-buffer-name)
+		  (end-of-buffer)
+		  (eshell-kill-input)
+		  (insert candidate)
+		  (eshell-send-input)))))
   "Helm source for Eshell history.")
 
 (defun my-eshell-execute-history ()
