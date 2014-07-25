@@ -218,14 +218,16 @@
 (defun updatedb ()
 (interactive)
 (if (boundp 'updatedb-options)
-(async-shell-command (concat "updatedb " updatedb-options))
-(shell-command "sudo updatedb")))
+(call-process-shell-command (concat "updatedb " updatedb-options) nil 0)))
+
 
 (defun updatedir-db ()
 (interactive)
 (shell-command (concat "find / -type d 2>/dev/null 1>" helm-dir-db-file)))
 
-;;(run-with-idle-timer 60 t 'updatedb)
+(unless (boundp 'updatedb-timer)
+(run-with-idle-timer 10800 t 'updatedb)
+(setq updatedb-timer t))
 
 (set-language-environment "UTF-8")
 
