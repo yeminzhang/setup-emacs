@@ -29,6 +29,14 @@
 
 (global-set-key (kbd "C-x K") 'kill-this-buffer)
 
+(defun switch-to-previous-buffer ()
+  "Switch to previously open buffer.
+Repeated invocations toggle between the two most recently open buffers."
+  (interactive)
+  (switch-to-buffer (other-buffer (current-buffer) 1)))
+
+(global-set-key (kbd "<C-tab>") 'switch-to-previous-buffer)
+
 ;; desktop save
 (desktop-save-mode 1)
 (setq desktop-restore-eager 30)
