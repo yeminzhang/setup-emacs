@@ -25,3 +25,6 @@
 [submodule "company"]
 	path = company
 	url = git@github.com:company-mode/company-mode.git
+[submodule "magit-gerrit"]
+	path = magit-gerrit
+	url = git@github.com:terranpro/magit-gerrit.git
