@@ -20,7 +20,10 @@
     (magit-refresh)))
 
 (eval-after-load "magit"
-  '(define-key magit-status-mode-map (kbd "C-c C-a") 'magit-just-amend))
+  '(progn
+     (define-key magit-status-mode-map (kbd "C-c C-a") 'magit-just-amend)
+     (define-key magit-status-mode-map (kbd "C-c C-d") 'magit-diff-staged)
+))
 
 (eval-after-load 'info
   '(progn (info-initialize)
