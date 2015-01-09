@@ -27,7 +27,8 @@
 ;;   :tag-filename(if ommit, then it is root-dir/TAGS) relative path to root-dir
 (setq project-list
 '(
-(:id "dmxc" :type "erlang" :root-dir "~/dmx/dmxc/" :tag-command "etags src/*")
+(:id "dmxc" :type "erlang" :root-dir "~/bsp/dmxc/" :tag-command "etags src/*" :compile-command "../make-dmxc-remote")
+(:id "cu" :type "other" :root-dir "~/bsp/capturing-unit/" :tag-command "etags src/*" :compile-command "../make-cu-remote")
 ))
 
 ;; Configure updatedb options
