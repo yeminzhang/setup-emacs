@@ -4,6 +4,9 @@
 ;; Remote node information, for nodeconnect to use
 ;; Minimal information about nodes.
 ;; More info in ~/.ssh/config
+
+(setq keyboard-layout "sv")
+
 (setq machine-list
 '(
 (:id "gateway" :password "eyemzha")
