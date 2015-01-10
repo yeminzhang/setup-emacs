@@ -13,7 +13,8 @@
 (if (and (boundp 'keyboard-layout) (string= keyboard-layout "sv"))
 (setq switch-buffer-key "C-ö")
 (setq switch-buffer-key "C-;"))
-(global-set-key (kbd switch-buffer-key) 'helm-mini)
+(global-set-key (kbd switch-buffer-key) 'ido-switch-buffer)
+(global-set-key (kbd "C-x b") 'helm-mini)
 
 ;; jump to bookmarked buffer
 (global-set-key (kbd "C-x r b")
