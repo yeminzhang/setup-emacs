@@ -98,6 +98,8 @@
 
 (global-set-key (kbd "C-x d") 'my-helm-find-dir)
 
+(global-set-key (kbd "M-y") 'helm-show-kill-ring)
+
 (defun updatedb ()
 (interactive)
 (if (boundp 'updatedb-options)
