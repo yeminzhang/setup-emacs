@@ -31,7 +31,7 @@
 (setq project-list
 '(
 (:id "dmxc" :type "erlang" :root-dir "~/bsp/dmxc/" :tag-command "etags src/*" :compile-command "../make-dmxc-remote")
-(:id "cu" :type "other" :root-dir "~/bsp/capturing-unit/" :tag-command "etags src/*" :compile-command "../make-cu-remote")
+(:id "cu" :type "other" :root-dir "~/bsp/capturing-unit/" :grep-root "~/bsp/capturing-unit/src/" :tag-command "etags src/*" :compile-command "../make-cu-remote")
 ))
 
 ;; Configure updatedb options

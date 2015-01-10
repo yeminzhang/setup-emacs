@@ -76,6 +76,14 @@
 	(if (string= "emacs-lisp-mode" major-mode) (elisp-save-and-eval-buffer))
 	))
 
+;; grep under :grep-root of a project
+(defun project-grep ()
+  (interactive)
+  (require 'helm-mode)
+  (let* ((project-id (project-get-id buffer-file-name))
+(only (if project-id (list (or (project-get-attribute project-id :grep-root) (project-get-attribute project-id :root-dir))) nil)))
+    (if project-id (helm-do-grep-1 only t) (message "not inside a project!"))))
+
 (global-set-key (kbd "<f5>") 'project-compile)
 (global-set-key (kbd "<f6>") 'project-run)
 (global-set-key (kbd "M-.") 'project-find-tag)
