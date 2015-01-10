@@ -9,5 +9,6 @@
 (define-key helm-map (kbd helm-exit-minibuffer-key) 'helm-maybe-exit-minibuffer)
 (setq helm-completion-mode-string "")
 (setq helm-full-frame nil)
+(setq helm-buffers-fuzzy-matching t)
 
 (provide 'init-helm)

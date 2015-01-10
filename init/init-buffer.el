@@ -11,9 +11,9 @@
 ;; ido
 (require 'ido)
 (if (and (boundp 'keyboard-layout) (string= keyboard-layout "sv"))
-(setq ido-switch-buffer-key "C-ö")
-(setq ido-switch-buffer-key "C-;"))
-(global-set-key (kbd ido-switch-buffer-key) 'ido-switch-buffer)
+(setq switch-buffer-key "C-ö")
+(setq switch-buffer-key "C-;"))
+(global-set-key (kbd switch-buffer-key) 'helm-mini)
 
 ;; jump to bookmarked buffer
 (global-set-key (kbd "C-x r b")
