@@ -91,7 +91,7 @@
 (add-hook 'eshell-mode-hook #'
 	  (lambda()
 	    (progn
-	      (local-set-key (kbd "C-r") 'my-eshell-execute-history)
+	      (local-set-key (kbd "C-r") 'helm-eshell-history)
 	      (add-to-list 'eshell-visual-commands "vim")
 	      (add-to-list 'eshell-visual-commands "git log")
 	      (add-to-list 'eshell-visual-commands "telnet")
