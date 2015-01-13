@@ -49,5 +49,50 @@
           :type '(sexp)
           :group 'doc-view)
 
+(setq doc-view-resolution 300)
+
+(defadvice doc-view-set-slice (after doc-view-store-slice  activate)
+(setq-local doc-view-my-slice (doc-view-current-slice)))
+
+(defadvice doc-view-reset-slice (after doc-view-store-slice  activate)
+(kill-local-variable 'doc-view-my-slice))
+
+(defun doc-view-restore-slice ()
+(interactive)
+(if (boundp 'doc-view-my-slice)
+  (doc-view-set-slice (nth 0 doc-view-my-slice) (nth 1 doc-view-my-slice) (nth 2 doc-view-my-slice) (nth 3 doc-view-my-slice))))
+
+(defadvice doc-view-goto-page (after doc-view-set-current-page (page) activate)
+(setq-local doc-view-last-page-index page))
+
+(defun doc-view-continue-reading ()
+(interactive)
+(progn
+(if (boundp 'doc-view-last-page-index) (doc-view-goto-page doc-view-last-page-index))
+(doc-view-restore-slice)))
+
+(define-key doc-view-mode-map (kbd "c") 'doc-view-continue-reading)
+
+(defun doc-view-fix-stuck-image ()
+(if (and (eq major-mode 'doc-view-mode) (get-buffer-window (current-buffer)) (not (boundp 'buffer-already-displayed-p)))
+(progn
+(setq doc-view-tmp-image-width nil)
+(setq doc-view-tmp-my-slice nil)
+(setq doc-view-tmp-last-page-index nil)
+(if (boundp 'doc-view-image-width) (setq doc-view-tmp-image-width doc-view-image-width))
+(if (boundp 'doc-view-my-slice) (setq doc-view-tmp-my-slice doc-view-my-slice))
+(if (boundp 'doc-view-last-page-index) (setq doc-view-tmp-last-page-index doc-view-last-page-index))
+(doc-view-toggle-display)
+(doc-view-toggle-display)
+(if doc-view-tmp-image-width (setq-local doc-view-image-width doc-view-tmp-image-width))
+(if doc-view-tmp-my-slice (setq-local doc-view-my-slice doc-view-tmp-my-slice))
+(if doc-view-tmp-last-page-index (setq-local doc-view-last-page-index doc-view-tmp-last-page-index))
+(setq-local buffer-already-displayed-p t))))
+
+(add-hook 'window-configuration-change-hook 'doc-view-fix-stuck-image)
+
+(add-to-list 'desktop-locals-to-save 'doc-view-image-width)
+(add-to-list 'desktop-locals-to-save 'doc-view-my-slice)
+(add-to-list 'desktop-locals-to-save 'doc-view-last-page-index)
 
 (provide 'init-view)
