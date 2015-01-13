@@ -50,6 +50,7 @@
           :group 'doc-view)
 
 (setq doc-view-resolution 300)
+(setq doc-view-cache-directory "~/.docview")
 
 (defadvice doc-view-set-slice (after doc-view-store-slice  activate)
 (setq-local doc-view-my-slice (doc-view-current-slice)))
