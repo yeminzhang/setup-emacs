@@ -11,8 +11,8 @@
 ;; ido
 (require 'ido)
 (if (and (boundp 'keyboard-layout) (string= keyboard-layout "sv"))
-(setq switch-buffer-key "C-ö")
-(setq switch-buffer-key "C-;"))
+(setq switch-buffer-key "ö")
+(setq switch-buffer-key ";"))
 (global-set-key (kbd switch-buffer-key) 'ido-switch-buffer)
 (global-set-key (kbd "C-x b") 'helm-mini)
 
