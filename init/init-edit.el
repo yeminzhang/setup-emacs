@@ -114,6 +114,10 @@
 (run-with-idle-timer 10800 t 'updatedb)
 (setq updatedb-timer t))
 
+(defun insert-special-char (char_str)
+(interactive (list (ido-completing-read "Char to insert: " (list "ö" "ä" "å" "Ö" "Ä" "Å" "~"))))
+(insert char_str))
+
 (set-language-environment "UTF-8")
 
 (provide 'init-edit)
