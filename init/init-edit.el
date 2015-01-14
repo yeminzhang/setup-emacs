@@ -118,6 +118,8 @@
 (interactive (list (ido-completing-read "Char to insert: " (list "ö" "ä" "å" "Ö" "Ä" "Å" "~"))))
 (insert char_str))
 
+(add-to-list 'desktop-globals-to-save 'kill-ring)
+
 (set-language-environment "UTF-8")
 
 (provide 'init-edit)

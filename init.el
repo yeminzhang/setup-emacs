@@ -1,3 +1,9 @@
+;; desktop save
+(desktop-save-mode 1)
+(setq desktop-restore-eager 30)
+;;(add-to-list 'desktop-modes-not-to-save 'help-mode)
+;;(add-to-list 'desktop-modes-not-to-save 'man-mode)
+
 (setq emacs-configuration-root-dir "~/.emacs.d/")
 (add-to-list 'load-path emacs-configuration-root-dir)
 (load (concat emacs-configuration-root-dir "env.el"))

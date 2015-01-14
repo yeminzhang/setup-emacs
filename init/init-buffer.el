@@ -38,12 +38,6 @@ Repeated invocations toggle between the two most recently open buffers."
 
 (global-set-key (kbd "<C-tab>") 'switch-to-previous-buffer)
 
-;; desktop save
-(desktop-save-mode 1)
-(setq desktop-restore-eager 30)
-;;(add-to-list 'desktop-modes-not-to-save 'help-mode)
-;;(add-to-list 'desktop-modes-not-to-save 'man-mode)
-
 (add-hook 'window-configuration-change-hook
 'check-revert-file)
 
