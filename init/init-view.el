@@ -68,9 +68,12 @@
 
 (defun doc-view-continue-reading ()
 (interactive)
+(if (and (eq major-mode 'doc-view-mode) (get-buffer-window (current-buffer)) (not (boundp 'doc-view-already-continued-p)))
 (progn
 (if (boundp 'doc-view-last-page-index) (doc-view-goto-page doc-view-last-page-index))
-(doc-view-restore-slice)))
+(doc-view-restore-slice)
+(setq-local doc-view-already-continued-p t)
+)))
 
 (define-key doc-view-mode-map (kbd "c") 'doc-view-continue-reading)
 
@@ -88,10 +91,10 @@
 (if doc-view-tmp-image-width (setq-local doc-view-image-width doc-view-tmp-image-width))
 (if doc-view-tmp-my-slice (setq-local doc-view-my-slice doc-view-tmp-my-slice))
 (if doc-view-tmp-last-page-index (setq-local doc-view-last-page-index doc-view-tmp-last-page-index))
-(doc-view-continue-reading)
 (setq-local buffer-already-displayed-p t))))
 
-(add-hook 'window-configuration-change-hook #'(lambda () (run-with-timer 0.1 nil 'doc-view-fix-stuck-image)))
+(add-hook 'window-configuration-change-hook 'doc-view-fix-stuck-image)
+(add-hook 'window-configuration-change-hook #'(lambda () (run-with-timer 0.1 nil 'doc-view-continue-reading)))
 
 (add-to-list 'desktop-locals-to-save 'doc-view-image-width)
 (add-to-list 'desktop-locals-to-save 'doc-view-my-slice)
