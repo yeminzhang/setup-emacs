@@ -16,8 +16,8 @@
 ;;(global-set-key (kbd "C-m dd") 'delete-whole-line)
 (global-set-key (kbd "C-x g") 'beginning-of-buffer)
 (global-set-key (kbd "C-x G") 'end-of-buffer)
-(fset 'copy-whole-line "\C-a\C- \C-e\M-w")
-(global-set-key (kbd "C-x y") 'copy-whole-line)
+;;(fset 'copy-whole-line "\C-a\C- \C-e\M-w")
+;;(global-set-key (kbd "C-x y") 'copy-whole-line)
 
 (setq x-select-enable-clipboard t)
 
@@ -125,19 +125,23 @@
 
 (add-hook 'c++-mode-hook 'show-trailing-whitespace)
 
-(defadvice kill-ring-save (before slick-copy activate compile)
-  "When called interactively with no active region, copy a single line instead."
-  (interactive (if mark-active (list (region-beginning) (region-end))
+(defun my-kill-ring-save ()
+  "When called interactively with no active region, copy a single line without \n."
+  (interactive (if mark-active (kill-ring-save (region-beginning) (region-end))
                  (message "Copied line")
-                 (list (line-beginning-position)
+                 (kill-ring-save (line-beginning-position)
                        (line-end-position)))))
 
-(defadvice kill-region (before slick-cut activate compile)
-  "When called interactively with no active region, kill a single line instead."
-  (interactive
-   (if mark-active (list (region-beginning) (region-end))
-     (list (line-beginning-position)
-           (line-beginning-position 2)))))
+(defun my-kill-region ()
+  "When called interactively with no active region, kill a single line without \n."
+  (interactive)
+  (if mark-active (kill-region (region-beginning) (region-end))
+    (progn (move-beginning-of-line nil) (kill-line) (backward-delete-char 1))))
+
+(global-set-key (kbd "C-w") 'my-kill-region)
+(global-set-key (kbd "M-w") 'my-kill-ring-save)
+(global-set-key (kbd "C-x y") #'(lambda ()(interactive) (move-end-of-line nil) (newline) (yank)))
+(global-set-key (kbd "C-x Y") #'(lambda ()(interactive) (move-beginning-of-line nil) (yank) (newline) (backward-char 1)))
 
 (set-language-environment "UTF-8")
 
