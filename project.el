@@ -81,7 +81,7 @@
   (interactive)
   (require 'helm-mode)
   (let* ((project-id (project-get-id buffer-file-name))
-(only (if project-id (list (or (project-get-attribute project-id :grep-root) (project-get-attribute project-id :root-dir))) nil)))
+(only (if project-id (or (split-string (project-get-attribute project-id :grep-root) " ") (list (project-get-attribute project-id :root-dir))) nil)))
     (if project-id (helm-do-grep-1 only t) (message "not inside a project!"))))
 
 (global-set-key (kbd "<f5>") 'project-compile)
