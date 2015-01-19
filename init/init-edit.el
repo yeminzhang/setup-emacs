@@ -120,6 +120,11 @@
 
 (add-to-list 'desktop-globals-to-save 'kill-ring)
 
+(defun show-trailing-whitespace ()
+(setq show-trailing-whitespace t))
+
+(add-hook 'c++-mode-hook 'show-trailing-whitespace)
+
 (set-language-environment "UTF-8")
 
 (provide 'init-edit)
