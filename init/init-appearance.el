@@ -47,6 +47,8 @@
 (add-to-list 'custom-theme-load-path (concat emacs-configuration-root-dir "zenburn/"))
 (load-theme 'zenburn t)
 
+(set-face-attribute 'region nil :background "#666" :foreground "#ffffff")
+
 (split-window-right)
 
 (provide 'init-appearance)
