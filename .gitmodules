@@ -31,3 +31,6 @@
 [submodule "undo-tree"]
 	path = undo-tree
 	url = http://www.dr-qubit.org/git/undo-tree.git
+[submodule "dired-plus"]
+	path = dired-plus
+	url = git@github.com:emacsmirror/dired-plus.git
