@@ -143,6 +143,11 @@
 (global-set-key (kbd "C-x y") #'(lambda ()(interactive) (move-end-of-line nil) (newline) (yank)))
 (global-set-key (kbd "C-x Y") #'(lambda ()(interactive) (move-beginning-of-line nil) (yank) (newline) (backward-char 1)))
 
+;; undo-tree
+(add-to-list 'load-path (concat emacs-configuration-root-dir "undo-tree"))
+(require 'undo-tree)
+(global-undo-tree-mode)
+
 (set-language-environment "UTF-8")
 
 (provide 'init-edit)

@@ -28,3 +28,6 @@
 [submodule "magit-gerrit"]
 	path = magit-gerrit
 	url = git@github.com:terranpro/magit-gerrit.git
+[submodule "undo-tree"]
+	path = undo-tree
+	url = http://www.dr-qubit.org/git/undo-tree.git
