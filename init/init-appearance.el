@@ -24,17 +24,23 @@
 
 (set-fontset-font t  '(#x80 . #x3FFFFF)  "Microsoft YaHei")
 
+;; Chinese Font, needs to be verified and improved in the future
+;;(dolist (charset '(kana han symbol cjk-misc bopomofo))
+  ;;  (set-fontset-font (frame-parameter nil 'font)
+    ;;                  charset
+      ;;                (font-spec :family "Microsoft YaHei" :size 22)))
+
 ;; set the status bar color of window
-(set-face-attribute  'mode-line
-                 nil
-                 :foreground "black"
-                 :background "grey70"
-                 :box '(:line-width 1 :style released-button))
-(set-face-attribute  'mode-line-inactive
-                 nil
-                 :foreground "white"
-                 :background "grey20"
-                 :box '(:line-width 1 :style released-button))
+;;(set-face-attribute  'mode-line
+;;                 nil
+ ;;                :foreground "black"
+   ;;              :background "grey70"
+     ;;            :box '(:line-width 1 :style released-button))
+;;(set-face-attribute  'mode-line-inactive
+  ;;               nil
+    ;;             :foreground "white"
+      ;;           :background "grey20"
+        ;;         :box '(:line-width 1 :style released-button))
 
 (global-hl-line-mode 1)
 (column-number-mode 1)
