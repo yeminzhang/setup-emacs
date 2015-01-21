@@ -153,6 +153,16 @@
 (require 'volatile-highlights)
 (volatile-highlights-mode t)
 
+;; auto-save file
+;; Save all tempfiles in ~/.emacs-tmp/
+(setq temporary-file-directory  "~/.emacs-tmp/")
+(setq backup-directory-alist
+      `((".*" . ,temporary-file-directory)))
+(setq auto-save-file-name-transforms
+      `((".*" ,temporary-file-directory t)))
+(setq auto-save-interval 100)
+(setq auto-save-timeout 10)
+
 (set-language-environment "UTF-8")
 
 (provide 'init-edit)
