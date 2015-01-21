@@ -148,6 +148,11 @@
 (require 'undo-tree)
 (global-undo-tree-mode)
 
+;; volatile-highlights
+(add-to-list 'load-path (concat emacs-configuration-root-dir "volatile-highlights"))
+(require 'volatile-highlights)
+(volatile-highlights-mode t)
+
 (set-language-environment "UTF-8")
 
 (provide 'init-edit)

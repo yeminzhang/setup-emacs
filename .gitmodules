@@ -34,3 +34,6 @@
 [submodule "dired-plus"]
 	path = dired-plus
 	url = git@github.com:emacsmirror/dired-plus.git
+[submodule "volatile-highlights"]
+	path = volatile-highlights
+	url = git@github.com:k-talo/volatile-highlights.el.git
