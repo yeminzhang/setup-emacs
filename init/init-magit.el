@@ -1,8 +1,3 @@
-;;(add-to-list 'load-path (concat emacs-configuration-root-dir "magit-filenotify"))
-(add-to-list 'load-path (concat emacs-configuration-root-dir "git-modes"))
-(add-to-list 'load-path (concat emacs-configuration-root-dir "magit"))
-(add-to-list 'load-path (concat emacs-configuration-root-dir "magit-gerrit"))
-
 (require 'magit)
 ;; reservered for future use when emacs 24.4 is ready
 ;;(require 'magit-filenotify)
@@ -10,7 +5,7 @@
 (set-default 'magit-stage-all-confirm nil)
 (set-default 'magit-unstage-all-confirm nil)
 
-(require 'magit-gerrit)
+;;(require 'magit-gerrit)
 
 ;; C-c C-a to amend without any prompt
 (defun magit-just-amend ()

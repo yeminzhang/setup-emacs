@@ -1,3 +1,7 @@
+(require 'package)
+(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
+(package-initialize)
+
 ;; desktop save
 (desktop-save-mode 1)
 (setq desktop-restore-eager 30)

@@ -1,5 +1,3 @@
-(add-to-list 'load-path (concat emacs-configuration-root-dir "xcscope"))
-(require 'xcscope)
 (setq next-error-highlight t)
 ;;(require 'flymake-cursor)
 ;;(add-hook 'find-file-hook 'flymake-find-file-hook)
@@ -96,7 +94,6 @@ t
 
 ;; For C/C++ buffer local jump
 (require 'cc-mode)
-(add-to-list 'load-path (concat emacs-configuration-root-dir "function-args"))
 (require 'function-args)
 (fa-config-default)
 (define-key c++-mode-map (kbd (concat "C-" switch-buffer-key)) 'moo-jump-local)

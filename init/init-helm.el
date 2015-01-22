@@ -1,4 +1,3 @@
-(add-to-list 'load-path (concat emacs-configuration-root-dir "helm"))
 (require 'helm-config)
 (helm-mode 1)
 (setq helm-idle-delay 0.1)

@@ -34,7 +34,6 @@
 (add-hook 'ido-minibuffer-setup-hook #'(lambda () (local-set-key (kbd ido-exit-minibuffer-key) 'ido-exit-minibuffer)))
 
 ;; smex
-(add-to-list 'load-path (concat emacs-configuration-root-dir "smex"))
 (require 'smex)
 (global-set-key (kbd "M-x") 'smex)
 
@@ -144,12 +143,10 @@
 (global-set-key (kbd "C-x Y") #'(lambda ()(interactive) (move-beginning-of-line nil) (yank) (newline) (backward-char 1)))
 
 ;; undo-tree
-(add-to-list 'load-path (concat emacs-configuration-root-dir "undo-tree"))
 (require 'undo-tree)
 (global-undo-tree-mode)
 
 ;; volatile-highlights
-(add-to-list 'load-path (concat emacs-configuration-root-dir "volatile-highlights"))
 (require 'volatile-highlights)
 (volatile-highlights-mode t)
 
