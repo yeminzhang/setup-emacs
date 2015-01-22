@@ -37,3 +37,6 @@
 [submodule "volatile-highlights"]
 	path = volatile-highlights
 	url = git@github.com:k-talo/volatile-highlights.el.git
+[submodule "helm-gtags"]
+	path = helm-gtags
+	url = git@github.com:syohex/emacs-helm-gtags.git
