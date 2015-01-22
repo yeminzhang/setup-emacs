@@ -40,3 +40,6 @@
 [submodule "helm-gtags"]
 	path = helm-gtags
 	url = git@github.com:syohex/emacs-helm-gtags.git
+[submodule "function-args"]
+	path = function-args
+	url = https://github.com/abo-abo/function-args

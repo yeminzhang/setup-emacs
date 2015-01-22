@@ -9,6 +9,7 @@
 (load (concat emacs-configuration-root-dir "env.el"))
 (add-to-list 'load-path (concat emacs-configuration-root-dir "init"))
 (require 'init-helm)
+(require 'init-company)
 (require 'init-edit)
 (require 'init-buffer)
 (require 'init-view)
@@ -25,7 +26,6 @@
 ;;(require 'init-mu4e)
 ;;(require 'init-ibus)
 (require 'init-magit)
-(require 'init-company)
 (require 'init-appearance)
 
 

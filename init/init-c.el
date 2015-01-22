@@ -94,4 +94,11 @@ t
 ;;(global-set-key (kbd "<f6>") 'rerun-program)
 (global-set-key (kbd "<f7>") 'redebug-program)
 
+;; For C/C++ buffer local jump
+(require 'cc-mode)
+(add-to-list 'load-path (concat emacs-configuration-root-dir "function-args"))
+(require 'function-args)
+(fa-config-default)
+(define-key c++-mode-map (kbd (concat "C-" switch-buffer-key)) 'moo-jump-local)
+
 (provide 'init-c)
