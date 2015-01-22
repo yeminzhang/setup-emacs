@@ -49,9 +49,9 @@
 	  ;; then bury the *compilation* buffer, so that C-x b doesn't go there
   	  (bury-buffer "*compilation*")
   	  ;; and return to whatever were looking at before
-  	  (replace-buffer-in-windows "*compilation*")
+  	  (replace-buffer-in-windows "*compilation*"))
 	  ;; Update TAGS if it belongs to a project
-	  (project-update-tags current-project-id))
+	  ;;(project-update-tags current-project-id))
 	;; Always return the anticipated result of compilation-exit-message-function
   	(cons msg code)))
 
@@ -84,7 +84,6 @@
 (only (if project-id (or (split-string (project-get-attribute project-id :grep-root) " ") (list (project-get-attribute project-id :root-dir))) nil)))
     (if project-id (helm-do-grep-1 only t) (message "not inside a project!"))))
 
-(global-set-key (kbd "<f5>") 'project-compile)
 (global-set-key (kbd "<f6>") 'project-run)
 (global-set-key (kbd "M-.") 'project-find-tag)
 (global-set-key (kbd "M-,") 'pop-tag-mark)
@@ -121,5 +120,15 @@
 (define-key helm-gtags-mode-map (kbd "M-,") 'helm-gtags-pop-stack)
 (define-key helm-gtags-mode-map (kbd "C-c <") 'helm-gtags-previous-history)
 (define-key helm-gtags-mode-map (kbd "C-c >") 'helm-gtags-next-history)
+
+
+;; projectile
+;;(add-to-list 'load-path (concat emacs-configuration-root-dir "projectile"))
+(require 'projectile)
+(projectile-global-mode)
+(setq projectile-completion-system 'helm)
+(helm-projectile-on)
+(setq compilation-read-command nil)
+(global-set-key (kbd "<f5>") #'(lambda() (interactive) (projectile-compile-project nil)))
 
 (provide 'project)

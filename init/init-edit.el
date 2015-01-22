@@ -59,14 +59,14 @@
 (global-set-key (kbd "C-x C-f")
   (lambda() (interactive)
     (helm
-     :prompt "Switch to: "
+     :prompt "Open file: "
      :candidate-number-limit 25                 ;; up to 25 of each
      :sources
      '(
 	   helm-source-files-in-current-dir ;; current dir
-		helm-c-source-recentf               ;; recent files
-;;	   helm-source-find-files
-        helm-source-locate))))            ;; use 'locate'
+	   helm-c-source-recentf               ;; recent files
+	   helm-source-projectile-files-list
+	   helm-source-locate))))            ;; use 'locate'
 
 (setq helm-dir-db-file (concat emacs-configuration-root-dir "allfolder"))
 
@@ -92,8 +92,10 @@
    :candidate-number-limit 25                 ;; up to 25 of each
    :sources
    '(
-	 my-helm-source-find-dir
+     helm-source-projectile-directories-list
+     my-helm-source-find-dir
  )))
+
 
 (global-set-key (kbd "C-x d") 'my-helm-find-dir)
 
