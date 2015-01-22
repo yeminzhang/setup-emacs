@@ -1,6 +1,9 @@
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
 (package-initialize)
+(package-refresh-contents)
+(dolist (pkg '(smex company dired+ helm helm-gtags magit undo-tree zenburn-theme volatile-highlights function-args))
+(unless (package-installed-p pkg) (package-install pkg)))
 
 ;; desktop save
 (desktop-save-mode 1)
