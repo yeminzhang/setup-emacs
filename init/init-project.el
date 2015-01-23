@@ -84,11 +84,10 @@
 (only (if project-id (or (split-string (project-get-attribute project-id :grep-root) " ") (list (project-get-attribute project-id :root-dir))) nil)))
     (if project-id (helm-do-grep-1 only t) (message "not inside a project!"))))
 
-(global-set-key (kbd "<f6>") 'project-run)
-(global-set-key (kbd "M-.") 'project-find-tag)
-(global-set-key (kbd "M-,") 'pop-tag-mark)
+;;(global-set-key (kbd "<f6>") 'project-run)
+;;(global-set-key (kbd "M-.") 'project-find-tag)
+;;(global-set-key (kbd "M-,") 'pop-tag-mark)
 
-(add-to-list 'load-path (concat emacs-configuration-root-dir "helm-gtags"))
 (require 'helm-gtags)
 
 (setq
@@ -123,12 +122,11 @@
 
 
 ;; projectile
-;;(add-to-list 'load-path (concat emacs-configuration-root-dir "projectile"))
 (require 'projectile)
 (projectile-global-mode)
 (setq projectile-completion-system 'helm)
 (helm-projectile-on)
 (setq compilation-read-command nil)
-(global-set-key (kbd "<f5>") #'(lambda() (interactive) (projectile-compile-project nil)))
+(global-set-key (kbd "<f5>") 'projectile-compile-project)
 
-(provide 'project)
+(provide 'init-project)

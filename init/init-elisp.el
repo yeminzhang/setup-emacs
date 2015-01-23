@@ -11,4 +11,6 @@
 (eval-buffer)
 ))
 
+(define-key emacs-lisp-mode-map (kbd "<f6>") 'elisp-save-and-eval-buffer)
+
 (provide 'init-elisp)

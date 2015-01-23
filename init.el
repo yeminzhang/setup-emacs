@@ -23,7 +23,7 @@
 (require 'init-term)
 (require 'init-eshell)
 (require 'init-dired)
-(require 'project)
+(require 'init-project)
 (require 'init-elisp)
 (require 'init-c)
 (if (and (boundp 'erlang-root-dir) (file-exists-p erlang-root-dir))
