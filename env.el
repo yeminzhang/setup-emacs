@@ -18,7 +18,7 @@
 ))
 
 ;; Configure erlang
-(setq erlang-root-dir "~/opt/")
+(setq erlang-emacs-tools-dir "~/bsp/dmxc/erlang-otp/lib/tools/emacs")
 
 ;; Configure updatedb options
 (setq updatedb-options "--localpaths=/etc --netpaths=/home/eyemzha --output=/home/eyemzha/locatedb --prunepaths=\"/home/eyemzha/.snapshot\"")

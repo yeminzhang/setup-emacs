@@ -1,5 +1,4 @@
-(add-to-list 'load-path (concat erlang-root-dir "lib/erlang/lib/tools-2.6.12/emacs"))
-(add-to-list 'exec-path (concat erlang-root-dir "bin"))
+(add-to-list 'load-path erlang-emacs-tools-dir)
 (require 'erlang-start)
 
 

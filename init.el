@@ -26,7 +26,7 @@
 (require 'init-project)
 (require 'init-elisp)
 (require 'init-c)
-(if (and (boundp 'erlang-root-dir) (file-exists-p erlang-root-dir))
+(if (and (boundp 'erlang-emacs-tools-dir) (file-exists-p erlang-emacs-tools-dir))
 (require 'init-erlang))
 ;;(require 'init-erc)
 ;;(require 'init-wanderlust)
