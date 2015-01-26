@@ -58,7 +58,6 @@
 (setq recentf-auto-cleanup 'never)
 
 ;; dired+
-;;(add-to-list 'load-path (concat emacs-configuration-root-dir "dired-plus"))
 (require 'dired+)
 
 (provide 'init-dired)
