@@ -52,4 +52,6 @@ Repeated invocations toggle between the two most recently open buffers."
 ;;(unless (buffer-modified-p) (revert-buffer t t t))
 (revert-buffer)))) ; ask for confirmation
 
+(setq enable-local-variables :all)
+
 (provide 'init-buffer)
