@@ -7,7 +7,7 @@
 
 ;; desktop save
 (desktop-save-mode 1)
-(setq desktop-restore-eager 30)
+(setq desktop-restore-eager t)
 ;;(add-to-list 'desktop-modes-not-to-save 'help-mode)
 ;;(add-to-list 'desktop-modes-not-to-save 'man-mode)
 
