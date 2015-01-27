@@ -9,5 +9,6 @@
 (setq helm-completion-mode-string "")
 (setq helm-full-frame nil)
 (setq helm-buffers-fuzzy-matching t)
+(setq helm-candidate-number-limit nil)
 
 (provide 'init-helm)
