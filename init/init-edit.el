@@ -147,6 +147,7 @@
 ;; undo-tree
 (require 'undo-tree)
 (global-undo-tree-mode)
+(setq undo-tree-mode-lighter "")
 
 ;; volatile-highlights
 (require 'volatile-highlights)
