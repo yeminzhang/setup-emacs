@@ -10,10 +10,7 @@
 
 ;; ido
 (require 'ido)
-(if (and (boundp 'keyboard-layout) (string= keyboard-layout "sv"))
-(setq switch-buffer-key "ö")
-(setq switch-buffer-key ";"))
-(global-set-key (kbd switch-buffer-key) 'helm-mini)
+(global-set-key (kbd right-little-finger-key) 'helm-mini)
 (global-set-key (kbd "C-x b") 'helm-mini)
 
 ;; This is a patch to prevent helm from sorting the buffer

@@ -27,11 +27,7 @@
 (setq ido-enable-flex-matching t)
 (setq ido-enable-dot-prefix t)
 (setq ido-enable-regexp nil)
-
-(if (and (boundp 'keyboard-layout) (string= keyboard-layout "sv"))
-(setq ido-exit-minibuffer-key "\366")
-(setq ido-exit-minibuffer-key ";"))
-(add-hook 'ido-minibuffer-setup-hook #'(lambda () (local-set-key (kbd ido-exit-minibuffer-key) 'ido-exit-minibuffer)))
+(add-hook 'ido-minibuffer-setup-hook #'(lambda () (local-set-key (kbd right-little-finger-key) 'ido-exit-minibuffer)))
 
 ;; smex
 (require 'smex)

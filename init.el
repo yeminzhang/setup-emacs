@@ -13,6 +13,12 @@
 (setq emacs-configuration-root-dir "~/.emacs.d/")
 (add-to-list 'load-path emacs-configuration-root-dir)
 (load (concat emacs-configuration-root-dir "env.el"))
+
+;; set right-little-finger-key based on keyboard layout
+(if (and (boundp 'keyboard-layout) (string= keyboard-layout "sv"))
+    (setq right-little-finger-key "ö")
+  (setq right-little-finger-key ";"))
+
 (add-to-list 'load-path (concat emacs-configuration-root-dir "init"))
 (require 'init-helm)
 (require 'init-company)
