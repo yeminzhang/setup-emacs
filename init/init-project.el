@@ -97,6 +97,7 @@
  helm-gtags-pulse-at-cursor t
  helm-gtags-prefix-key "\C-cg"
  helm-gtags-suggested-key-mapping t
+ helm-gtags-mode-name " HG"
  )
 
 ;; Enable helm-gtags-mode in Dired so you can jump to any tag
@@ -128,5 +129,6 @@
 (helm-projectile-on)
 (setq compilation-read-command nil)
 (global-set-key (kbd "<f5>") 'projectile-compile-project)
+(setq projectile-mode-line '(:eval (format " Proj[%s]" (projectile-project-name))))
 
 (provide 'init-project)
