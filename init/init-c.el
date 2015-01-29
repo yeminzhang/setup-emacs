@@ -96,6 +96,6 @@ t
 (require 'cc-mode)
 (require 'function-args)
 (fa-config-default)
-(define-key c++-mode-map (kbd (concat "C-" switch-buffer-key)) 'moo-jump-local)
+(define-key c++-mode-map (kbd (concat "C-" switch-buffer-key)) #'(lambda() (interactive) (let ((helm-candidate-number-limit nil)) (moo-jump-local))))
 
 (provide 'init-c)
