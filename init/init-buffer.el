@@ -13,8 +13,13 @@
 (if (and (boundp 'keyboard-layout) (string= keyboard-layout "sv"))
 (setq switch-buffer-key "ö")
 (setq switch-buffer-key ";"))
-(global-set-key (kbd switch-buffer-key) 'ido-switch-buffer)
+(global-set-key (kbd switch-buffer-key) 'helm-mini)
 (global-set-key (kbd "C-x b") 'helm-mini)
+
+;; This is a patch to prevent helm from sorting the buffer
+;; list when narrowing
+(defun helm-buffers-sort-transformer (candidates _source)
+  candidates)
 
 ;; jump to bookmarked buffer
 (global-set-key (kbd "C-x r b")
