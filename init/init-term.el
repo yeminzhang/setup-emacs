@@ -17,7 +17,7 @@
 ;;(define-key term-raw-map (kbd "C-h k") 'describe-key)
 (define-key term-raw-map (kbd "<home>") 'beginning-of-buffer)
 (define-key term-raw-map (kbd "<end>") 'end-of-buffer)
-;;(define-key term-raw-map (kbd "C-y") 'yank)
+(define-key term-raw-map (kbd "M-x") 'smex)
 
 
 (add-hook 'term-mode-hook #'(lambda () (local-set-key (kbd "C-o") 'other-window)))
