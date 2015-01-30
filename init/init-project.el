@@ -130,5 +130,7 @@
 (setq compilation-read-command nil)
 (global-set-key (kbd "<f5>") 'projectile-compile-project)
 (setq projectile-mode-line '(:eval (format " Proj[%s]" (projectile-project-name))))
+(define-key projectile-mode-map (kbd "C-c p g") 'helm-projectile-grep)
+(setq projectile-find-dir-includes-top-level t)
 
 (provide 'init-project)
