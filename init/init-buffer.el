@@ -9,8 +9,7 @@
 ;;(add-hook 'ibuffer-mode-hook #'(lambda () (hl-line-mode 1)))
 
 ;; ido
-(require 'ido)
-(global-set-key (kbd right-little-finger-key) 'helm-mini)
+(global-set-key (kbd right-little-finger-key) 'ido-switch-buffer)
 (global-set-key (kbd "C-x b") 'helm-mini)
 
 ;; This is a patch to prevent helm from sorting the buffer

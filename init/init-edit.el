@@ -27,7 +27,12 @@
 (setq ido-enable-flex-matching t)
 (setq ido-enable-dot-prefix t)
 (setq ido-enable-regexp nil)
-(add-hook 'ido-minibuffer-setup-hook #'(lambda () (local-set-key (kbd right-little-finger-key) 'ido-exit-minibuffer)))
+(add-hook 'ido-minibuffer-setup-hook 'ido-common-bind-key)
+
+(defun ido-common-bind-key ()
+  (define-key ido-common-completion-map (kbd right-little-finger-key) 'ido-exit-minibuffer)
+  (define-key ido-common-completion-map (kbd "SPC") 'ido-next-match)
+  (define-key ido-common-completion-map (kbd ",") 'ido-prev-match))
 
 ;; smex
 (require 'smex)
