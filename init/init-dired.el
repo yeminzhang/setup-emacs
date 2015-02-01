@@ -49,14 +49,6 @@
 (interactive)
 (message (concat "Dest dir: " (get-register 122))))
 
-;; tramp
-(require 'tramp)
-(setq password-cache t)
-(setq password-cache-expiry nil)
-(setq tramp-default-method "ssh")
-(setq tramp-default-user nil)
-(setq recentf-auto-cleanup 'never)
-
 ;; dired+
 (require 'dired+)
 
