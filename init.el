@@ -11,7 +11,6 @@
 ;;(add-to-list 'desktop-modes-not-to-save 'man-mode)
 
 (setq emacs-configuration-root-dir "~/.emacs.d/")
-(add-to-list 'load-path emacs-configuration-root-dir)
 (load (concat emacs-configuration-root-dir "env.el"))
 
 ;; set right-little-finger-key based on keyboard layout
