@@ -1,3 +1,7 @@
+;; dired+
+(require 'dired+)
+(setq diredp-hide-details-initially-flag nil)
+(setq diredp-hide-details-propagate-flag nil)
 
 ;; dired
 (setq dired-listing-switches "-lhaD")
@@ -11,16 +15,18 @@
 (add-hook 'dired-mode-hook #'(lambda () (local-set-key (kbd " ") 'scroll-up-command)))
 (add-hook 'dired-mode-hook #'(lambda () (rename-buffer (concat "d-" dired-directory))))
 
-;;Automatically revert buffer every 3 seconds
+;;Automatically revert buffer every 2 seconds
 (add-hook 'dired-mode-hook #'(lambda () (auto-revert-mode 1)))
-;;(setq auto-revert-interval 3)
-;;(setq dired-auto-revert-buffer t)
+(setq auto-revert-interval 2)
+(setq dired-auto-revert-buffer t)
 
 (define-key dired-mode-map (kbd "C-c m s") 'dired-mark-source-file)
 (define-key dired-mode-map (kbd "C-c m d") 'dired-mark-destination-dir)
 (define-key dired-mode-map (kbd "c") 'dired-copy-file-by-register)
 (define-key dired-mode-map (kbd "C-c r s") 'dired-read-source-file)
 (define-key dired-mode-map (kbd "C-c r d") 'dired-read-destination-dir)
+
+(define-key dired-mode-map (kbd "C-o") 'other-window)
 
 (defun dired-mark-source-file()
 (interactive)
@@ -39,7 +45,7 @@
 (progn
 (setq src-file (get-register 121))
 (setq dest-dir (get-register 122))
-(dired-copy-file src-file dest-dir t)))
+(copy-file src-file dest-dir t)))
 
 (defun dired-read-source-file()
 (interactive)
@@ -48,8 +54,5 @@
 (defun dired-read-destination-dir()
 (interactive)
 (message (concat "Dest dir: " (get-register 122))))
-
-;; dired+
-(require 'dired+)
 
 (provide 'init-dired)
