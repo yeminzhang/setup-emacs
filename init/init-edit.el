@@ -120,6 +120,7 @@
 (interactive (list (ido-completing-read "Char to insert: " (list "ö" "ä" "å" "Ö" "Ä" "Å" "~"))))
 (insert char_str))
 
+(require 'desktop)
 (add-to-list 'desktop-globals-to-save 'kill-ring)
 
 (defun show-trailing-whitespace ()

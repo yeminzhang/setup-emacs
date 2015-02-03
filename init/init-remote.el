@@ -5,6 +5,7 @@
 (setq tramp-default-method "ssh")
 (setq tramp-default-user nil)
 (setq recentf-auto-cleanup 'never)
+(setq tramp-use-ssh-controlmaster-options nil)
 
 (defun ssh-host-list ()
   (let (
@@ -14,9 +15,10 @@
       (if (and login (nth 1 login)) (add-to-list 'ssh-host-list (nth 1 login) t)))
     ssh-host-list))
 
-(defun ssh-tunnel-run-all ()
+(defun ssh-tunnel-run-all-preconfigured ()
   (interactive)
-  (dolist (host (ssh-host-list)) (ssh-tunnel-run host)))
+  (if (boundp 'ssh-tunnel-host-list)
+  (dolist (host ssh-tunnel-host-list) (ssh-tunnel-run host))))
 
 (defun ssh-tunnel-kill-all ()
   (interactive)
@@ -47,10 +49,19 @@
                       (list "-O" "check"))
                      (t (error "Unknown ssh-tunnels command '%s'" command)))))
     (apply 'call-process "ssh" nil nil nil
-	   "-S" "/tmp/%r@%h-%p"
            (append args
                    (list host)))))
 
 (defun ssh-host (host)
   (interactive (list (ido-completing-read "ssh to: " (ssh-host-list))))
-  (eshell-exec-visual "ssh" host))
+  (eshell-exec-visual "ssh" host)
+  (set-buffer (get-buffer "*ssh*"))
+  (rename-buffer (concat "ssh-" host)))
+
+(ssh-tunnel-run-all-preconfigured)
+
+(unless (boundp 'ssh-tunnel-monitor-timer)
+  (run-with-timer 60 60 'ssh-tunnel-run-all-preconfigured)
+  (setq ssh-tunnel-monitor-timer t))
+
+(provide 'init-remote)

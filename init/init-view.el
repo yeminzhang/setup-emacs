@@ -96,6 +96,7 @@
 (add-hook 'window-configuration-change-hook 'doc-view-fix-stuck-image)
 (add-hook 'window-configuration-change-hook #'(lambda () (run-with-timer 0.1 nil 'doc-view-continue-reading)))
 
+(require 'desktop)
 (add-to-list 'desktop-locals-to-save 'doc-view-image-width)
 (add-to-list 'desktop-locals-to-save 'doc-view-my-slice)
 (add-to-list 'desktop-locals-to-save 'doc-view-last-page-index)

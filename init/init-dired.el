@@ -42,10 +42,11 @@
 
 (defun dired-copy-file-by-register()
 (interactive)
-(progn
-(setq src-file (get-register 121))
-(setq dest-dir (get-register 122))
-(copy-file src-file dest-dir t)))
+(let (
+(src-file (get-register 121))
+(dest-dir (get-register 122)))
+(copy-file src-file dest-dir t)
+(message (concat "Copy from " src-file " to " dest-dir " done!"))))
 
 (defun dired-read-source-file()
 (interactive)

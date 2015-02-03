@@ -118,6 +118,7 @@
 (get-buffer "*eshell*")
 ))
 
+(require 'desktop)
 (add-to-list 'desktop-buffer-mode-handlers '(eshell-mode . eshell-restore-desktop-buffer))
 
 

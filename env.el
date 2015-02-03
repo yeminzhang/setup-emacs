@@ -7,15 +7,7 @@
 
 (setq keyboard-layout "sv")
 
-(setq machine-list
-'(
-(:id "gateway" :password "eyemzha")
-(:id "js" :password "js")
-(:id "js2" :password "js")
-(:id "iptb-console" :password "auto")
-(:id "mylab-dmx1" :password "rootroot" :prompt "SC-2-1")
-(:id "mylab-dmx2" :password "rootroot" :prompt "SC-2-2")
-))
+(setq ssh-tunnel-host-list '("mylab" "hub"))
 
 ;; Configure erlang
 (setq erlang-emacs-tools-dir "~/bsp/dmxc/erlang-otp/lib/tools/emacs")

@@ -4,12 +4,6 @@
 (dolist (pkg '(smex company dired+ helm helm-gtags magit undo-tree zenburn-theme volatile-highlights function-args projectile helm-projectile))
 (unless (package-installed-p pkg) (package-install pkg)))
 
-;; desktop save
-(desktop-save-mode 1)
-(setq desktop-restore-eager t)
-;;(add-to-list 'desktop-modes-not-to-save 'help-mode)
-;;(add-to-list 'desktop-modes-not-to-save 'man-mode)
-
 (setq emacs-configuration-root-dir "~/.emacs.d/")
 (load (concat emacs-configuration-root-dir "env.el"))
 
@@ -27,6 +21,7 @@
 (require 'init-term)
 (require 'init-eshell)
 (require 'init-dired)
+(require 'init-remote)
 (require 'init-project)
 (require 'init-elisp)
 (require 'init-c)
@@ -38,6 +33,13 @@
 ;;(require 'init-ibus)
 (require 'init-magit)
 (require 'init-appearance)
+
+;; desktop save
+(desktop-save-mode 1)
+(setq desktop-restore-eager t)
+(setq desktop-files-not-to-save "^$")
+;;(add-to-list 'desktop-modes-not-to-save 'help-mode)
+;;(add-to-list 'desktop-modes-not-to-save 'man-mode)
 
 
 ;;package
