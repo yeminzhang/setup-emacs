@@ -121,5 +121,14 @@
 (require 'desktop)
 (add-to-list 'desktop-buffer-mode-handlers '(eshell-mode . eshell-restore-desktop-buffer))
 
+;; eshell auto completion
+
+;;(defconst pcmpl-cd-history '("ab" "cd") "List of cd history")
+
+;;(defun pcomplete/cd ()
+;; "Completion for cd"
+;; (pcomplete-here pcmpl-cd-history)
+;; (cond (pcomplete-match "xx" 2)
+;;	  (while (pcomplete-here "/"))))
 
 (provide 'init-eshell)

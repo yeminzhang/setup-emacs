@@ -42,6 +42,27 @@
       ;;           :background "grey20"
         ;;         :box '(:line-width 1 :style released-button))
 
+
+;; chinese input
+;;(set-language-environment 'utf-8)
+;; (set-keyboard-coding-system 'utf-8)
+;; (set-clipboard-coding-system 'euc-cn)
+;; (set-clipboard-coding-system 'utf-8)
+;; (set-clipboard-coding-system 'cn-gb-2312)
+;; (set-terminal-coding-system 'utf-8)
+;; (set-buffer-file-coding-system 'utf-8)
+;; (set-buffer-file-coding-system 'cn-gb-2312)
+;; (set-selection-coding-system 'euc-cn)
+;; (set-selection-coding-system 'chinese-iso-8bit-with-esc)
+;; (set-selection-coding-system 'cn-gb-2312)
+;; (set-default-coding-systems 'utf-8)
+;;(set-default-coding-systems 'cn-gb-2312)
+;; (setq locale-coding-system 'cp1252)
+;; (modify-coding-system-alist 'process "*" 'utf-8)
+;; (setq default-process-coding-system '(utf-8 . utf-8))
+;; (setq-default pathname-coding-system 'utf-8)
+
+
 (global-hl-line-mode 1)
 (column-number-mode 1)
 

@@ -189,6 +189,10 @@
            (let ((mark-even-if-inactive transient-mark-mode))
              (indent-region (region-beginning) (region-end) nil))))))
 
+
+;; xclip
+;;(xclip-mode 1)
+
 (set-language-environment "UTF-8")
 
 (provide 'init-edit)
