@@ -6,6 +6,7 @@
 (setq tramp-default-user nil)
 (setq recentf-auto-cleanup 'never)
 (setq tramp-use-ssh-controlmaster-options nil)
+(add-to-list 'ido-ignore-buffers "\*tramp")
 
 (defun ssh-host-list ()
   (let (
