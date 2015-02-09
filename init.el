@@ -5,7 +5,9 @@
 (unless (package-installed-p pkg) (package-install pkg)))
 
 (setq emacs-configuration-root-dir "~/.emacs.d/")
-(load (concat emacs-configuration-root-dir "env.el"))
+(load (concat emacs-configuration-root-dir "env.el.default"))
+(if (file-exists-p (concat emacs-configuration-root-dir "env.el"))
+  (load (concat emacs-configuration-root-dir "env.el")))
 
 ;; set right-little-finger-key based on keyboard layout
 (if (and (boundp 'keyboard-layout) (string= keyboard-layout "sv"))
