@@ -5,6 +5,7 @@
 (set-default 'magit-stage-all-confirm nil)
 (set-default 'magit-unstage-all-confirm nil)
 
+(add-to-list 'ido-ignore-buffers "\*magit")
 ;;(require 'magit-gerrit)
 
 ;; C-c C-a to amend without any prompt
