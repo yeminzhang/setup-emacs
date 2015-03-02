@@ -3,7 +3,12 @@
 ;;(if (eq (get-buffer eshell-buffer-name) nil) (eshell))
 
 (add-hook 'eshell-post-command-hook 'eshell-modify-cmd-history)
+(add-hook 'eshell-post-command-hook 'eshell-notify-done)
 (setq eshell-history-size 512)
+
+(defun eshell-notify-done ()
+  (if (s-starts-with-p "scp" (ring-ref eshell-history-ring 0))
+	  (message (concat (ring-ref eshell-history-ring 0) " done!"))))
 
 (defun eshell-modify-cmd-history ()
  (progn (setq my-last-ring (ring-ref eshell-history-ring 0))
@@ -12,7 +17,6 @@
 	   (setq modified-ring my-last-ring)
 	   (unless (or (string= (substring my-last-ring 0 1) "{") (string= (substring my-last-ring 0 1) "("))
 	   (setq modified-ring (concat "{" (abbreviate-file-name (eshell/pwd)) ";  " my-last-ring "} ")))
-;;	   (unless (or (ring-member eshell-history-ring modified-ring) (string= (substring last-ring 0 2) "cd") (< (length last-ring) 8))
 	   (setq index (ring-member eshell-history-ring modified-ring))
 	   (if index (ring-remove eshell-history-ring index))
 	   (ring-insert eshell-history-ring modified-ring)

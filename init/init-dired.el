@@ -28,25 +28,41 @@
 
 (define-key dired-mode-map (kbd "C-o") 'other-window)
 
+(defun dired-remove-tramp-method (path)
+  (if (s-starts-with-p "/" path) (substring path (+ 1 (s-index-of ":" path))) path))
+
 (defun dired-mark-source-file()
 (interactive)
-(progn
-(set-register 121 (dired-filename-at-point))
-(message (concat "Src file: " (dired-filename-at-point)))))
+(let* ((filename-at-point (dired-remove-tramp-method (dired-filename-at-point))))
+	   (set-register 121 filename-at-point)
+	   (message (concat "Src file: " filename-at-point))))
 
 (defun dired-mark-destination-dir()
 (interactive)
-(progn
-(set-register 122 dired-directory)
-(message (concat "Dest dir: " dired-directory))))
+(let* ((dest-dir (dired-remove-tramp-method dired-directory)))
+(set-register 122 dest-dir)
+(message (concat "Dest dir: " dest-dir))))
+
+(defun scp-copy-file (src-file dest-dir)
+  ;;  (apply 'call-process "scp" nil nil nil (list src-file dest-dir)))
+(switch-to-buffer eshell-buffer-name)
+(end-of-buffer)
+(eshell-kill-input)
+(insert (concat "scp -3 " src-file " " dest-dir))
+(eshell-send-input))
+
 
 (defun dired-copy-file-by-register()
 (interactive)
-(let (
+(let* (
 (src-file (get-register 121))
 (dest-dir (get-register 122)))
-(copy-file src-file dest-dir t)
-(message (concat "Copy from " src-file " to " dest-dir " done!"))))
+(with-current-buffer eshell-buffer-name
+(end-of-buffer)
+(eshell-kill-input)
+(insert (concat "scp -3 " src-file " " dest-dir))
+(message (concat "Copying from " src-file " to " dest-dir))
+(eshell-send-input))))
 
 (defun dired-read-source-file()
 (interactive)
