@@ -25,6 +25,7 @@
 (require 'init-dired)
 (require 'init-remote)
 (require 'init-project)
+(require 'init-programming)
 (require 'init-elisp)
 (require 'init-c)
 (if (and (boundp 'erlang-emacs-tools-dir) (file-exists-p erlang-emacs-tools-dir))

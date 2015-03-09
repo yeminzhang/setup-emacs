@@ -27,6 +27,7 @@
 (setq ido-enable-flex-matching t)
 (setq ido-enable-dot-prefix t)
 (setq ido-enable-regexp nil)
+(setq ido-ignore-extensions nil)
 (add-hook 'ido-minibuffer-setup-hook 'ido-common-bind-key)
 
 (defun ido-common-bind-key ()

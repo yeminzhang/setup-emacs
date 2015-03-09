@@ -20,6 +20,7 @@
 (define-key view-mode-map (kbd "f") 'forward-word)
 (define-key view-mode-map (kbd "b") 'backward-word)
 (define-key view-mode-map (kbd "E") 'my-View-exit)
+(define-key view-mode-map (kbd "q") 'bury-buffer)
 
   (defun my-View-exit ()
   "If readonly file, use sudo to open it."
