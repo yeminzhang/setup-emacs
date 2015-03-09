@@ -1,45 +1,7 @@
-(defun project-get-id (filename)
-  (if (eq nil filename) nil
-    (progn
-      (setq expanded-filename (expand-file-name filename))
-      (setq local-project-list project-list)
-      (setq result nil)
-      (while local-project-list
-	(setq project (pop local-project-list))
-	(setq project-root-dir (expand-file-name (plist-get project :root-dir)))
-	(if (string= (substring expanded-filename 0 (length project-root-dir)) project-root-dir)
-	    (setq result (plist-get project :id))
-	  ))
-      result
-      )))
-
-(defun project-get-attribute (project-id attribute-name)
-  (progn
-    (setq local-project-list project-list)
-    (setq result nil)
-    (while local-project-list
-      (setq project (pop local-project-list))
-      (setq id (plist-get project :id))
-      (if (string= id project-id)
-	  (setq result (plist-get project attribute-name))
-	))
-    result
-    ))
-
-(defun project-compile ()
-  (interactive)
-  (progn
-    (setq project-id (project-get-id buffer-file-name))
-    (if (eq nil project-id) (recompile)
-      (progn
-	(setq configured-command (project-get-attribute project-id :compile-command))
-	(setq root-dir (project-get-attribute project-id :root-dir))
-	(setq command (if (eq nil configured-command) "make" configured-command))
-	(save-some-buffers 1)
-	(setq current-project-id project-id)
-	(compile (concat "cd " root-dir "; " command))
-	))
-    ))
+(defun project-compile (ARG)
+  (interactive "P")
+  (save-some-buffers 1)
+  (projectile-compile-project ARG))
 
 ;; Close the compilation window if there was no error at all.
 (setq compilation-exit-message-function
@@ -50,18 +12,17 @@
   	  (bury-buffer "*compilation*")
   	  ;; and return to whatever were looking at before
   	  (replace-buffer-in-windows "*compilation*"))
-	  ;; Update TAGS if it belongs to a project
-	  ;;(project-update-tags current-project-id))
+	  (project-update-tags)
 	;; Always return the anticipated result of compilation-exit-message-function
   	(cons msg code)))
 
+;; Update TAGS if it belongs to a project
+(defun project-update-tags ()
+  (interactive)
+  (if (projectile-project-root)
+	  (call-process-shell-command (concat "cd " (projectile-project-root) ";" projectile-tags-command) nil 0)))
 
-;; Do this when just create the project on disk. Otherwise project-find-tag won't work
-(defun project-update-tags (project-id)
-  (interactive (list (project-get-id buffer-file-name)))
-    (unless (eq nil project-id)
-     (shell-command (concat "cd " (project-get-attribute project-id :root-dir) "; " (project-get-attribute project-id :tag-command)))))
-
+;; Useless, To be removed in the future
 (defun project-find-tag ()
   (interactive)
       (progn
@@ -75,18 +36,6 @@
 ;;	(if (string= "erlang-mode" major-mode) (erlang-find-tag-under-point))
 	(if (string= "emacs-lisp-mode" major-mode) (elisp-save-and-eval-buffer))
 	))
-
-;; grep under :grep-root of a project
-(defun project-grep ()
-  (interactive)
-  (require 'helm-mode)
-  (let* ((project-id (project-get-id buffer-file-name))
-(only (if project-id (or (split-string (project-get-attribute project-id :grep-root) " ") (list (project-get-attribute project-id :root-dir))) nil)))
-    (if project-id (helm-do-grep-1 only t) (message "not inside a project!"))))
-
-;;(global-set-key (kbd "<f6>") 'project-run)
-;;(global-set-key (kbd "M-.") 'project-find-tag)
-;;(global-set-key (kbd "M-,") 'pop-tag-mark)
 
 (require 'helm-gtags)
 
@@ -124,13 +73,13 @@
 
 ;; projectile
 (require 'projectile)
-(projectile-global-mode)
 (setq projectile-completion-system 'helm)
 (helm-projectile-on)
 (setq compilation-read-command nil)
-(global-set-key (kbd "<f5>") 'projectile-compile-project)
+(global-set-key (kbd "<f5>") 'project-compile)
 (setq projectile-mode-line '(:eval (format " Proj[%s]" (projectile-project-name))))
 (define-key projectile-mode-map (kbd "C-c p g") 'helm-projectile-grep)
 (setq projectile-find-dir-includes-top-level t)
+(setq projectile-tags-command "gtags")
 
 (provide 'init-project)
