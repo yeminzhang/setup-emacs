@@ -5,7 +5,7 @@
 (unless (package-installed-p pkg) (package-install pkg)))
 
 (setq emacs-configuration-root-dir "~/.emacs.d/")
-(load (concat emacs-configuration-root-dir "env.el.default"))
+(load (concat emacs-configuration-root-dir "env-default.el"))
 (if (file-exists-p (concat emacs-configuration-root-dir "env.el"))
   (load (concat emacs-configuration-root-dir "env.el")))
 
