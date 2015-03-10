@@ -93,9 +93,14 @@ t
 (global-set-key (kbd "<f7>") 'redebug-program)
 
 ;; For C/C++ buffer local jump
+(defun cc-jump-local ()
+(interactive)
+(let ((helm-candidate-number-limit nil)) (moo-jump-local))
+)
+
 (require 'cc-mode)
 (require 'function-args)
 (fa-config-default)
-(define-key c++-mode-map (kbd (concat "C-" right-little-finger-key)) #'(lambda() (interactive) (let ((helm-candidate-number-limit nil)) (moo-jump-local))))
-
+(define-key c++-mode-map (kbd (concat "C-" right-little-finger-key)) 'cc-jump-local)
+(define-key c-mode-map (kbd (concat "C-" right-little-finger-key)) 'cc-jump-local)
 (provide 'init-c)
