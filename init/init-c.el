@@ -103,4 +103,7 @@ t
 (fa-config-default)
 (define-key c++-mode-map (kbd (concat "C-" right-little-finger-key)) 'cc-jump-local)
 (define-key c-mode-map (kbd (concat "C-" right-little-finger-key)) 'cc-jump-local)
+(add-hook 'c++-mode-hook #'(lambda () (company-mode 1)))
+(add-hook 'c-mode-hook #'(lambda () (company-mode 1)))
+(add-to-list 'company-backends 'company-c-headers)
 (provide 'init-c)
