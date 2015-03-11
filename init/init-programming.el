@@ -8,5 +8,8 @@
 (global-semantic-idle-scheduler-mode 1)
 (semantic-mode 1)
 
+;; Package: yasnippet
+(require 'yasnippet)
+(yas-global-mode 1)
 
 (provide 'init-programming)
