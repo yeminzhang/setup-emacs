@@ -82,4 +82,9 @@
 (define-key projectile-mode-map (kbd "C-c p g") 'helm-projectile-grep)
 (setq projectile-find-dir-includes-top-level t)
 (setq projectile-tags-command "gtags")
+
+;; ede for semantic
+(require 'ede)
+(global-ede-mode)
+
 (provide 'init-project)
