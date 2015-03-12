@@ -51,16 +51,10 @@
 
 ;; Enable helm-gtags-mode in Dired so you can jump to any tag
 ;; when navigate project tree with Dired
-(add-hook 'dired-mode-hook 'helm-gtags-mode)
-
 ;; Enable helm-gtags-mode in Eshell for the same reason as above
-(add-hook 'eshell-mode-hook 'helm-gtags-mode)
-
 ;; Enable helm-gtags-mode in languages that GNU Global supports
-(add-hook 'c-mode-hook 'helm-gtags-mode)
-(add-hook 'c++-mode-hook 'helm-gtags-mode)
-(add-hook 'java-mode-hook 'helm-gtags-mode)
-(add-hook 'asm-mode-hook 'helm-gtags-mode)
+(dolist (hook '(c-mode-hook c++-mode-hook java-mode-hook dired-mode-hook eshell-mode-hook))
+(add-hook hook 'helm-gtags-mode))
 
 ;; key bindings
 (define-key helm-gtags-mode-map (kbd "C-c g a") 'helm-gtags-tags-in-this-function)

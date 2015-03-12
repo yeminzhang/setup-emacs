@@ -101,9 +101,12 @@ t
 (require 'cc-mode)
 (require 'function-args)
 (fa-config-default)
-(define-key c++-mode-map (kbd (concat "C-" right-little-finger-key)) 'cc-jump-local)
-(define-key c-mode-map (kbd (concat "C-" right-little-finger-key)) 'cc-jump-local)
-(add-hook 'c++-mode-hook #'(lambda () (company-mode 1)))
-(add-hook 'c-mode-hook #'(lambda () (company-mode 1)))
+(dolist (mode-map '(c-mode-map c++-mode-map))
+  (define-key (eval mode-map) (kbd (concat "C-" right-little-finger-key)) 'cc-jump-local)
+  (define-key (eval mode-map) (kbd "<tab>") 'helm-yas-complete))
+
+(dolist (mode-hook '(c-mode-hook c++-mode-hook))
+  (add-hook 'mode-hook #'(lambda () (company-mode 1))))
+
 (add-to-list 'company-backends 'company-c-headers)
 (provide 'init-c)

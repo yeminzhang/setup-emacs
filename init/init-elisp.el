@@ -12,5 +12,6 @@
 ))
 
 (define-key emacs-lisp-mode-map (kbd "<f6>") 'elisp-save-and-eval-buffer)
+(define-key emacs-lisp-mode-map (kbd "<tab>") 'helm-yas-complete)
 
 (provide 'init-elisp)

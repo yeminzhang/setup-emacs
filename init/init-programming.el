@@ -8,6 +8,10 @@
 (global-semantic-idle-scheduler-mode 1)
 (semantic-mode 1)
 
+(defun get-mode-map (mode)
+  (if (eq mode 'cc-mode) 'c++-mode-map)
+  )
+
 ;; Package: yasnippet
 (require 'yasnippet)
 (yas-global-mode 1)
