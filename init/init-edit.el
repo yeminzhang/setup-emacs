@@ -194,6 +194,12 @@
 ;; xclip
 ;;(xclip-mode 1)
 
+(defcustom iedit-toggle-key-default (kbd "C-,")
+  "If no-nil, the key is inserted into global-map, isearch-mode-map, esc-map and help-map."
+  :type 'vector
+  :group 'iedit)
+(require 'iedit)
+
 (set-language-environment "UTF-8")
 
 (provide 'init-edit)

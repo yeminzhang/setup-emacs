@@ -1,7 +1,7 @@
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
 (package-initialize)
-(dolist (pkg '(smex company dired+ helm helm-gtags magit undo-tree zenburn-theme volatile-highlights function-args projectile helm-projectile company-c-headers yasnippet helm-c-yasnippet))
+(dolist (pkg '(smex company dired+ helm helm-gtags magit undo-tree zenburn-theme volatile-highlights function-args projectile helm-projectile company-c-headers yasnippet helm-c-yasnippet iedit))
 (unless (package-installed-p pkg) (package-install pkg)))
 
 (setq emacs-configuration-root-dir "~/.emacs.d/")
