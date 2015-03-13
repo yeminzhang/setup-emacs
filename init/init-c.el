@@ -34,12 +34,6 @@
 (setq gud-last-env-list env-list)
 )
 
-(defun run-program (executable-file &optional parameters envs)
-(interactive (list (ido-read-file-name "Executable: ")
-(read-from-minibuffer "Parameters: ")
-(read-from-minibuffer "Envs: ")))
-(debug-program executable-file nil parameters envs))
-
 (defun debug-program (executable-file to-set-breakpoints &optional parameters envs)
 (interactive (list (ido-read-file-name "Executable: ")
 t
@@ -76,12 +70,6 @@ t
 (gud-send-command (concat "set environment " env))))
 (gdb-clear-inferior-io)
 (gud-run 0))))
-
-(defun rerun-program ()
-(interactive ())
-(gud-send-command "disable")
-(redebug-program nil)
-)
 
 (defun debug-mode-quit ()
 (interactive ())

@@ -30,12 +30,16 @@
 	(if (string= "emacs-lisp-mode" major-mode) (elisp-find-function-under-point))
 	))
 
-(defun project-run ()
-  (interactive)
-      (progn
-;;	(if (string= "erlang-mode" major-mode) (erlang-find-tag-under-point))
-	(if (string= "emacs-lisp-mode" major-mode) (elisp-save-and-eval-buffer))
-	))
+;; The limitation is that there is only one run-command globally,
+;; not per project. Don't like directory local variables. Hope
+;; projectile can support this in the future by per project conf.
+(defun project-run (ARG)
+  (interactive "P")
+  (if (or ARG (not (boundp 'project-executable-file)))
+	  (setq project-executable-file (ido-read-file-name "Executable: ")
+			project-executable-parameters (read-from-minibuffer "Parameters: ")
+			))
+  (shell-command (concat project-executable-file " " project-executable-parameters)))
 
 (require 'helm-gtags)
 
@@ -72,6 +76,7 @@
 (helm-projectile-on)
 (setq compilation-read-command nil)
 (global-set-key (kbd "<f5>") 'project-compile)
+(global-set-key (kbd "<f6>") 'project-run)
 (setq projectile-mode-line '(:eval (format " Proj[%s]" (projectile-project-name))))
 (define-key projectile-mode-map (kbd "C-c p g") 'helm-projectile-grep)
 (setq projectile-find-dir-includes-top-level t)
