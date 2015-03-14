@@ -60,10 +60,18 @@
   (set-buffer (get-buffer "*ssh*"))
   (rename-buffer (concat "ssh-" host)))
 
-(ssh-tunnel-run-all-preconfigured)
+(defun ssh-tunnel-start-timer ()
+  (interactive)
+  (unless (boundp 'ssh-tunnel-monitor-timer)
+	(setq ssh-tunnel-monitor-timer (run-with-timer 60 60 'ssh-tunnel-run-all-preconfigured))))
 
-(unless (boundp 'ssh-tunnel-monitor-timer)
-  (run-with-timer 60 60 'ssh-tunnel-run-all-preconfigured)
-  (setq ssh-tunnel-monitor-timer t))
+(defun ssh-tunnel-stop-timer ()
+  (interactive)
+  (unless (not (boundp 'ssh-tunnel-monitor-timer))
+	(cancel-timer ssh-tunnel-monitor-timer)
+	(makunbound 'ssh-tunnel-monitor-timer)))
+
+(ssh-tunnel-run-all-preconfigured)
+(ssh-tunnel-start-timer)
 
 (provide 'init-remote)
