@@ -102,14 +102,6 @@
   (if (projectile-project-root)
 	  (call-process-shell-command (concat "cd " (projectile-project-root) ";" projectile-tags-command) nil 0)))
 
-;; Useless, To be removed in the future
-(defun project-find-tag ()
-  (interactive)
-      (progn
-	(if (string= "erlang-mode" major-mode) (erlang-find-tag-under-point))
-	(if (string= "emacs-lisp-mode" major-mode) (elisp-find-function-under-point))
-	))
-
 (require 'helm-gtags)
 
 (setq
