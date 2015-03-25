@@ -9,7 +9,7 @@
 (setq ssh-tunnel-host-list '())
 
 ;; Configure erlang
-(setq erlang-emacs-tools-dir "")
+(setq erlang-emacs-tools-dir nil)
 
 ;; Configure updatedb options
 (setq updatedb-options "--localpaths=/etc --netpaths=/home/eyemzha --output=/home/eyemzha/locatedb --prunepaths=\"/home/eyemzha/.snapshot\"")

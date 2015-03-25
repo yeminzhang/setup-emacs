@@ -1,6 +1,7 @@
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
 (package-initialize)
+(package-refresh-contents)
 (dolist (pkg '(smex company dired+ helm helm-gtags magit undo-tree zenburn-theme volatile-highlights function-args projectile helm-projectile company-c-headers yasnippet helm-c-yasnippet iedit))
 (unless (package-installed-p pkg) (package-install pkg)))
 
@@ -28,7 +29,7 @@
 (require 'init-programming)
 (require 'init-elisp)
 (require 'init-c)
-(if (and (boundp 'erlang-emacs-tools-dir) (file-exists-p erlang-emacs-tools-dir))
+(if (and (boundp 'erlang-emacs-tools-dir) erlang-emacs-tools-dir (file-exists-p erlang-emacs-tools-dir))
 	(require 'init-erlang))
 (require 'init-magit)
 (require 'init-misc)
