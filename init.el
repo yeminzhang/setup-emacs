@@ -24,6 +24,7 @@
 (require 'init-term)
 (require 'init-eshell)
 (require 'init-dired)
+(require 'init-org)
 (require 'init-remote)
 (require 'init-project)
 (require 'init-programming)
@@ -47,4 +48,3 @@
 ;;(workgroups-mode 1)
 
 ;;(add-hook 'emacs-startup-hook #'(lambda () (wg-reload-session)))
-
