@@ -1,3 +1,4 @@
+(package-install-when-not-exist '(function-args company-c-headers))
 ;;(require 'flymake-cursor)
 ;;(add-hook 'find-file-hook 'flymake-find-file-hook)
 

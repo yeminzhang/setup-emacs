@@ -1,3 +1,5 @@
+(package-install-when-not-exist '(yasnippet helm-c-yasnippet ))
+
 (defun readelf (filename)
   (interactive (list (ido-read-file-name "file: ")))
   (shell-command (concat "readelf -a " filename)))

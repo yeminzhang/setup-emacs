@@ -1,3 +1,4 @@
+(package-install-when-not-exist '(company))
 (require 'company)
 (setq company-idle-delay 0)
 (define-key company-active-map (kbd right-little-finger-key) 'company-complete-selection)

@@ -1,3 +1,4 @@
+(package-install-when-not-exist '(dired+))
 ;; dired+
 (require 'dired+)
 (setq diredp-hide-details-initially-flag nil)

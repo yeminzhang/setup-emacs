@@ -1,4 +1,4 @@
-;;(require 'helm-config)
+(package-install-when-not-exist '(smex undo-tree volatile-highlights iedit))
 
 ;; key bindings
 (global-set-key (kbd "C-o") 'other-window)

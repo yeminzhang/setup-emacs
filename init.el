@@ -1,10 +1,3 @@
-(require 'package)
-(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
-(package-initialize)
-(package-refresh-contents)
-(dolist (pkg '(smex company dired+ helm helm-gtags magit undo-tree zenburn-theme volatile-highlights function-args projectile helm-projectile company-c-headers yasnippet helm-c-yasnippet iedit))
-(unless (package-installed-p pkg) (package-install pkg)))
-
 (setq emacs-configuration-root-dir "~/.emacs.d/")
 (load (concat emacs-configuration-root-dir "env-default.el"))
 (if (file-exists-p (concat emacs-configuration-root-dir "env.el"))
@@ -16,6 +9,7 @@
   (setq right-little-finger-key ";"))
 
 (add-to-list 'load-path (concat emacs-configuration-root-dir "init"))
+(require 'init-package)
 (require 'init-helm)
 (require 'init-company)
 (require 'init-edit)

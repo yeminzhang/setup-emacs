@@ -1,3 +1,4 @@
+(package-install-when-not-exist '(magit))
 (require 'magit)
 ;; reservered for future use when emacs 24.4 is ready
 ;;(require 'magit-filenotify)
