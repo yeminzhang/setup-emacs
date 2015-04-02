@@ -2,7 +2,7 @@
 (require 'chinese-pyim)
 
 (setq default-input-method "chinese-pyim"
-	  pyim-dicts  '((:name "bigdict" :file (concat emacs-configuration-root-dir "pyim/pyim-bigdict.txt") :coding utf-8-unix))
+	  pyim-dicts  '((:name "bigdict" :file "~/.emacs.d/pyim/pyim-bigdict.txt" :coding utf-8-unix))
 	  pyim-use-tooltip t)
 
 (define-key pyim-mode-map (kbd ".")   'pyim-next-page)
