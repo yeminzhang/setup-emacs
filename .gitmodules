@@ -1,0 +1,3 @@
+[submodule "pyim"]
+	path = pyim
+	url = git@github.com:yeminzhang/pyim-dict.git
