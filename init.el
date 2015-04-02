@@ -27,6 +27,7 @@
 (if (and (boundp 'erlang-emacs-tools-dir) erlang-emacs-tools-dir (file-exists-p erlang-emacs-tools-dir))
 	(require 'init-erlang))
 (require 'init-magit)
+(require 'init-chinese)
 (require 'init-misc)
 (require 'init-appearance)
 
