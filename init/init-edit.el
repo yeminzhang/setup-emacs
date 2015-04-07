@@ -104,18 +104,22 @@
 
 (global-set-key (kbd "M-y") 'helm-show-kill-ring)
 
+(setq locate-db-file "~/.mlocate.db")
+;; By default regexp is not used. Add -r in a helm session to enable it
+(setq helm-locate-command (concat "locate %s -d " locate-db-file " -e -A %s"))
+
 (defun updatedb ()
 (interactive)
-(if (boundp 'updatedb-options)
-(call-process-shell-command (concat "updatedb " updatedb-options) nil 0)))
-
+(call-process-shell-command (concat "updatedb -o " locate-db-file " -l 0") nil 0))
 
 (defun updatedir-db ()
 (interactive)
-(shell-command (concat "find / -type d 2>/dev/null 1>" helm-dir-db-file)))
+(call-process-shell-command (concat "find / -type d 2>/dev/null 1>" helm-dir-db-file) nil 0))
 
+;; updatedb every 30 minutes
 (unless (boundp 'updatedb-timer)
-(run-with-idle-timer 10800 t 'updatedb)
+(run-with-timer 1800 1800 'updatedb)
+(run-with-timer 1800 1800 'updatedir-db)
 (setq updatedb-timer t))
 
 (defun insert-special-char (char_str)
@@ -202,5 +206,8 @@
 (require 'iedit)
 
 (set-language-environment "UTF-8")
+
+(updatedb)
+(updatedir-db)
 
 (provide 'init-edit)
