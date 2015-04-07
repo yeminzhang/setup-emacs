@@ -1,13 +1,13 @@
 ;; eshell
 (require 'eshell)
-;;(if (eq (get-buffer eshell-buffer-name) nil) (eshell))
+(unless (get-buffer eshell-buffer-name) (eshell) (bury-buffer eshell-buffer-name))
 
 (add-hook 'eshell-post-command-hook 'eshell-modify-cmd-history)
 (add-hook 'eshell-post-command-hook 'eshell-notify-done)
 (setq eshell-history-size 512)
 
 (defun eshell-notify-done ()
-  (if (s-starts-with-p "scp" (ring-ref eshell-history-ring 0))
+  (if (string-prefix-p "scp" (ring-ref eshell-history-ring 0))
 	  (message (concat (ring-ref eshell-history-ring 0) " done!"))))
 
 (defun eshell-modify-cmd-history ()

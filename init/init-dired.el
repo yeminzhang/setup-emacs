@@ -30,7 +30,7 @@
 (define-key dired-mode-map (kbd "C-o") 'other-window)
 
 (defun dired-remove-tramp-method (path)
-  (if (s-starts-with-p "/" path) (substring path (+ 1 (s-index-of ":" path))) path))
+  (if (string-prefix-p "/" path) (substring path (+ 1 (s-index-of ":" path))) path))
 
 (defun dired-mark-source-file()
 (interactive)
