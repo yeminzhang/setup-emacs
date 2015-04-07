@@ -71,7 +71,7 @@
 	   helm-source-projectile-files-list
 	   helm-source-locate))))            ;; use 'locate'
 
-(setq helm-dir-db-file (concat emacs-configuration-root-dir "allfolder"))
+(setq helm-dir-db-file (expand-file-name "allfolder" user-emacs-directory))
 
 
 (defvar my-helm-source-find-dir
@@ -106,7 +106,8 @@
 
 (setq locate-db-file "~/.mlocate.db")
 ;; By default regexp is not used. Add -r in a helm session to enable it
-(setq helm-locate-command (concat "locate %s -d " locate-db-file " -e -A %s"))
+(if *is-linux*
+(setq helm-locate-command (concat "locate %s -d " locate-db-file " -e -A %s")))
 
 (defun updatedb ()
 (interactive)

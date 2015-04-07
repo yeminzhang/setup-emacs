@@ -72,7 +72,6 @@
 (setq max-mini-window-height 1)
 
 ;; color theme
-;;(add-to-list 'custom-theme-load-path (concat emacs-configuration-root-dir "zenburn/"))
 (load-theme 'zenburn t)
 
 (set-face-attribute 'region nil :background "#666" :foreground "#ffffff")

@@ -24,7 +24,7 @@
 
 (eval-after-load 'info
   '(progn (info-initialize)
-          (add-to-list 'Info-directory-list (concat emacs-configuration-root-dir "magit/"))))
+          (add-to-list 'Info-directory-list (expand-file-name "magit" user-emacs-directory))))
 
 (global-set-key (kbd "<f4>")
   (lambda() (interactive)
