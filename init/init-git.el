@@ -33,4 +33,22 @@
   (lambda() (interactive)
     (magit-status (magit-get-top-dir))))
 
-(provide 'init-magit)
+;; restore magit-status when emacs starts
+;; save magit-status buffer when save desktop
+(defun magit-status-register-desktop-save ()
+  "Set `desktop-save-buffer' to a function returning the dir of current repo."
+  (setq desktop-save-buffer (lambda (desktop-dirname) (magit-get-top-dir))))
+
+(add-hook 'magit-status-mode-hook 'magit-status-register-desktop-save)
+
+(defun magit-status-restore-desktop-buffer (d-b-file-name d-b-name d-b-misc)
+  "Restore a `magit-status' buffer on `desktop' load."
+  (when (eq 'magit-status-mode desktop-buffer-major-mode)
+    (let ((dir d-b-misc))
+      (when dir
+		(magit-status dir)
+        (current-buffer)))))
+
+(add-to-list 'desktop-buffer-mode-handlers '(magit-status-mode . magit-status-restore-desktop-buffer))
+
+(provide 'init-git)

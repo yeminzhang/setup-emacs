@@ -16,7 +16,7 @@
 (require 'init-elisp)
 (require 'init-c)
 (require 'init-erlang)
-(require 'init-magit)
+(require 'init-git)
 (require 'init-chinese)
 (require 'init-session)
 (require 'init-misc)
