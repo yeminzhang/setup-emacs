@@ -90,6 +90,4 @@
  ;; If there is more than one, they won't work right.
  '(vhl/default-face ((t (:inherit secondary-selection :background "tan" :foreground "black")))))
 
-(split-window-right)
-
 (provide 'init-appearance)

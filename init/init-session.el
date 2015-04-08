@@ -1,0 +1,14 @@
+;; desktop save
+(setq desktop-path (list user-emacs-directory))
+(desktop-save-mode 1)
+(setq desktop-restore-eager t)
+(setq desktop-files-not-to-save "^$")
+
+(require 'workgroups2)
+(setq wg-mode-line-display-on nil
+	  wg-modeline-string ""
+	  wg-default-session-file (expand-file-name ".emacs_workgroups" user-emacs-directory))
+
+;(add-hook 'emacs-startup-hook #'(lambda () (wg-reload-session)))
+
+(provide 'init-session)

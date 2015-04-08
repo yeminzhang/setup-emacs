@@ -18,18 +18,8 @@
 (require 'init-erlang)
 (require 'init-magit)
 (require 'init-chinese)
+(require 'init-session)
 (require 'init-misc)
 (require 'init-appearance)
 
-;; desktop save
-(desktop-save-mode 1)
-(setq desktop-restore-eager t)
-(setq desktop-files-not-to-save "^$")
-
-;;(add-to-list 'load-path (concat emacs-configuration-root-dir "workgroups2/src"))
-;;(require 'workgroups2)
-;;(setq wg-mode-line-disable t)
-;;(setq wg-modeline-string "")
-;;(workgroups-mode 1)
-
-;;(add-hook 'emacs-startup-hook #'(lambda () (wg-reload-session)))
+(workgroups-mode 1)
