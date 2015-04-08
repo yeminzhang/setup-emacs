@@ -1,4 +1,4 @@
-(package-install-when-not-exist '(yasnippet helm-c-yasnippet ))
+(require-packages '(yasnippet helm-c-yasnippet ))
 
 (defun readelf (filename)
   (interactive (list (ido-read-file-name "file: ")))

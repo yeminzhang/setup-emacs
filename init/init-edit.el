@@ -1,4 +1,4 @@
-(package-install-when-not-exist '(smex undo-tree volatile-highlights iedit))
+(require-packages '(smex undo-tree volatile-highlights iedit))
 
 ;; key bindings
 (global-set-key (kbd "C-o") 'other-window)

@@ -1,4 +1,4 @@
-(package-install-when-not-exist '(helm-gtags projectile helm-projectile ))
+(require-packages '(helm-gtags projectile helm-projectile ))
 (setq compilation-auto-jump-to-first-error t)
 (setq compilation-scroll-output 'first-error)
 (setq next-error-highlight t)

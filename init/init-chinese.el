@@ -1,4 +1,4 @@
-(package-install-when-not-exist '(chinese-pyim pinyin-search))
+(require-packages '(chinese-pyim pinyin-search))
 (require 'chinese-pyim)
 
 (setq default-input-method "chinese-pyim"

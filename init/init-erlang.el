@@ -1,4 +1,4 @@
-(package-install-when-not-exist '(erlang))
+(require-packages '(erlang))
 (require 'erlang-start)
 
 ;;(add-to-list 'load-path "/home/eyemzha/.emacs.d/distel/elisp")

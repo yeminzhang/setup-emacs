@@ -1,4 +1,4 @@
-(package-install-when-not-exist '(helm))
+(require-packages '(helm))
 (require 'helm-config)
 (helm-mode 1)
 (setq helm-idle-delay 0.01)

@@ -1,4 +1,4 @@
-(package-install-when-not-exist '(zenburn-theme))
+(require-packages '(zenburn-theme))
 ;; Appearance
  (menu-bar-mode -1)
  (tool-bar-mode -1)
