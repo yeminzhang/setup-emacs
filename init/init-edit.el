@@ -206,6 +206,10 @@
   :group 'iedit)
 (require 'iedit)
 
+;; recentf
+(setq recentf-max-menu-items 100
+	  recentf-max-saved-items 200)
+
 (set-language-environment "UTF-8")
 
 (updatedb)
