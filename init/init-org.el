@@ -53,4 +53,20 @@
 ;;			(define-key org-clock-mode-line-map [header-line mouse-1] 'org-clock-menu))
 
 
+;; restore org-agenda when emacs starts
+;; save org-agenda buffer when save desktop
+(defun org-agenda-register-desktop-save ()
+  "Set `desktop-save-buffer' to a function returning the type of current agenda."
+  (setq desktop-save-buffer (lambda (desktop-dirname) org-agenda-type)))
+
+(add-hook 'org-agenda-mode-hook 'org-agenda-register-desktop-save)
+
+(defun org-agenda-restore-desktop-buffer (d-b-file-name d-b-name d-b-misc)
+  "Restore a `org-agenda' buffer on `desktop' load."
+  (when (eq 'org-agenda-mode desktop-buffer-major-mode)
+		(org-agenda-list)
+        (current-buffer)))
+
+(add-to-list 'desktop-buffer-mode-handlers '(org-agenda-mode . org-agenda-restore-desktop-buffer))
+
 (provide 'init-org)
