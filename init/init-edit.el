@@ -1,4 +1,4 @@
-(require-packages '(smex undo-tree volatile-highlights iedit))
+(require-packages '(smex undo-tree volatile-highlights iedit bookmark+))
 
 ;; key bindings
 (global-set-key (kbd "C-o") 'other-window)
@@ -209,6 +209,21 @@
 ;; recentf
 (setq recentf-max-menu-items 100
 	  recentf-max-saved-items 200)
+
+;; bookmark+
+(require 'bookmark+)
+(if (and (not bookmarks-already-loaded) (file-readable-p bookmark-default-file))
+	(bookmark-load bookmark-default-file))
+
+(defun bookmark-save-if-dirty ()
+  (unless (= bookmark-alist-modification-count 0)
+    (bookmark-save)))
+;; Auto save bookmark to file every 8 minutes
+(setq bookmark-save-flag 8)
+
+(unless (boundp 'save-bookmark-timer)
+  (run-with-timer 120 120 'bookmark-save-if-dirty)
+  (setq save-bookmark-timer t))
 
 (set-language-environment "UTF-8")
 

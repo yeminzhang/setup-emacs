@@ -21,5 +21,3 @@
 (require 'init-session)
 (require 'init-misc)
 (require 'init-appearance)
-
-;;(workgroups-mode 1)
