@@ -8,8 +8,16 @@
 
 ;; set right-little-finger-key based on keyboard layout
 (if (and (boundp 'keyboard-layout) (string= keyboard-layout "sv"))
+    (defconst *is-sv-kbmap* t)
+  (defconst *is-sv-kbmap* nil))
+
+(if *is-sv-kbmap*
     (defconst right-little-finger-key "ö")
   (defconst right-little-finger-key ";"))
+
+(if *is-sv-kbmap*
+    (defconst bottom-right-finger-key "-")
+  (defconst bottom-right-finger-key "/"))
 
 ;; OS
 (defconst *is-linux* (eq system-type 'gnu/linux))

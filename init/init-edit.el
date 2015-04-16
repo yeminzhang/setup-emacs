@@ -1,4 +1,4 @@
-(require-packages '(smex undo-tree volatile-highlights iedit bookmark+))
+(require-packages '(smex undo-tree volatile-highlights iedit bookmark+ evil))
 
 ;; key bindings
 (global-set-key (kbd "C-o") 'other-window)
@@ -11,13 +11,8 @@
 (setq-default tab-width 4)
 (setq-default c-basic-offset 4)
 
-;; vim commands for convenience
-;;(fset 'delete-whole-line "\C-a\C-k\C-k")
-;;(global-set-key (kbd "C-m dd") 'delete-whole-line)
 (global-set-key (kbd "C-x g") 'beginning-of-buffer)
 (global-set-key (kbd "C-x G") 'end-of-buffer)
-;;(fset 'copy-whole-line "\C-a\C- \C-e\M-w")
-;;(global-set-key (kbd "C-x y") 'copy-whole-line)
 
 (setq x-select-enable-clipboard t)
 
@@ -47,13 +42,12 @@
 
 (add-hook 'after-load-functions 'smex-update-after-load)
 
-
-    (defun chomp (str)
-      "Chomp leading and tailing whitespace from STR."
-      (while (string-match "\\`\n+\\|^\\s-+\\|\\s-+$\\|\n+\\'"
-                           str)
-        (setq str (replace-match "" t t str)))
-      str)
+(defun chomp (str)
+  "Chomp leading and tailing whitespace from STR."
+  (while (string-match "\\`\n+\\|^\\s-+\\|\\s-+$\\|\n+\\'"
+					   str)
+	(setq str (replace-match "" t t str)))
+  str)
 
 ;; Show full file-path in helm result
 (setq helm-ff-transformer-show-only-basename nil)
@@ -135,23 +129,24 @@
 
 (add-hook 'c++-mode-hook 'show-trailing-whitespace)
 
+(require 'evil)
+
 (defun my-kill-ring-save ()
-  "When called interactively with no active region, copy a single line without \n."
-  (interactive (if mark-active (kill-ring-save (region-beginning) (region-end))
-                 (message "Copied line")
-                 (kill-ring-save (line-beginning-position)
-                       (line-end-position)))))
+  "When called interactively with no active region, copy the whole line."
+  (interactive)
+  (if mark-active (kill-ring-save (region-beginning) (region-end))
+	(call-interactively 'evil-yank-line)))
 
 (defun my-kill-region ()
-  "When called interactively with no active region, kill a single line without \n."
+  "When called interactively with no active region, kill the whole line."
   (interactive)
   (if mark-active (kill-region (region-beginning) (region-end))
-    (progn (move-beginning-of-line nil) (kill-line) (backward-delete-char 1))))
+	(call-interactively 'evil-delete-whole-line)))
 
 (global-set-key (kbd "C-w") 'my-kill-region)
 (global-set-key (kbd "M-w") 'my-kill-ring-save)
-(global-set-key (kbd "C-x y") #'(lambda ()(interactive) (move-end-of-line nil) (newline) (yank)))
-(global-set-key (kbd "C-x Y") #'(lambda ()(interactive) (move-beginning-of-line nil) (yank) (newline) (backward-char 1)))
+(global-set-key (kbd "C-y") 'evil-paste-after)
+(global-set-key (kbd "C-x Y") 'evil-paste-before)
 
 ;; undo-tree
 (require 'undo-tree)
@@ -198,7 +193,6 @@
 
 
 ;; xclip
-;;(xclip-mode 1)
 
 (defcustom iedit-toggle-key-default (kbd "C-,")
   "If no-nil, the key is inserted into global-map, isearch-mode-map, esc-map and help-map."
