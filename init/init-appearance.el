@@ -1,4 +1,4 @@
-(require-packages '(zenburn-theme))
+(require-packages '(zenburn-theme golden-ratio))
 ;; Appearance
  (menu-bar-mode -1)
  (tool-bar-mode -1)
@@ -70,6 +70,9 @@
 (require 'ido)
 (setq ido-max-window-height 1)
 (setq max-mini-window-height 1)
+
+(require 'golden-ratio)
+(golden-ratio-mode 1)
 
 ;; color theme
 (load-theme 'zenburn t)
