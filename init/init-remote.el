@@ -50,7 +50,7 @@
                      ((eq command :check)
                       (list "-O" "check"))
                      (t (error "Unknown ssh-tunnels command '%s'" command)))))
-    (apply 'call-process "ssh" nil nil nil
+    (apply 'call-process "ssh" nil 0 nil
            (append args
                    (list host)))))
 
