@@ -49,8 +49,12 @@
                       (list "-O" "exit"))
                      ((eq command :check)
                       (list "-O" "check"))
-                     (t (error "Unknown ssh-tunnels command '%s'" command)))))
-    (apply 'call-process "ssh" nil 0 nil
+                     (t (error "Unknown ssh-tunnels command '%s'" command))))
+		 (destination (cond ((eq command :check) nil)
+							((eq command :run) 0)
+							((eq command :kill) 0)
+							(t nil))))
+    (apply 'call-process "ssh" nil destination nil
            (append args
                    (list host)))))
 
