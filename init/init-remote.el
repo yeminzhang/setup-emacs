@@ -71,7 +71,14 @@
 	(cancel-timer ssh-tunnel-monitor-timer)
 	(makunbound 'ssh-tunnel-monitor-timer)))
 
+(defun dropbox-start ()
+  (interactive)
+  (if (executable-find "dropbox")
+	  (apply 'call-process "dropbox" nil 0 nil
+			 (list "start"))))
+
 (ssh-tunnel-run-all-preconfigured)
 (ssh-tunnel-start-timer)
+(dropbox-start)
 
 (provide 'init-remote)
