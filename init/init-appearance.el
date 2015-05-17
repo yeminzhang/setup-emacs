@@ -74,6 +74,13 @@
 (require 'golden-ratio)
 (golden-ratio-mode 1)
 
+;; display batter usage for notebook
+(setq battery-mode-line-format "[%b%p%%,%t] ")
+(display-battery-mode 1)
+;; display time in 24hr format
+(setq display-time-24hr-format t)
+(display-time)
+
 ;; color theme
 (load-theme 'zenburn t)
 
