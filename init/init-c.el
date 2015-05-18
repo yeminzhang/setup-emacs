@@ -56,7 +56,7 @@
   (define-key (eval mode-map) (kbd "<tab>") 'helm-yas-complete))
 
 (dolist (mode-hook '(c-mode-hook c++-mode-hook))
-  (add-hook 'mode-hook #'(lambda () (company-mode 1))))
+  (add-hook mode-hook #'(lambda () (company-mode 1))))
 
 (add-to-list 'company-backends 'company-c-headers)
 (provide 'init-c)
