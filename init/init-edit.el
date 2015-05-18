@@ -127,7 +127,8 @@
 (defun show-trailing-whitespace ()
 (setq show-trailing-whitespace t))
 
-(add-hook 'c++-mode-hook 'show-trailing-whitespace)
+(dolist (mode-hook '(c-mode-hook c++-mode-hook sh-mode-hook erlang-mode-hook conf-unix-mode-hook))
+  (add-hook mode-hook 'show-trailing-whitespace))
 
 (require 'evil)
 
