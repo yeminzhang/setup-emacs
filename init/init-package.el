@@ -8,4 +8,7 @@
 	(unless (boundp 'package-refreshed) (package-refresh-contents)(setq package-refreshed t))
 	(package-install package))))
 
+(require-packages '(s))
+(require 's)
+
 (provide 'init-package)
