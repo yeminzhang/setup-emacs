@@ -31,7 +31,7 @@
 
 (global-set-key (kbd "<f4>")
   (lambda() (interactive)
-    (magit-status (magit-get-top-dir) 'switch-to-buffer-other-window)))
+    (magit-status (magit-get-top-dir) 'switch-to-buffer)))
 
 ;; restore magit-status when emacs starts
 ;; save magit-status buffer when save desktop
