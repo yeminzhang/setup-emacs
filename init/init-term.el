@@ -56,4 +56,11 @@
     (interactive)
     (term-send-string (get-process (buffer-name (current-buffer))) (current-kill 0))))
 
+(defun term-toggle-submode ()
+(interactive)
+(if (term-in-char-mode) (term-line-mode) (term-char-mode)))
+
+(define-key term-mode-map (kbd "M-SPC") 'term-toggle-submode)
+(define-key term-raw-map (kbd "M-SPC") 'term-toggle-submode)
+
 (provide 'init-term)
