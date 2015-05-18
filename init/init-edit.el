@@ -168,7 +168,7 @@
 (setq auto-save-timeout 10)
 
 ;; auto indent when paste something
-(dolist (command '(yank yank-pop))
+(dolist (command '(yank yank-pop evil-paste-after evil-paste-before evil-paste-pop))
   (eval
    `(defadvice ,command (after indent-region activate)
       (and (not current-prefix-arg)
@@ -187,7 +187,9 @@
                      latex-mode
                      js-mode
                      plain-tex-mode
-		     erlang-mode))
+					 sh-mode
+					 conf-unix-mode
+					 erlang-mode))
            (let ((mark-even-if-inactive transient-mark-mode))
              (indent-region (region-beginning) (region-end) nil))))))
 
