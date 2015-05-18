@@ -79,7 +79,7 @@
                                         (reverse candidates)))
     (candidate-number-limit . 9999)
     (action . (lambda (candidate)
-                (find-file candidate))))
+                (helm-find-file-or-marked candidate))))
   "Helm source for Go to Directory.")
 
 (defun my-helm-find-dir ()
