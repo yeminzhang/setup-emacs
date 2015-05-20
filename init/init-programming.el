@@ -9,6 +9,7 @@
 (global-semanticdb-minor-mode 1)
 (global-semantic-idle-scheduler-mode 1)
 (semantic-mode 1)
+(require 'helm-semantic)
 
 (defun get-mode-map (mode)
   (if (eq mode 'cc-mode) 'c++-mode-map)
