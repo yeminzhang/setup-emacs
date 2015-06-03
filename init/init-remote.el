@@ -9,6 +9,8 @@
 (setq tramp-connection-timeout 5)
 (add-to-list 'ido-ignore-buffers "\*tramp")
 
+(setq auth-sources (list "~/.authinfo"))
+
 (defun ssh-host-list ()
   (let (
 	(sconfig-list (tramp-parse-sconfig "~/.ssh/config"))
@@ -16,6 +18,16 @@
     (dolist (login sconfig-list)
       (if (and login (nth 1 login)) (add-to-list 'ssh-host-list (nth 1 login) t)))
     ssh-host-list))
+
+(defun ssh-host-get-password (host)
+  (let ((info (nth 0 (auth-source-search
+                      :host host))))
+    (if info
+        (let ((secret (plist-get info :secret)))
+          (if (functionp secret)
+              (funcall secret)
+            secret))
+      "")))
 
 (defun ssh-tunnel-run-all-preconfigured ()
   (interactive)
@@ -60,8 +72,8 @@
 
 (defun ssh-host (host)
   (interactive (list (ido-completing-read "ssh to: " (ssh-host-list))))
-  (eshell-exec-visual "ssh" host)
-  (set-buffer (get-buffer "*ssh*"))
+  (eshell-exec-visual "sshpass" "-p" (ssh-host-get-password host) "ssh" host)
+  (set-buffer (get-buffer "*sshpass*"))
   (rename-buffer (concat "ssh-" host)))
 
 (defun ssh-tunnel-start-timer ()
