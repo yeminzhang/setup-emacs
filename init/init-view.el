@@ -100,4 +100,9 @@
 (add-hook 'window-configuration-change-hook 'doc-view-fix-stuck-image)
 (add-hook 'window-configuration-change-hook #'(lambda () (run-with-timer 0.1 nil 'doc-view-continue-reading)))
 
+(define-key doc-view-mode-map (kbd "g") 'doc-view-first-page)
+(define-key doc-view-mode-map (kbd "G") 'doc-view-last-page)
+(define-key doc-view-mode-map (kbd "v") 'doc-view-scroll-down-or-previous-page)
+(define-key doc-view-mode-map (kbd "C-c g") 'doc-view-goto-page)
+
 (provide 'init-view)
