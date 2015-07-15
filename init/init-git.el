@@ -22,22 +22,20 @@
 (eval-after-load "magit"
   '(progn
      (define-key magit-status-mode-map (kbd "C-c C-a") 'magit-just-amend)
-     (define-key magit-status-mode-map (kbd "C-c C-d") 'magit-diff-staged)
 ))
 
 (eval-after-load 'info
   '(progn (info-initialize)
           (add-to-list 'Info-directory-list (expand-file-name "magit" user-emacs-directory))))
 
-(global-set-key (kbd "<f4>")
-  (lambda() (interactive)
-    (magit-status (magit-get-top-dir) 'switch-to-buffer)))
+(setq magit-status-buffer-switch-function 'switch-to-buffer)
+(global-set-key (kbd "<f4>") 'magit-status)
 
 ;; restore magit-status when emacs starts
 ;; save magit-status buffer when save desktop
 (defun magit-status-register-desktop-save ()
   "Set `desktop-save-buffer' to a function returning the dir of current repo."
-  (setq desktop-save-buffer (lambda (desktop-dirname) (magit-get-top-dir))))
+  (setq desktop-save-buffer (lambda (desktop-dirname) (magit-toplevel))))
 
 (add-hook 'magit-status-mode-hook 'magit-status-register-desktop-save)
 
