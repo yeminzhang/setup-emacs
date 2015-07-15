@@ -77,12 +77,10 @@
 
 (defun project-compile (ARG)
   (interactive "P")
-  (save-some-buffers 1)
   (project-load-attributes)
-  (if (boundp 'project-compile-command)
-	  (puthash (projectile-project-root) project-compile-command projectile-compilation-cmd-map))
   (projectile-compile-project ARG)
-  (project-save-attribute 'project-compile-command (gethash (projectile-project-root) projectile-compilation-cmd-map)))
+  (if ARG
+	  (project-save-attribute 'projectile-project-compilation-cmd (gethash (projectile-project-root) projectile-compilation-cmd-map))))
 
 ;; Close the compilation window if there was no error at all.
 (setq compilation-exit-message-function
