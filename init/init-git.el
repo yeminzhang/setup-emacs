@@ -22,6 +22,8 @@
 (eval-after-load "magit"
   '(progn
      (define-key magit-status-mode-map (kbd "C-c C-a") 'magit-just-amend)
+	 (define-key magit-log-mode-map (kbd "g") 'beginning-of-buffer)
+	 (define-key magit-log-mode-map (kbd "G") 'end-of-buffer)
 ))
 
 (eval-after-load 'info
