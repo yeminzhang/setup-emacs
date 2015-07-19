@@ -212,15 +212,8 @@
 (if (and (not bookmarks-already-loaded) (file-readable-p bookmark-default-file))
 	(bookmark-load bookmark-default-file))
 
-(defun bookmark-save-if-dirty ()
-  (unless (= bookmark-alist-modification-count 0)
-    (bookmark-save)))
-;; Auto save bookmark to file every 8 minutes
+;; Auto save bookmark to file every 8 modifications
 (setq bookmark-save-flag 8)
-
-(unless (boundp 'save-bookmark-timer)
-  (run-with-timer 120 120 'bookmark-save-if-dirty)
-  (setq save-bookmark-timer t))
 
 (set-language-environment "UTF-8")
 
