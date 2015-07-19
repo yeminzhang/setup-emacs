@@ -62,4 +62,6 @@
 	 helm-source-semantic
 	 helm-source-gtags-select)))
 
+(add-to-list 'ido-ignore-buffers "TAGS")
+
 (provide 'init-programming)
