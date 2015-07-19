@@ -100,9 +100,18 @@
 (add-hook 'window-configuration-change-hook 'doc-view-fix-stuck-image)
 (add-hook 'window-configuration-change-hook #'(lambda () (run-with-timer 0.1 nil 'doc-view-continue-reading)))
 
+(defun doc-view-toggle-modeline ()
+  (interactive)
+  (if mode-line-format
+	  (progn
+		(setq-local doc-view-saved-mode-line mode-line-format)
+		(setq mode-line-format nil))
+	(setq mode-line-format doc-view-saved-mode-line)))
+
 (define-key doc-view-mode-map (kbd "g") 'doc-view-first-page)
 (define-key doc-view-mode-map (kbd "G") 'doc-view-last-page)
 (define-key doc-view-mode-map (kbd "v") 'doc-view-scroll-down-or-previous-page)
 (define-key doc-view-mode-map (kbd "C-c g") 'doc-view-goto-page)
+(define-key doc-view-mode-map (kbd "m") 'doc-view-toggle-modeline)
 
 (provide 'init-view)
