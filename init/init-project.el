@@ -1,4 +1,4 @@
-(require-packages '(helm-gtags projectile helm-projectile ))
+(require-packages '(projectile helm-projectile ))
 (setq compilation-auto-jump-to-first-error t)
 (setq compilation-scroll-output 'first-error)
 (setq next-error-highlight t)
@@ -100,44 +100,6 @@
   (interactive)
   (if (projectile-project-root)
 	  (call-process-shell-command (concat "cd " (projectile-project-root) ";" projectile-tags-command) nil 0)))
-
-(require 'helm-gtags)
-
-(setq
- helm-gtags-ignore-case t
- helm-gtags-auto-update t
- helm-gtags-use-input-at-cursor t
- helm-gtags-pulse-at-cursor t
- helm-gtags-prefix-key "\C-cg"
- helm-gtags-suggested-key-mapping t
- helm-gtags-mode-name " HG"
- )
-
-;; Enable helm-gtags-mode in Dired so you can jump to any tag
-;; when navigate project tree with Dired
-;; Enable helm-gtags-mode in Eshell for the same reason as above
-;; Enable helm-gtags-mode in languages that GNU Global supports
-(dolist (hook '(c-mode-hook c++-mode-hook java-mode-hook dired-mode-hook eshell-mode-hook))
-(add-hook hook 'helm-gtags-mode))
-
-;; key bindings
-(define-key helm-gtags-mode-map (kbd "C-c g a") 'helm-gtags-tags-in-this-function)
-(define-key helm-gtags-mode-map (kbd "C-j") 'project-jump)
-(define-key helm-gtags-mode-map (kbd "M-.") 'helm-gtags-dwim)
-(define-key helm-gtags-mode-map (kbd "M-,") 'helm-gtags-pop-stack)
-(define-key helm-gtags-mode-map (kbd "C-c <") 'helm-gtags-previous-history)
-(define-key helm-gtags-mode-map (kbd "C-c >") 'helm-gtags-next-history)
-
-
-(defun project-jump ()
-  (interactive)
-  (helm
-   :prompt "Go to: "
-   :candidate-number-limit 9999
-   :sources
-   '(
-	 helm-source-semantic
-	 helm-source-gtags-select)))
 
 ;; projectile
 (require 'projectile)
