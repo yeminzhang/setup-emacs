@@ -95,11 +95,19 @@
 	;; Always return the anticipated result of compilation-exit-message-function
   	(cons msg code)))
 
+(defun project-set-tags-root ()
+  (interactive)
+  (if (projectile-project-root)
+	  (project-save-attribute 'project-tags-root (read-directory-name "dir:" (projectile-project-root)))))
+
 ;; Update TAGS if it belongs to a project
 (defun project-update-tags ()
   (interactive)
+  (project-load-attributes)
   (if (projectile-project-root)
-	  (call-process-shell-command (concat "cd " (projectile-project-root) ";" projectile-tags-command) nil 0)))
+	  (let (
+			(tags-root (if (boundp 'project-tags-root) project-tags-root (projectile-project-root))))
+	  (call-process-shell-command (concat "cd " tags-root ";" projectile-tags-command) nil 0))))
 
 ;; projectile
 (require 'projectile)
