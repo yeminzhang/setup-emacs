@@ -8,9 +8,12 @@
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 ;;(add-hook 'ibuffer-mode-hook #'(lambda () (hl-line-mode 1)))
 
-;; ido
-(global-set-key (kbd right-little-finger-key) 'ido-switch-buffer)
+;; switch buffer
 (global-set-key (kbd "C-x b") 'helm-mini)
+(require 'key-chord)
+(key-chord-define-global "jj" 'ido-switch-buffer)
+(key-chord-define-global "JJ" 'switch-to-previous-buffer)
+(key-chord-mode 1)
 
 ;; This is a patch to prevent helm from sorting the buffer
 ;; list when narrowing
@@ -36,8 +39,6 @@
 Repeated invocations toggle between the two most recently open buffers."
   (interactive)
   (switch-to-buffer (car (helm-buffer-list))))
-
-(global-set-key (kbd "<C-tab>") 'switch-to-previous-buffer)
 
 (add-hook 'window-configuration-change-hook
 'check-revert-file)
