@@ -109,6 +109,14 @@
 			(tags-root (if (boundp 'project-tags-root) project-tags-root (projectile-project-root))))
 	  (call-process-shell-command (concat "cd " tags-root ";" projectile-tags-command) nil 0))))
 
+(defun project-configure-cpp-include-path ()
+  (interactive)
+  (project-load-attributes)
+  (if (projectile-project-root)
+	  (let (
+			(tags-root (if (boundp 'project-tags-root) project-tags-root (projectile-project-root))))
+		(call-process-shell-command (concat "cd " tags-root ";" projectile-tags-command) nil 0))))
+
 ;; projectile
 (require 'projectile)
 (projectile-global-mode 1)
