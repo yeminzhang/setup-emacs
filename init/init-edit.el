@@ -1,4 +1,10 @@
-(require-packages '(smex undo-tree volatile-highlights iedit bookmark+ evil))
+(require-packages '(smex undo-tree volatile-highlights iedit bookmark+ evil key-chord))
+
+;; enable key-chord
+(require 'key-chord)
+(setq key-chord-one-key-delay 0.8
+	  key-chord-two-keys-delay 0.7)
+(key-chord-mode 1)
 
 ;; key bindings
 (global-set-key (kbd "C-o") 'other-window)

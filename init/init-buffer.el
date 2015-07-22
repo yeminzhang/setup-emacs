@@ -10,10 +10,8 @@
 
 ;; switch buffer
 (global-set-key (kbd "C-x b") 'helm-mini)
-(require 'key-chord)
 (key-chord-define-global "jj" 'ido-switch-buffer)
 (key-chord-define-global "JJ" 'switch-to-previous-buffer)
-(key-chord-mode 1)
 
 ;; This is a patch to prevent helm from sorting the buffer
 ;; list when narrowing

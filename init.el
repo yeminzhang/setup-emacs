@@ -18,6 +18,6 @@
 (require 'init-erlang)
 (require 'init-git)
 (require 'init-chinese)
-(require 'init-session)
-(require 'init-misc)
 (require 'init-appearance)
+(require 'init-misc)
+(require 'init-session)
