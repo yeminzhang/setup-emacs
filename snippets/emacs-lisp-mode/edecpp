@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: edecpp
+# key: edecpp
+# --
+(ede-cpp-root-project "${1:<Project-Name>}"
+                      :file "${2:<project-root-path-file>}" ;; absolute file path
+                      :include-path '("${3:/include1}"
+                                      "${4:/include2}") ;; relatetive to project-root although it starts with /
+                      :system-include-path '("${5:/usr/include/linux}"))

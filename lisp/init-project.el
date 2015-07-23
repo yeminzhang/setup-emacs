@@ -109,13 +109,9 @@
 			(tags-root (if (boundp 'project-tags-root) project-tags-root (projectile-project-root))))
 	  (call-process-shell-command (concat "cd " tags-root ";" projectile-tags-command) nil 0))))
 
-(defun project-configure-cpp-include-path ()
+(defun project-configure-cpp-project ()
   (interactive)
-  (project-load-attributes)
-  (if (projectile-project-root)
-	  (let (
-			(tags-root (if (boundp 'project-tags-root) project-tags-root (projectile-project-root))))
-		(call-process-shell-command (concat "cd " tags-root ";" projectile-tags-command) nil 0))))
+  (find-file (expand-file-name "cedet-projects.el" user-emacs-directory)))
 
 ;; projectile
 (require 'projectile)
@@ -134,5 +130,9 @@
 ;; ede for semantic
 (require 'ede)
 (global-ede-mode)
+
+;; load ede project configuration file
+(if (file-exists-p (expand-file-name "cedet-projects.el" user-emacs-directory))
+	(load (expand-file-name "cedet-projects.el" user-emacs-directory)))
 
 (provide 'init-project)
