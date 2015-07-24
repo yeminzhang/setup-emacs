@@ -42,17 +42,10 @@
   (gud-send-command "quit")
 )
 
-;; For C/C++ buffer local jump
-(defun cc-jump-local ()
-(interactive)
-(let ((helm-candidate-number-limit nil)) (moo-jump-local))
-)
-
 (require 'cc-mode)
 (require 'function-args)
 (fa-config-default)
 (dolist (mode-map '(c-mode-map c++-mode-map))
-;;  (define-key (eval mode-map) (kbd (concat "C-" right-little-finger-key)) 'cc-jump-local)
   (define-key (eval mode-map) (kbd "<tab>") 'helm-yas-complete))
 
 (dolist (mode-hook '(c-mode-hook c++-mode-hook))
