@@ -120,7 +120,7 @@
 (global-set-key (kbd "<f5>") 'project-compile)
 (global-set-key (kbd "<f6>") 'project-run)
 (global-set-key (kbd "<f7>") 'project-debug)
-(setq projectile-mode-line '(:eval (format " Proj[%s]" (projectile-project-name))))
+(setq projectile-mode-line '(:eval (if (projectile-project-p) (format " Proj[%s]" (projectile-project-name)) "")))
 (define-key projectile-mode-map (kbd "C-c p g") 'helm-projectile-grep)
 (define-key projectile-mode-map (kbd "C-c p R") 'project-update-tags)
 (define-key projectile-mode-map (kbd "C-c p t") 'project-set-tags-command)
