@@ -40,7 +40,27 @@
   (interactive ())
   (gud-send-command (concat "save breakpoints " (cc-breakpoints-filename)))
   (gud-send-command "quit")
-)
+  )
+
+(defun cc-get-alternative-filename ()
+  (let
+	  (
+	   (bse (file-name-nondirectory (file-name-sans-extension buffer-file-name)))
+	   (ext (downcase (file-name-extension buffer-file-name))))
+	(cond
+	 ((equal ext "h")
+	  (concat bse ".c"))
+	 ((equal ext "c")
+	  (concat bse ".h"))
+	 ((or (equal ext "cpp") (equal ext "cc"))
+	  (concat bse ".hh"))
+	 ((equal ext "hh")
+	  (concat bse ".cc"))
+	 )))
+
+(defun cc-switch-source-header-file ()
+  (interactive)
+  (helm-gtags-find-files (cc-get-alternative-filename)))
 
 (require 'cc-mode)
 (require 'function-args)
@@ -49,7 +69,9 @@
   (define-key (eval mode-map) (kbd "<tab>") 'helm-yas-complete))
 
 (dolist (mode-hook '(c-mode-hook c++-mode-hook))
-  (add-hook mode-hook #'(lambda () (company-mode 1))))
+  (add-hook mode-hook #'(lambda ()
+						  (company-mode 1)
+						  (local-set-key  (kbd "C-c o") 'cc-switch-source-header-file))))
 
 (add-to-list 'company-backends 'company-c-headers)
 (provide 'init-c)
