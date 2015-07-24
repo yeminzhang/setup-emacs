@@ -78,7 +78,7 @@
 (defun project-compile (ARG)
   (interactive "P")
   (project-load-attributes)
-  (projectile-compile-project ARG)
+  (projectile-compile-project (if (bound-and-true-p projectile-project-compilation-cmd) ARG t))
   (if ARG
 	  (project-save-attribute 'projectile-project-compilation-cmd (gethash (projectile-project-root) projectile-compilation-cmd-map))))
 
