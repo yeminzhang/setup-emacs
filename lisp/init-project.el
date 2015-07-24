@@ -95,19 +95,19 @@
 	;; Always return the anticipated result of compilation-exit-message-function
   	(cons msg code)))
 
-(defun project-set-tags-root ()
+(defun project-set-tags-command ()
   (interactive)
   (if (projectile-project-root)
-	  (project-save-attribute 'project-tags-root (read-directory-name "dir:" (projectile-project-root)))))
+	  (let
+		  ((project-tags-root (read-directory-name "GTAGS root dir:" (projectile-project-root))))
+		(project-save-attribute 'projectile-tags-command (concat "cd " project-tags-root ";gtags")))))
 
-;; Update TAGS if it belongs to a project
+;; Update GTAGS if it belongs to a project
 (defun project-update-tags ()
   (interactive)
   (project-load-attributes)
-  (if (projectile-project-root)
-	  (let (
-			(tags-root (if (boundp 'project-tags-root) project-tags-root (projectile-project-root))))
-	  (call-process-shell-command (concat "cd " tags-root ";" projectile-tags-command) nil 0))))
+  (if (and (projectile-project-root) (bound-and-true-p projectile-tags-command))
+	  (call-process-shell-command projectile-tags-command nil 0)))
 
 (defun project-configure-cpp-project ()
   (interactive)
@@ -115,17 +115,22 @@
 
 ;; projectile
 (require 'projectile)
-(projectile-global-mode 1)
 (setq projectile-completion-system 'helm)
-(helm-projectile-on)
 (setq compilation-read-command nil)
 (global-set-key (kbd "<f5>") 'project-compile)
 (global-set-key (kbd "<f6>") 'project-run)
 (global-set-key (kbd "<f7>") 'project-debug)
 (setq projectile-mode-line '(:eval (format " Proj[%s]" (projectile-project-name))))
 (define-key projectile-mode-map (kbd "C-c p g") 'helm-projectile-grep)
+(define-key projectile-mode-map (kbd "C-c p R") 'project-update-tags)
+(define-key projectile-mode-map (kbd "C-c p t") 'project-set-tags-command)
 (setq projectile-find-dir-includes-top-level t)
-(setq projectile-tags-command "gtags")
+(setq projectile-tags-command nil)
+(setq projectile-idle-timer-hook (list 'project-update-tags))
+(projectile-global-mode 1)
+(helm-projectile-on)
+
+(custom-set-variables '(projectile-enable-idle-timer t))
 
 ;; ede for semantic
 (require 'ede)
