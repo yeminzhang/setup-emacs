@@ -115,20 +115,20 @@
 
 ;; projectile
 (require 'projectile)
+(projectile-global-mode 1)
 (setq projectile-completion-system 'helm)
 (setq compilation-read-command nil)
 (global-set-key (kbd "<f5>") 'project-compile)
 (global-set-key (kbd "<f6>") 'project-run)
 (global-set-key (kbd "<f7>") 'project-debug)
 (setq projectile-mode-line '(:eval (if (projectile-project-p) (format " Proj[%s]" (projectile-project-name)) "")))
+(helm-projectile-on)
 (define-key projectile-mode-map (kbd "C-c p g") 'helm-projectile-grep)
 (define-key projectile-mode-map (kbd "C-c p R") 'project-update-tags)
 (define-key projectile-mode-map (kbd "C-c p t") 'project-set-tags-command)
 (setq projectile-find-dir-includes-top-level t)
 (setq projectile-tags-command nil)
 (setq projectile-idle-timer-hook (list 'project-update-tags))
-(projectile-global-mode 1)
-(helm-projectile-on)
 
 (custom-set-variables '(projectile-enable-idle-timer t))
 
