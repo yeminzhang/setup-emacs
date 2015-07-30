@@ -11,6 +11,7 @@
 		(default-directory (projectile-project-root))
 		(buffer-name (current-buffer))
 		)
+	(delete-dir-local-variable nil symbol)
 	(add-dir-local-variable nil symbol value)
 	(save-buffer)
 	(bury-buffer)
@@ -27,7 +28,7 @@
   (hack-dir-local-variables)
   (dolist (pair dir-local-variables-alist)
 	(set (make-local-variable (car pair)) (cdr pair)))
-)
+  )
 
 (defun project-run (ARG)
   (interactive "P")
@@ -95,23 +96,47 @@
 	;; Always return the anticipated result of compilation-exit-message-function
   	(cons msg code)))
 
-(defun project-set-tags-command ()
-  (interactive)
-  (if (projectile-project-root)
-	  (let
-		  ((project-tags-root (read-directory-name "GTAGS root dir:" (projectile-project-root))))
-		(project-save-attribute 'projectile-tags-command (concat "cd " project-tags-root ";gtags")))))
+(defun project-configure--tags-command ()
+  (let
+	  ((project-tags-root (read-directory-name "GTAGS root dir:" (projectile-project-root))))
+	(project-save-attribute 'projectile-tags-command (concat "cd " project-tags-root ";gtags"))))
 
 ;; Update GTAGS if it belongs to a project
 (defun project-update-tags ()
   (interactive)
-  (project-load-attributes)
-  (if (and (projectile-project-root) (bound-and-true-p projectile-tags-command))
-	  (call-process-shell-command projectile-tags-command nil 0)))
+  (when (projectile-project-p)
+	(project-load-attributes)
+	(if (bound-and-true-p projectile-tags-command)
+		(call-process-shell-command projectile-tags-command nil 0))))
 
-(defun project-configure-cpp-project ()
-  (interactive)
-  (find-file (expand-file-name "cedet-projects.el" user-emacs-directory)))
+(defun project-configure (ARG)
+  (interactive "P")
+  (when (projectile-project-p)
+	(project-load-attributes)
+	(let (
+		  (project-type (if (or (not projectile-project-type) ARG) (ido-completing-read "project type: " '("C/C++" "other")) projectile-project-type)))
+	  (if (y-or-n-p "Do you want to set the tags command? ") (project-configure--tags-command))
+	  (cond
+	   ((or (string= "C/C++" project-type) (eq 'c/c++ project-type)) (project-configure--cpp-project))
+	   ;; For future expansion here
+	   ))))
+
+(defun project-configure--cpp-project ()
+  (let* (
+		 (ede-cpp-root-project-local (ede-cpp-root-load (projectile-project-root)))
+		 (ede-include-path-user (split-string (read-from-minibuffer "ede include path user:" (if ede-cpp-root-project-local (s-join " " (oref ede-cpp-root-project-local :include-path)) nil))))
+		 (ede-include-path-system (split-string (read-from-minibuffer "ede include path system:" (if ede-cpp-root-project-local (s-join " " (oref ede-cpp-root-project-local :system-include-path)) nil)))))
+	(project-save-attribute 'projectile-project-type 'c/c++)
+	(project-save-attribute 'eval (list ede-cpp-root-project (projectile-project-root)
+										:file (expand-file-name ".dir-locals.el" (projectile-project-root))
+										:include-path (cons 'list ede-include-path-user)
+										:system-include-path (cons 'list ede-include-path-system)))
+	(ede-cpp-root-project (projectile-project-root)
+						  :file (expand-file-name ".dir-locals.el" (projectile-project-root))
+						  :include-path ede-include-path-user
+						  :system-include-path ede-include-path-system)
+	(dolist (buffer (projectile-project-buffer-names))
+	  (with-current-buffer buffer (project-load-attributes)))))
 
 ;; projectile
 (require 'projectile)
@@ -124,8 +149,8 @@
 (setq projectile-mode-line '(:eval (if (projectile-project-p) (format " Proj[%s]" (projectile-project-name)) "")))
 (helm-projectile-on)
 (define-key projectile-mode-map (kbd "C-c p g") 'helm-projectile-grep)
+(define-key projectile-mode-map (kbd "C-c p c") 'project-configure)
 (define-key projectile-mode-map (kbd "C-c p R") 'project-update-tags)
-(define-key projectile-mode-map (kbd "C-c p t") 'project-set-tags-command)
 (setq projectile-find-dir-includes-top-level t)
 (setq projectile-tags-command nil)
 (setq projectile-idle-timer-hook (list 'project-update-tags))
@@ -135,9 +160,5 @@
 ;; ede for semantic
 (require 'ede)
 (global-ede-mode)
-
-;; load ede project configuration file
-(if (file-exists-p (expand-file-name "cedet-projects.el" user-emacs-directory))
-	(load (expand-file-name "cedet-projects.el" user-emacs-directory)))
 
 (provide 'init-project)

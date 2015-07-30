@@ -62,6 +62,25 @@
   (interactive)
   (helm-gtags-find-files (cc-get-alternative-filename)))
 
+(defun cc-get-headers-path-system ()
+  (if (and (projectile-project-p) (eq 'c/c++ projectile-project-type) (ede-cpp-root-load (projectile-project-root)))
+	  (oref (ede-cpp-root-load (projectile-project-root)) :system-include-path)
+	(list "/usr/include" "/usr/local/include" "/usr/include/c++/4.8")
+	))
+
+(defun cc-get-headers-path-user ()
+  (if (and (projectile-project-p) (eq 'c/c++ projectile-project-type) (ede-cpp-root-load (projectile-project-root)))
+	  (let*
+		  ((ede-cpp-project (ede-cpp-root-load (projectile-project-root)))
+		   (ede-include-path-user (oref ede-cpp-project :include-path))
+		   (company-include-path-user '("." "..")))
+		(dolist (ede-include-path ede-include-path-user)
+		  (add-to-list 'company-include-path-user (expand-file-name (substring ede-include-path 1) (projectile-project-root)) t)
+		  )
+		company-include-path-user)
+	(list "." "..")
+	))
+
 (require 'cc-mode)
 (require 'function-args)
 (fa-config-default)
@@ -73,5 +92,9 @@
 						  (company-mode 1)
 						  (local-set-key  (kbd "C-c o") 'cc-switch-source-header-file))))
 
+;; company-c-headers
 (add-to-list 'company-backends 'company-c-headers)
+(setq company-c-headers-path-user 'cc-get-headers-path-user)
+(setq company-c-headers-path-system 'cc-get-headers-path-system)
+
 (provide 'init-c)
