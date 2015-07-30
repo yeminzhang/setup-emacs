@@ -80,7 +80,7 @@
   (interactive "P")
   (project-load-attributes)
   (projectile-compile-project (if (bound-and-true-p projectile-project-compilation-cmd) ARG t))
-  (if ARG
+  (if (or ARG (not projectile-project-compilation-cmd))
 	  (project-save-attribute 'projectile-project-compilation-cmd (gethash (projectile-project-root) projectile-compilation-cmd-map))))
 
 ;; Close the compilation window if there was no error at all.
