@@ -161,4 +161,6 @@
 (require 'ede)
 (global-ede-mode)
 
+(setq compilation-ask-about-save nil)
+
 (provide 'init-project)
