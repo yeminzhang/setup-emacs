@@ -2,8 +2,8 @@
 
 ;; enable key-chord
 (require 'key-chord)
-(setq key-chord-one-key-delay 0.8
-	  key-chord-two-keys-delay 0.7)
+(setq key-chord-one-key-delay 0.6
+	  key-chord-two-keys-delay 0.5)
 (key-chord-mode 1)
 
 ;; key bindings
@@ -154,13 +154,11 @@
 (global-set-key (kbd "M-w") 'my-kill-ring-save)
 (global-set-key (kbd "C-y") 'evil-paste-after)
 (global-set-key (kbd "C-x Y") 'evil-paste-before)
-(key-chord-define-global "yy" 'my-kill-ring-save)
 
 ;; undo-tree
 (require 'undo-tree)
 (global-undo-tree-mode)
 (setq undo-tree-mode-lighter "")
-(key-chord-define-global "uu" 'undo-tree-visualize)
 
 ;; volatile-highlights
 (require 'volatile-highlights)
