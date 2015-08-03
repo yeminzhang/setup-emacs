@@ -41,7 +41,7 @@
 ;; when navigate project tree with Dired
 ;; Enable helm-gtags-mode in Eshell for the same reason as above
 ;; Enable helm-gtags-mode in languages that GNU Global supports
-(dolist (hook '(c-mode-hook c++-mode-hook java-mode-hook dired-mode-hook eshell-mode-hook erlang-mode-hook))
+(dolist (hook '(c-mode-hook c++-mode-hook java-mode-hook dired-mode-hook eshell-mode-hook erlang-mode-hook python-mode-hook))
   (add-hook hook 'helm-gtags-mode))
 
 ;; key bindings
