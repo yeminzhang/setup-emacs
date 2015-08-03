@@ -33,6 +33,7 @@
 (defun project-run (ARG)
   (interactive "P")
   (project-load-attributes)
+  (projectile-save-project-buffers)
   (if (or ARG (not (boundp 'project-executable-file)))
 	  (project-set-running-command)
 	)
