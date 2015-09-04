@@ -1,4 +1,4 @@
-(require-packages '(zenburn-theme golden-ratio))
+(require-packages '(zenburn-theme golden-ratio diminish))
 ;; Appearance
  (menu-bar-mode -1)
  (tool-bar-mode -1)
@@ -99,5 +99,8 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(vhl/default-face ((t (:inherit secondary-selection :background "tan" :foreground "black")))))
+
+(require 'diminish)
+(diminish 'golden-ratio-mode)
 
 (provide 'init-appearance)
