@@ -102,5 +102,7 @@
 
 (require 'diminish)
 (diminish 'golden-ratio-mode)
+(diminish 'global-whitespace-mode)
+(diminish 'volatile-highlights-mode)
 
 (provide 'init-appearance)
