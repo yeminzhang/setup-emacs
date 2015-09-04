@@ -136,6 +136,10 @@
 (dolist (mode-hook '(c-mode-hook c++-mode-hook sh-mode-hook erlang-mode-hook conf-unix-mode-hook))
   (add-hook mode-hook 'show-trailing-whitespace))
 
+(require 'whitespace)
+(setq whitespace-style '(tab-mark))  ;;turns on white space mode only for tabs
+(global-whitespace-mode 1)
+
 (require 'evil)
 
 (defun my-kill-ring-save ()
