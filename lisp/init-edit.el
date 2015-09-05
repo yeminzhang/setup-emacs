@@ -18,6 +18,12 @@
 (setq-default tab-width 4)
 (setq-default c-basic-offset 4)
 
+;; whitespace
+(setq-default show-trailing-whitespace t)
+(require 'whitespace)
+(setq whitespace-style '(tab-mark))  ;;turns on white space mode only for tabs
+(global-whitespace-mode 1)
+
 (global-set-key (kbd "C-x g") 'beginning-of-buffer)
 (global-set-key (kbd "C-x G") 'end-of-buffer)
 
@@ -130,16 +136,6 @@
 
 (require 'desktop)
 (add-to-list 'desktop-globals-to-save 'kill-ring)
-
-(defun show-trailing-whitespace ()
-(setq show-trailing-whitespace t))
-
-(dolist (mode-hook '(c-mode-hook c++-mode-hook sh-mode-hook erlang-mode-hook conf-unix-mode-hook))
-  (add-hook mode-hook 'show-trailing-whitespace))
-
-(require 'whitespace)
-(setq whitespace-style '(tab-mark))  ;;turns on white space mode only for tabs
-(global-whitespace-mode 1)
 
 (require 'evil)
 
