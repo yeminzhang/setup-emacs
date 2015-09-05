@@ -45,13 +45,13 @@
   (project-load-attributes)
   (if (not (boundp 'project-debug-program))
 	  (project-save-attribute 'project-debug-program (ido-completing-read "Debugger: " (list "gdb"))))
-	(if (or ARG (not (boundp 'project-executable-file)))
-		(project-set-running-command)
-	  )
-	(project-load-attributes)
-	(gud-save-window-configuration)
-	(if (string= project-debug-program "gdb") (cc-debug project-executable-file project-executable-parameters project-executable-envs))
+  (if (or ARG (not (boundp 'project-executable-file)))
+	  (project-set-running-command)
 	)
+  (project-load-attributes)
+  (gud-save-window-configuration)
+  (if (string= project-debug-program "gdb") (cc-debug project-executable-file project-executable-parameters project-executable-envs))
+  )
 
 (defun project-debug-quit ()
   (interactive ())
@@ -86,16 +86,16 @@
 
 ;; Close the compilation window if there was no error at all.
 (setq compilation-exit-message-function
-      (lambda (status code msg)
-	;; If M-x compile exists with a 0
-	(when (and (eq status 'exit) (zerop code))
-	  ;; then bury the *compilation* buffer, so that C-x b doesn't go there
-  	  (bury-buffer "*compilation*")
-  	  ;; and return to whatever were looking at before
-  	  (replace-buffer-in-windows "*compilation*"))
-	  (project-update-tags)
-	;; Always return the anticipated result of compilation-exit-message-function
-  	(cons msg code)))
+	  (lambda (status code msg)
+		;; If M-x compile exists with a 0
+		(when (and (eq status 'exit) (zerop code))
+		  ;; then bury the *compilation* buffer, so that C-x b doesn't go there
+		  (bury-buffer "*compilation*")
+		  ;; and return to whatever were looking at before
+		  (replace-buffer-in-windows "*compilation*"))
+		(project-update-tags)
+		;; Always return the anticipated result of compilation-exit-message-function
+		(cons msg code)))
 
 (defun project-configure--tags-command ()
   (let

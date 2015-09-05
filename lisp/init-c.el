@@ -3,17 +3,17 @@
 ;;(add-hook 'find-file-hook 'flymake-find-file-hook)
 
 (defun flymake-simple-make-init ()
-(list "make"
-(list "-s" "-C" "./")))
+  (list "make"
+		(list "-s" "-C" "./")))
 
 (setq gdb-speedbar-auto-raise t)
 
 (defun cc-debug (executable parameters envs)
   (interactive
-	  (list (ido-read-file-name "Executable: ")
-			(read-from-minibuffer "Parameters: ")
-			(read-from-minibuffer "Envs: ")
-			))
+   (list (ido-read-file-name "Executable: ")
+		 (read-from-minibuffer "Parameters: ")
+		 (read-from-minibuffer "Envs: ")
+		 ))
   (setq command-line (concat "gdb -i=mi " executable)
 		gdb-many-windows t
 		gdb-show-main t)
@@ -21,7 +21,7 @@
   (setq-local project-executable-file executable)
   (if parameters (gud-send-command (concat "set args " parameters)))
   (if envs (let
-			 ((env-list (split-string envs ",")))
+			   ((env-list (split-string envs ",")))
 			 (dolist (env env-list)
 			   (gud-send-command (concat "set environment " env)))))
   (gdb-clear-inferior-io)
@@ -34,7 +34,7 @@
 
 (defun cc-breakpoints-filename ()
   (with-current-buffer "*gud-main*"
-  (concat "/tmp/" (s-replace "/" "!" project-executable-file))))
+	(concat "/tmp/" (s-replace "/" "!" project-executable-file))))
 
 (defun cc-debug-quit ()
   (interactive ())

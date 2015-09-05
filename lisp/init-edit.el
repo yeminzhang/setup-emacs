@@ -50,8 +50,8 @@
 
 ;; auto update smex cache after load a file
 (defun smex-update-after-load (unused)
-(when (boundp 'smex-cache)
-(smex-update)))
+  (when (boundp 'smex-cache)
+	(smex-update)))
 
 (add-hook 'after-load-functions 'smex-update-after-load)
 
@@ -67,44 +67,44 @@
 
 ;; file a file
 (global-set-key (kbd "C-x C-f")
-  (lambda() (interactive)
-    (helm
-     :prompt "Open file: "
-     :candidate-number-limit 25                 ;; up to 25 of each
-     :sources
-     '(
-	   helm-source-files-in-current-dir ;; current dir
-	   helm-c-source-recentf               ;; recent files
-	   helm-source-projectile-files-list
-	   helm-source-locate))))            ;; use 'locate'
+				(lambda() (interactive)
+				  (helm
+				   :prompt "Open file: "
+				   :candidate-number-limit 25                 ;; up to 25 of each
+				   :sources
+				   '(
+					 helm-source-files-in-current-dir ;; current dir
+					 helm-c-source-recentf               ;; recent files
+					 helm-source-projectile-files-list
+					 helm-source-locate))))            ;; use 'locate'
 
 (setq helm-dir-db-file (expand-file-name "allfolder" user-emacs-directory))
 
 
 (defvar my-helm-source-find-dir
   `((name . "Go to dir:")
-    (init . (lambda ()
-	      (with-current-buffer (helm-candidate-buffer 'global)
-		(insert-file-contents helm-dir-db-file))))
-    (candidates-in-buffer)
-    (keymap . ,helm-generic-files-map)
-    (filtered-candidate-transformer . (lambda (candidates sources)
-                                        (reverse candidates)))
-    (candidate-number-limit . 9999)
-    (action . (lambda (candidate)
-                (helm-find-file-or-marked candidate))))
+	(init . (lambda ()
+			  (with-current-buffer (helm-candidate-buffer 'global)
+				(insert-file-contents helm-dir-db-file))))
+	(candidates-in-buffer)
+	(keymap . ,helm-generic-files-map)
+	(filtered-candidate-transformer . (lambda (candidates sources)
+										(reverse candidates)))
+	(candidate-number-limit . 9999)
+	(action . (lambda (candidate)
+				(helm-find-file-or-marked candidate))))
   "Helm source for Go to Directory.")
 
 (defun my-helm-find-dir ()
-(interactive)
-(helm
+  (interactive)
+  (helm
    :prompt "Go to dir: "
    :candidate-number-limit 25                 ;; up to 25 of each
    :sources
    '(
-     helm-source-projectile-directories-list
-     my-helm-source-find-dir
- )))
+	 helm-source-projectile-directories-list
+	 my-helm-source-find-dir
+	 )))
 
 
 (global-set-key (kbd "C-x d") 'my-helm-find-dir)
@@ -114,25 +114,25 @@
 (setq locate-db-file "~/.mlocate.db")
 ;; By default regexp is not used. Add -r in a helm session to enable it
 (if *is-linux*
-(setq helm-locate-command (concat "locate %s -d " locate-db-file " -e -A %s")))
+	(setq helm-locate-command (concat "locate %s -d " locate-db-file " -e -A %s")))
 
 (defun updatedb ()
-(interactive)
-(call-process-shell-command (concat "updatedb -o " locate-db-file " -l 0") nil 0))
+  (interactive)
+  (call-process-shell-command (concat "updatedb -o " locate-db-file " -l 0") nil 0))
 
 (defun updatedir-db ()
-(interactive)
-(call-process-shell-command (concat "find / -type d 2>/dev/null 1>" helm-dir-db-file) nil 0))
+  (interactive)
+  (call-process-shell-command (concat "find / -type d 2>/dev/null 1>" helm-dir-db-file) nil 0))
 
 ;; updatedb every 30 minutes
 (unless (boundp 'updatedb-timer)
-(run-with-timer 1800 1800 'updatedb)
-(run-with-timer 1800 1800 'updatedir-db)
-(setq updatedb-timer t))
+  (run-with-timer 1800 1800 'updatedb)
+  (run-with-timer 1800 1800 'updatedir-db)
+  (setq updatedb-timer t))
 
 (defun insert-special-char (char_str)
-(interactive (list (ido-completing-read "Char to insert: " (list "ö" "ä" "å" "Ö" "Ä" "Å" "~"))))
-(insert char_str))
+  (interactive (list (ido-completing-read "Char to insert: " (list "ö" "ä" "å" "Ö" "Ä" "Å" "~"))))
+  (insert char_str))
 
 (require 'desktop)
 (add-to-list 'desktop-globals-to-save 'kill-ring)
@@ -169,9 +169,9 @@
 ;; Save all tempfiles in ~/.emacs-tmp/
 (setq temporary-file-directory  "~/.emacs-tmp/")
 (setq backup-directory-alist
-      `((".*" . ,temporary-file-directory)))
+	  `((".*" . ,temporary-file-directory)))
 (setq auto-save-file-name-transforms
-      `((".*" ,temporary-file-directory t)))
+	  `((".*" ,temporary-file-directory t)))
 (setq auto-save-interval 100)
 (setq auto-save-timeout 10)
 
@@ -179,27 +179,27 @@
 (dolist (command '(yank yank-pop evil-paste-after evil-paste-before evil-paste-pop))
   (eval
    `(defadvice ,command (after indent-region activate)
-      (and (not current-prefix-arg)
-           (member major-mode
-                   '(emacs-lisp-mode
-                     lisp-mode
-                     clojure-mode
-                     scheme-mode
-                     haskell-mode
-                     ruby-mode
-                     rspec-mode
-                     python-mode
-                     c-mode
-                     c++-mode
-                     objc-mode
-                     latex-mode
-                     js-mode
-                     plain-tex-mode
+	  (and (not current-prefix-arg)
+		   (member major-mode
+				   '(emacs-lisp-mode
+					 lisp-mode
+					 clojure-mode
+					 scheme-mode
+					 haskell-mode
+					 ruby-mode
+					 rspec-mode
+					 python-mode
+					 c-mode
+					 c++-mode
+					 objc-mode
+					 latex-mode
+					 js-mode
+					 plain-tex-mode
 					 sh-mode
 					 conf-unix-mode
 					 erlang-mode))
-           (let ((mark-even-if-inactive transient-mark-mode))
-             (indent-region (region-beginning) (region-end) nil))))))
+		   (let ((mark-even-if-inactive transient-mark-mode))
+			 (indent-region (region-beginning) (region-end) nil))))))
 
 
 ;; xclip

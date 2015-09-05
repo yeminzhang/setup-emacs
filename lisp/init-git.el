@@ -16,19 +16,19 @@
 (defun magit-just-amend ()
   (interactive)
   (save-window-excursion
-    (shell-command "git --no-pager commit --amend --reuse-message=HEAD")
-    (magit-refresh)))
+	(shell-command "git --no-pager commit --amend --reuse-message=HEAD")
+	(magit-refresh)))
 
 (eval-after-load "magit"
   '(progn
-     (define-key magit-status-mode-map (kbd "C-c C-a") 'magit-just-amend)
+	 (define-key magit-status-mode-map (kbd "C-c C-a") 'magit-just-amend)
 	 (define-key magit-log-mode-map (kbd "g") 'beginning-of-buffer)
 	 (define-key magit-log-mode-map (kbd "G") 'end-of-buffer)
-))
+	 ))
 
 (eval-after-load 'info
   '(progn (info-initialize)
-          (add-to-list 'Info-directory-list (expand-file-name "magit" user-emacs-directory))))
+		  (add-to-list 'Info-directory-list (expand-file-name "magit" user-emacs-directory))))
 
 (setq magit-status-buffer-switch-function 'switch-to-buffer)
 (global-set-key (kbd "<f4>") 'magit-status)
@@ -44,10 +44,10 @@
 (defun magit-status-restore-desktop-buffer (d-b-file-name d-b-name d-b-misc)
   "Restore a `magit-status' buffer on `desktop' load."
   (when (eq 'magit-status-mode desktop-buffer-major-mode)
-    (let ((dir d-b-misc))
-      (when dir
+	(let ((dir d-b-misc))
+	  (when dir
 		(magit-status dir)
-        (current-buffer)))))
+		(current-buffer)))))
 
 (add-to-list 'desktop-buffer-mode-handlers '(magit-status-mode . magit-status-restore-desktop-buffer))
 

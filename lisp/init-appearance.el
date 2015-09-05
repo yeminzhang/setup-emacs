@@ -1,10 +1,10 @@
 (require-packages '(zenburn-theme golden-ratio diminish))
 ;; Appearance
- (menu-bar-mode -1)
- (tool-bar-mode -1)
- (scroll-bar-mode -1)
- (blink-cursor-mode 0)
- (setq inhibit-startup-message t)
+(menu-bar-mode -1)
+(tool-bar-mode -1)
+(scroll-bar-mode -1)
+(blink-cursor-mode 0)
+(setq inhibit-startup-message t)
 ;;(display-time)
 (fset 'yes-or-no-p 'y-or-n-p)
 (show-paren-mode t)
@@ -27,21 +27,21 @@
 
 ;; Chinese Font, needs to be verified and improved in the future
 ;;(dolist (charset '(kana han symbol cjk-misc bopomofo))
-  ;;  (set-fontset-font (frame-parameter nil 'font)
-    ;;                  charset
-      ;;                (font-spec :family "Microsoft YaHei" :size 22)))
+;;  (set-fontset-font (frame-parameter nil 'font)
+;;                  charset
+;;                (font-spec :family "Microsoft YaHei" :size 22)))
 
 ;; set the status bar color of window
 ;;(set-face-attribute  'mode-line
 ;;                 nil
- ;;                :foreground "black"
-   ;;              :background "grey70"
-     ;;            :box '(:line-width 1 :style released-button))
+;;                :foreground "black"
+;;              :background "grey70"
+;;            :box '(:line-width 1 :style released-button))
 ;;(set-face-attribute  'mode-line-inactive
-  ;;               nil
-    ;;             :foreground "white"
-      ;;           :background "grey20"
-        ;;         :box '(:line-width 1 :style released-button))
+;;               nil
+;;             :foreground "white"
+;;           :background "grey20"
+;;         :box '(:line-width 1 :style released-button))
 
 
 ;; chinese input

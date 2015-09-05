@@ -6,7 +6,7 @@
 
 (defun file-type (filename)
   (interactive (list (ido-read-file-name "file: ")))
-	  (shell-command (concat "file " filename)))
+  (shell-command (concat "file " filename)))
 
 (global-set-key (kbd "<f1>") 'helm-proc)
 

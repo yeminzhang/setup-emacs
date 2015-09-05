@@ -4,9 +4,9 @@
 
 (defun require-packages (packages)
   (dolist (package packages)
-  (unless (package-installed-p package)
-	(unless (boundp 'package-refreshed) (package-refresh-contents)(setq package-refreshed t))
-	(package-install package))))
+	(unless (package-installed-p package)
+	  (unless (boundp 'package-refreshed) (package-refresh-contents)(setq package-refreshed t))
+	  (package-install package))))
 
 (require-packages '(s))
 (require 's)

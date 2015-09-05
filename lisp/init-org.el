@@ -64,8 +64,8 @@
 (defun org-agenda-restore-desktop-buffer (d-b-file-name d-b-name d-b-misc)
   "Restore a `org-agenda' buffer on `desktop' load."
   (when (eq 'org-agenda-mode desktop-buffer-major-mode)
-		(org-agenda-list)
-        (current-buffer)))
+	(org-agenda-list)
+	(current-buffer)))
 
 (add-to-list 'desktop-buffer-mode-handlers '(org-agenda-mode . org-agenda-restore-desktop-buffer))
 

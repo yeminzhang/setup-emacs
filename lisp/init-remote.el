@@ -13,26 +13,26 @@
 
 (defun ssh-host-list ()
   (let (
-	(sconfig-list (tramp-parse-sconfig "~/.ssh/config"))
-	(ssh-host-list ()))
-    (dolist (login sconfig-list)
-      (if (and login (nth 1 login)) (add-to-list 'ssh-host-list (nth 1 login) t)))
-    ssh-host-list))
+		(sconfig-list (tramp-parse-sconfig "~/.ssh/config"))
+		(ssh-host-list ()))
+	(dolist (login sconfig-list)
+	  (if (and login (nth 1 login)) (add-to-list 'ssh-host-list (nth 1 login) t)))
+	ssh-host-list))
 
 (defun ssh-host-get-password (host)
   (let ((info (nth 0 (auth-source-search
-                      :host host))))
-    (if info
-        (let ((secret (plist-get info :secret)))
-          (if (functionp secret)
-              (funcall secret)
-            secret))
-      "")))
+					  :host host))))
+	(if info
+		(let ((secret (plist-get info :secret)))
+		  (if (functionp secret)
+			  (funcall secret)
+			secret))
+	  "")))
 
 (defun ssh-tunnel-run-all-preconfigured ()
   (interactive)
   (if (boundp 'ssh-tunnel-host-list)
-  (dolist (host ssh-tunnel-host-list) (ssh-tunnel-run host))))
+	  (dolist (host ssh-tunnel-host-list) (ssh-tunnel-run host))))
 
 (defun ssh-tunnel-kill-all ()
   (interactive)
@@ -55,20 +55,20 @@
 
 (defun ssh-tunnel-command (host command)
   (let* (
-         (args (cond ((eq command :run)
-                      (list "-M" "-f" "-N" "-T"))
-                     ((eq command :kill)
-                      (list "-O" "exit"))
-                     ((eq command :check)
-                      (list "-O" "check"))
-                     (t (error "Unknown ssh-tunnels command '%s'" command))))
+		 (args (cond ((eq command :run)
+					  (list "-M" "-f" "-N" "-T"))
+					 ((eq command :kill)
+					  (list "-O" "exit"))
+					 ((eq command :check)
+					  (list "-O" "check"))
+					 (t (error "Unknown ssh-tunnels command '%s'" command))))
 		 (destination (cond ((eq command :check) nil)
 							((eq command :run) 0)
 							((eq command :kill) 0)
 							(t nil))))
-    (apply 'call-process "ssh" nil destination nil
-           (append args
-                   (list host)))))
+	(apply 'call-process "ssh" nil destination nil
+		   (append args
+				   (list host)))))
 
 (defun ssh-host (host)
   (interactive (list (ido-completing-read "ssh to: " (ssh-host-list))))

@@ -63,9 +63,9 @@
 	 helm-source-gtags-select)))
 
 (defun indent-buffer ()
-	(interactive)
-	(save-excursion
-		(indent-region (point-min) (point-max) nil)))
+  (interactive)
+  (save-excursion
+	(indent-region (point-min) (point-max) nil)))
 
 (add-to-list 'ido-ignore-buffers "TAGS")
 
