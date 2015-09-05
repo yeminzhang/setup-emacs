@@ -22,7 +22,6 @@
 (setq-default show-trailing-whitespace t)
 (require 'whitespace)
 (setq whitespace-style '(tab-mark))  ;;turns on white space mode only for tabs
-(global-whitespace-mode 1)
 
 (global-set-key (kbd "C-x g") 'beginning-of-buffer)
 (global-set-key (kbd "C-x G") 'end-of-buffer)
