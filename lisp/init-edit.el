@@ -12,6 +12,7 @@
 (global-set-key (kbd "<home>") 'beginning-of-buffer)
 (global-set-key (kbd "<end>") 'end-of-buffer)
 (global-set-key (kbd "<backspace>") 'backward-delete-char)
+(global-set-key (kbd "M-j") 'delete-indentation)
 
 ;; Tabsn
 (setq-default indent-tabs-mode 1)
