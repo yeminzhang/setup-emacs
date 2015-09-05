@@ -1,4 +1,13 @@
 (add-hook 'emacs-lisp-mode-hook #'(lambda () (company-mode 1)))
+(add-hook 'emacs-lisp-mode-hook #'(lambda () (setq-local indent-line-function 'elisp-indent-line)))
+
+(setq lisp-body-indent 4)
+
+(defun elisp-indent-line ()
+	(interactive)
+	(beginning-of-line)
+	(delete-horizontal-space)
+	(lisp-indent-line))
 
 (defun elisp-find-function-under-point ()
 (interactive)
