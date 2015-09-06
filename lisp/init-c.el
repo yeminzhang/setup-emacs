@@ -1,3 +1,4 @@
+;; init-c is for c-mode, c++-mode
 (require-packages '(function-args company-c-headers))
 ;;(require 'flymake-cursor)
 ;;(add-hook 'find-file-hook 'flymake-find-file-hook)
@@ -81,7 +82,6 @@
 	(list "." "..")
 	))
 
-(require 'cc-mode)
 (require 'function-args)
 (fa-config-default)
 (dolist (mode-map '(c-mode-map c++-mode-map))

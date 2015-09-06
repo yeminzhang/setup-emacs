@@ -62,10 +62,9 @@
 	 helm-source-semantic
 	 helm-source-gtags-select)))
 
-(defun indent-buffer ()
+(defun format-buffer ()
   (interactive)
-  (save-excursion
-	(indent-region (point-min) (point-max) nil)))
+  (when c-buffer-is-cc-mode (cc-format-buffer)))
 
 (add-to-list 'ido-ignore-buffers "TAGS")
 

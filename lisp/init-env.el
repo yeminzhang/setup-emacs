@@ -59,6 +59,7 @@
   (check-executable "readelf" "You don't have readelf installed. readelf of executable  will not work")
   (check-executable "gdb" "You don't have gdb installed. Debug using gdb will not work")
   (check-executable "git" "You don't have git installed. magit mode will not work")
+  (check-executable "clang-format" "clang-format is NOT found under exec-path. code format will not work")
   )
 
 (env-check)

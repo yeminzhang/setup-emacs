@@ -14,6 +14,7 @@
 (require 'init-programming)
 (require 'init-project)
 (require 'init-elisp)
+(require 'init-cc)
 (require 'init-c)
 (require 'init-erlang)
 (require 'init-git)
