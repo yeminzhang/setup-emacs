@@ -22,3 +22,4 @@ tramp
 /GTAGS
 /cedet-projects.el
 /projectile.cache
+/.python-environments/
