@@ -62,5 +62,13 @@
   (check-executable "clang-format" "clang-format is NOT found under exec-path. code format will not work")
   )
 
+(defun display-warning-buffer ()
+  (let (
+		(buffer (get-buffer "*Warnings*"))
+		)
+	(when buffer (switch-to-buffer buffer))))
+
+(add-hook 'after-init-hook 'display-warning-buffer)
+
 (env-check)
 (provide 'init-env)
