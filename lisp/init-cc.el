@@ -1,18 +1,19 @@
 ;; init-cc is for the common part of c-mode, c++-mode, java-mode, etc
 (require-packages '(clang-format))
-(require 'cc-mode)
 
-(require 'clang-format)
-(setq clang-format-executable "clang-format")
-(setq-default clang-format-style "{BasedOnStyle: llvm, IndentWidth: 4}")
+(after-load 'clang-format
+  (setq clang-format-executable "clang-format")
+  (setq-default clang-format-style "{BasedOnStyle: llvm, IndentWidth: 4}"))
 
 (defun cc-format-buffer ()
+  (require 'clang-format)
   (clang-format-buffer))
 
-(add-hook 'c-mode-common-hook
-		  #'(lambda ()
-			  (company-mode 1)
-			  (helm-gtags-mode 1)
-			  (local-set-key (kbd "C-i") 'clang-format)))
+(after-load 'cc-mode
+  (add-hook 'c-mode-common-hook
+            (lambda ()
+              (company-mode 1)
+              (helm-gtags-mode 1)
+              (local-set-key (kbd "C-i") 'clang-format))))
 
 (provide 'init-cc)
