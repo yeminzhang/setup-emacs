@@ -1,4 +1,5 @@
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
+(require 'init-utils)
 (require 'init-env)
 (require 'init-package)
 (require 'init-helm)
