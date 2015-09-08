@@ -36,20 +36,6 @@
 	(eshell-flush)
 	))
 
-(require 'windmove)
-
-(defun eshell-display-buffer ()
-  (interactive)
-  (progn (unless (or (one-window-p) (null (windmove-find-other-window 'left)))
-		   (windmove-left))
-		 (if (and (string= (buffer-name) eshell-buffer-name) (not (one-window-p)))
-			 (windmove-right))
-		 (delete-other-windows)
-		 (split-window-horizontally)
-		 (other-window 1)
-		 (switch-to-buffer eshell-buffer-name)
-		 ))
-
 (require 'helm-eshell)
 
 (defvar my-helm-source-eshell-history
