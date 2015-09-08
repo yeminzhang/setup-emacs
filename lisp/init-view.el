@@ -84,7 +84,7 @@
   (when (and (eq major-mode 'doc-view-mode) (get-buffer-window (current-buffer)) (not (boundp 'doc-view-already-continued-p)))
 	(when (bmkp-get-autofile-bookmark buffer-file-name)
 	  (let* (
-			 (bookmark (eshell/basename buffer-file-name))
+			 (bookmark (file-name-nondirectory buffer-file-name))
 			 (page (bmkp-get-tag-value bookmark "page"))
 			 (width (bmkp-get-tag-value bookmark "width"))
 			 (slice (bmkp-get-tag-value bookmark "slice")))
