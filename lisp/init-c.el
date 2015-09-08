@@ -89,7 +89,6 @@
 
 (dolist (mode-hook '(c-mode-hook c++-mode-hook))
   (add-hook mode-hook #'(lambda ()
-						  (company-mode 1)
 						  (local-set-key  (kbd "C-c o") 'cc-switch-source-header-file))))
 
 ;; company-c-headers

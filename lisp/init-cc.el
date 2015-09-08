@@ -9,6 +9,10 @@
 (defun cc-format-buffer ()
   (clang-format-buffer))
 
-(add-hook 'c-mode-common-hook #'(lambda () (local-set-key (kbd "C-i") 'clang-format)))
+(add-hook 'c-mode-common-hook
+		  #'(lambda ()
+			  (company-mode 1)
+			  (helm-gtags-mode 1)
+			  (local-set-key (kbd "C-i") 'clang-format)))
 
 (provide 'init-cc)
