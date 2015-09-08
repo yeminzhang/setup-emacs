@@ -14,6 +14,11 @@
 
 (autoload 'yas-minor-mode-on "yasnippet")
 
+;; configure semantic
+(semantic-mode 1)
+(global-semanticdb-minor-mode 1)
+(global-semantic-idle-scheduler-mode 1)
+
 ;; helm-gtags
 (after-load 'helm-gtags
   (setq

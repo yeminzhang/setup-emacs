@@ -10,12 +10,6 @@
   (clang-format-buffer))
 
 (after-load 'cc-mode
-  ;; configure semantic
-  (semantic-mode 1)
-  (global-semanticdb-minor-mode 1)
-  (global-semantic-idle-scheduler-mode 1)
-  ;; ede for semantic
-  (global-ede-mode)
   (add-hook 'c-mode-common-hook
             (lambda ()
               (company-mode 1)

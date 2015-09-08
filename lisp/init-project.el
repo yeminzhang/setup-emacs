@@ -158,6 +158,9 @@
 
 (projectile-global-mode 1)
 
+;; ede for semantic
+(global-ede-mode)
+
 (setq compilation-read-command nil)
 (setq compilation-ask-about-save nil)
 
