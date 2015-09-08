@@ -10,11 +10,13 @@
 
 ;; Package: yasnippet
 (after-load 'yasnippet
-  (define-key yas-minor-mode-map [backtab] 'yas-expand)
+  (yas-reload-all)
+  (define-key yas-minor-mode-map [backtab] nil)
   (define-key yas-minor-mode-map [(tab)]        nil)
   (define-key yas-minor-mode-map (kbd "TAB")    nil)
-  (define-key yas-minor-mode-map (kbd "<tab>")  nil))
-(yas-global-mode 1)
+  (define-key yas-minor-mode-map (kbd "S-SPC")  'helm-yas-complete))
+
+(autoload 'yas-minor-mode-on "yasnippet")
 
 ;; helm-gtags
 (after-load 'helm-gtags

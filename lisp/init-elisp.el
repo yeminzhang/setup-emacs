@@ -1,5 +1,6 @@
 (add-hook 'emacs-lisp-mode-hook #'(lambda () (company-mode 1)))
 (add-hook 'emacs-lisp-mode-hook #'(lambda () (setq-local indent-line-function 'elisp-indent-line)))
+(add-hook 'emacs-lisp-mode-hook 'yas-minor-mode-on)
 
 (setq lisp-body-indent 2)
 
@@ -21,7 +22,6 @@
 	))
 
 (define-key emacs-lisp-mode-map (kbd "<f6>") 'elisp-save-and-eval-buffer)
-(define-key emacs-lisp-mode-map (kbd "<tab>") 'helm-yas-complete)
 (define-key emacs-lisp-mode-map (kbd "M-.") 'elisp-find-function-under-point)
 
 (provide 'init-elisp)

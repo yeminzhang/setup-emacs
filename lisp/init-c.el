@@ -83,8 +83,6 @@
     ))
 
 (after-load 'cc-mode
-  (dolist (mode-map '(c-mode-map c++-mode-map))
-    (define-key (eval mode-map) (kbd "<tab>") 'helm-yas-complete))
   (dolist (mode-hook '(c-mode-hook c++-mode-hook))
     (add-hook mode-hook
               (lambda ()
