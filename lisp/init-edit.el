@@ -15,7 +15,7 @@
 (global-set-key (kbd "M-j") 'delete-indentation)
 
 ;; Tabsn
-(setq-default indent-tabs-mode 1)
+(setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
 (setq-default c-basic-offset 4)
 
