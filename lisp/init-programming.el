@@ -4,11 +4,6 @@
   (interactive (list (ido-read-file-name "file: ")))
   (shell-command (concat "readelf -a " filename)))
 
-;; configure semantic
-(semantic-mode 1)
-(global-semanticdb-minor-mode 1)
-(global-semantic-idle-scheduler-mode 1)
-
 (defun get-mode-map (mode)
   (if (eq mode 'cc-mode) 'c++-mode-map)
   )
@@ -43,6 +38,7 @@
 (defun helm-code-select ()
   (interactive)
   (require 'helm-semantic)
+  (require 'helm-gtags)
   (helm
    :prompt "Go to: "
    :candidate-number-limit 9999
