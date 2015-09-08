@@ -4,10 +4,6 @@
   (interactive (list (ido-read-file-name "file: ")))
   (shell-command (concat "readelf -a " filename)))
 
-(defun get-mode-map (mode)
-  (if (eq mode 'cc-mode) 'c++-mode-map)
-  )
-
 ;; Package: yasnippet
 (after-load 'yasnippet
   (yas-reload-all)
