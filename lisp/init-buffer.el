@@ -4,7 +4,6 @@
 (setq uniquify-strip-common-suffix t)
 
 ;; ibuffer
-(require 'ibuffer)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 ;;(add-hook 'ibuffer-mode-hook #'(lambda () (hl-line-mode 1)))
 
@@ -19,16 +18,7 @@
   candidates)
 
 ;; jump to bookmarked buffer
-(global-set-key (kbd "C-x r b")
-				(lambda() (interactive)
-				  (helm
-				   :prompt "Switch to: "
-				   :candidate-number-limit 25                 ;; up to 25 of each
-				   :sources
-				   '(
-					 helm-source-bookmarks
-					 ))))
-
+(global-set-key (kbd "C-x r b") 'helm-bookmarks)
 
 (global-set-key (kbd "C-x K") 'kill-this-buffer)
 
