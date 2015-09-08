@@ -92,7 +92,9 @@
 						  (local-set-key  (kbd "C-c o") 'cc-switch-source-header-file))))
 
 ;; company-c-headers
-(add-to-list 'company-backends 'company-c-headers)
+(after-load 'company
+  (add-to-list 'company-backends 'company-c-headers))
+
 (setq company-c-headers-path-user 'cc-get-headers-path-user)
 (setq company-c-headers-path-system 'cc-get-headers-path-system)
 
