@@ -146,11 +146,11 @@
   (setq projectile-find-dir-includes-top-level t)
   (setq projectile-tags-command nil)
   (setq projectile-idle-timer-hook (list 'project-update-tags))
+  (helm-projectile-on)
   (define-key projectile-mode-map (kbd "C-c p g") 'helm-projectile-grep)
   (define-key projectile-mode-map (kbd "C-c p c") 'project-configure)
   (define-key projectile-mode-map (kbd "C-c p R") 'project-update-tags)
-  (custom-set-variables '(projectile-enable-idle-timer t))
-  (helm-projectile-on))
+  (custom-set-variables '(projectile-enable-idle-timer t)))
 
 (global-set-key (kbd "<f5>") 'project-compile)
 (global-set-key (kbd "<f6>") 'project-run)
