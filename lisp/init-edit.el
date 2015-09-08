@@ -202,9 +202,10 @@
       recentf-max-saved-items 200)
 
 ;; bookmark+
-(require 'bookmark+)
-(if (and (not bookmarks-already-loaded) (file-readable-p bookmark-default-file))
-    (bookmark-load bookmark-default-file))
+(defun bookmark-load-if-not ()
+  (require 'bookmark+)
+  (if (and (not bookmarks-already-loaded) (file-readable-p bookmark-default-file))
+      (bookmark-load bookmark-default-file)))
 
 ;; Auto save bookmark to file every 8 modifications
 (setq bookmark-save-flag 8)

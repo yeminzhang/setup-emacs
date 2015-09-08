@@ -52,6 +52,7 @@
   (define-key doc-view-mode-map (kbd "v") 'doc-view-scroll-down-or-previous-page)
   (define-key doc-view-mode-map (kbd "C-c g") 'doc-view-goto-page)
   (define-key doc-view-mode-map (kbd "m") 'doc-view-toggle-modeline)
+  (bookmark-load-if-not)
   (add-hook 'window-configuration-change-hook 'doc-view-fix-stuck-image)
   (add-hook 'window-configuration-change-hook
             #'(lambda () (run-with-timer 0.1 nil 'doc-view-continue-reading))))
