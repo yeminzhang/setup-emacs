@@ -67,11 +67,10 @@
 (global-hl-line-mode 1)
 (column-number-mode 1)
 
-(require 'ido)
-(setq ido-max-window-height 1)
-(setq max-mini-window-height 1)
+(after-load 'ido
+  (setq ido-max-window-height 1)
+  (setq max-mini-window-height 1))
 
-(require 'golden-ratio)
 (golden-ratio-mode 1)
 
 ;; display batter usage for notebook
@@ -100,7 +99,6 @@
  ;; If there is more than one, they won't work right.
  '(vhl/default-face ((t (:inherit secondary-selection :background "tan" :foreground "black")))))
 
-(require 'diminish)
 (diminish 'golden-ratio-mode)
 (diminish 'volatile-highlights-mode)
 
