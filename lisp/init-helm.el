@@ -8,6 +8,11 @@
   (setq helm-full-frame nil)
   (setq helm-buffers-fuzzy-matching t))
 
+(after-load 'helm-files
+  ;; Show full file-path in helm result
+  (setq helm-ff-transformer-show-only-basename nil))
+
+
 (require 'helm-config)
 (helm-mode 1)
 
