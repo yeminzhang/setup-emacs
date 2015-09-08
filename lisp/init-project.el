@@ -140,28 +140,25 @@
 	  (with-current-buffer buffer (project-load-attributes)))))
 
 ;; projectile
-(require 'projectile)
-(projectile-global-mode 1)
-(setq projectile-completion-system 'helm)
-(setq compilation-read-command nil)
+(after-load 'projectile
+  (setq projectile-completion-system 'helm)
+  (setq projectile-mode-line '(:eval (if (projectile-project-p) (format " Proj[%s]" (projectile-project-name)) "")))
+  (setq projectile-find-dir-includes-top-level t)
+  (setq projectile-tags-command nil)
+  (setq projectile-idle-timer-hook (list 'project-update-tags))
+  (define-key projectile-mode-map (kbd "C-c p g") 'helm-projectile-grep)
+  (define-key projectile-mode-map (kbd "C-c p c") 'project-configure)
+  (define-key projectile-mode-map (kbd "C-c p R") 'project-update-tags)
+  (custom-set-variables '(projectile-enable-idle-timer t))
+  (helm-projectile-on))
+
 (global-set-key (kbd "<f5>") 'project-compile)
 (global-set-key (kbd "<f6>") 'project-run)
 (global-set-key (kbd "<f7>") 'project-debug)
-(setq projectile-mode-line '(:eval (if (projectile-project-p) (format " Proj[%s]" (projectile-project-name)) "")))
-(helm-projectile-on)
-(define-key projectile-mode-map (kbd "C-c p g") 'helm-projectile-grep)
-(define-key projectile-mode-map (kbd "C-c p c") 'project-configure)
-(define-key projectile-mode-map (kbd "C-c p R") 'project-update-tags)
-(setq projectile-find-dir-includes-top-level t)
-(setq projectile-tags-command nil)
-(setq projectile-idle-timer-hook (list 'project-update-tags))
 
-(custom-set-variables '(projectile-enable-idle-timer t))
+(projectile-global-mode 1)
 
-;; ede for semantic
-(require 'ede)
-(global-ede-mode)
-
+(setq compilation-read-command nil)
 (setq compilation-ask-about-save nil)
 
 (provide 'init-project)
