@@ -10,6 +10,7 @@
 ;; switch buffer
 (global-set-key (kbd "C-x b") 'helm-mini)
 (key-chord-define-global "jj" 'ido-switch-buffer)
+(fset 'switch-to-previous-buffer (concat "\C-xb" right-little-finger-key))
 (key-chord-define-global "JJ" 'switch-to-previous-buffer)
 
 ;; This is a patch to prevent helm from sorting the buffer
@@ -21,12 +22,6 @@
 (global-set-key (kbd "C-x r b") 'helm-bookmarks)
 
 (global-set-key (kbd "C-x K") 'kill-this-buffer)
-
-(defun switch-to-previous-buffer ()
-  "Switch to previously open buffer.
-Repeated invocations toggle between the two most recently open buffers."
-  (interactive)
-  (switch-to-buffer (car (helm-buffer-list))))
 
 (add-hook 'window-configuration-change-hook
 		  'check-revert-file)
