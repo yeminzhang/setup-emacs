@@ -12,7 +12,6 @@
   (define-key magit-log-mode-map (kbd "g") 'beginning-of-buffer)
   (define-key magit-log-mode-map (kbd "G") 'end-of-buffer)
   (setq magit-status-buffer-switch-function 'switch-to-buffer)
-  (add-to-list 'ido-ignore-buffers "\*magit")
   (add-hook 'magit-status-mode-hook 'magit-status-register-desktop-save)
   (set-display-buffer-other-window (rx bos "*magit-rev:" (one-or-more anything) "*" eos))
   (set-display-buffer-other-window (rx bos "*magit-diff:" (one-or-more anything) "*" eos))

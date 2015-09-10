@@ -54,6 +54,4 @@
   (interactive)
   (when c-buffer-is-cc-mode (cc-format-buffer)))
 
-(add-to-list 'ido-ignore-buffers "TAGS")
-
 (provide 'init-programming)

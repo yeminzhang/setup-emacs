@@ -35,6 +35,10 @@
   (setq ido-enable-dot-prefix t)
   (setq ido-enable-regexp nil)
   (setq ido-ignore-extensions nil)
+  (add-to-list 'ido-ignore-buffers "\*helm")
+  (add-to-list 'ido-ignore-buffers "\*magit")
+  (add-to-list 'ido-ignore-buffers "TAGS")
+  (add-to-list 'ido-ignore-buffers "\*tramp")
   (add-hook 'ido-minibuffer-setup-hook 'ido-common-bind-key))
 (ido-mode 'both)
 
