@@ -1,33 +1,35 @@
 (require-packages '(dired+))
+
 ;; dired+
-(require 'dired+)
-(setq diredp-hide-details-initially-flag nil)
-(setq diredp-hide-details-propagate-flag nil)
+(after-load 'dired+
+  (setq diredp-hide-details-initially-flag nil
+        diredp-hide-details-propagate-flag nil))
 
 ;; dired
-(setq dired-listing-switches "-lhaD")
-(setq dired-isearch-filenames t)
-(setq dired-recursive-deletes 1)
-(setq delete-by-moving-to-trash t)
-(setq dired-recursive-copies "always")
-;; underline the current line in dired mode
-(add-hook 'dired-mode-hook #'(lambda () (hl-line-mode 1)))
-(add-hook 'dired-mode-hook #'(lambda () (local-set-key (kbd "b") 'scroll-down-command)))
-(add-hook 'dired-mode-hook #'(lambda () (local-set-key (kbd " ") 'scroll-up-command)))
-(add-hook 'dired-mode-hook #'(lambda () (rename-buffer (concat "d-" dired-directory))))
+(after-load 'dired
+  (setq dired-listing-switches "-lhaD"
+        dired-isearch-filenames t
+        dired-recursive-deletes 1
+        delete-by-moving-to-trash t
+        dired-recursive-copies "always"
+        dired-auto-revert-buffer t)
+  ;; underline the current line in dired mode
+  (add-hook 'dired-mode-hook
+            (lambda ()
+              (hl-line-mode 1)
+              (local-set-key (kbd "b") 'scroll-down-command)
+              (local-set-key (kbd " ") 'scroll-up-command)
+              (rename-buffer (concat "d-" dired-directory))
+              ;;Automatically revert buffer every 2 seconds
+              (auto-revert-mode 1)))
+  (define-key dired-mode-map (kbd "C-c m s") 'dired-mark-source-file)
+  (define-key dired-mode-map (kbd "C-c m d") 'dired-mark-destination-dir)
+  (define-key dired-mode-map (kbd "c") 'dired-copy-file-by-register)
+  (define-key dired-mode-map (kbd "C-c r s") 'dired-read-source-file)
+  (define-key dired-mode-map (kbd "C-c r d") 'dired-read-destination-dir)
+  (define-key dired-mode-map (kbd "C-o") 'other-window))
 
-;;Automatically revert buffer every 2 seconds
-(add-hook 'dired-mode-hook #'(lambda () (auto-revert-mode 1)))
 (setq auto-revert-interval 2)
-(setq dired-auto-revert-buffer t)
-
-(define-key dired-mode-map (kbd "C-c m s") 'dired-mark-source-file)
-(define-key dired-mode-map (kbd "C-c m d") 'dired-mark-destination-dir)
-(define-key dired-mode-map (kbd "c") 'dired-copy-file-by-register)
-(define-key dired-mode-map (kbd "C-c r s") 'dired-read-source-file)
-(define-key dired-mode-map (kbd "C-c r d") 'dired-read-destination-dir)
-
-(define-key dired-mode-map (kbd "C-o") 'other-window)
 
 (defun dired-remove-tramp-method (path)
   (if (tramp-tramp-file-p path) (substring path (+ 1 (s-index-of ":" path))) path))
