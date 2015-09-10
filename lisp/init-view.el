@@ -34,6 +34,7 @@
 
 ;; help mode
 (add-hook 'help-mode-hook #'(lambda () (view-mode)))
+(set-display-buffer-other-window (rx bos "*Help*" eos))
 
 ;; doc view
 (defcustom doc-view-ghostscript-options

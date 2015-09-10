@@ -39,4 +39,12 @@
 
 (setq enable-local-variables :all)
 
+(defun set-display-buffer-other-window (regex)
+  (add-to-list 'display-buffer-alist
+               `(,regex
+                 (display-buffer-reuse-window
+                  display-buffer-pop-up-window)
+                 (reusable-frames . visible))
+               ))
+
 (provide 'init-buffer)

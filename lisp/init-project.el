@@ -152,6 +152,8 @@
   (define-key projectile-mode-map (kbd "C-c p R") 'project-update-tags)
   (custom-set-variables '(projectile-enable-idle-timer t)))
 
+(set-display-buffer-other-window (rx bos "*compilation*" eos))
+(set-display-buffer-other-window (rx bos "*Shell Command Output*" eos))
 (global-set-key (kbd "<f5>") 'project-compile)
 (global-set-key (kbd "<f6>") 'project-run)
 (global-set-key (kbd "<f7>") 'project-debug)
