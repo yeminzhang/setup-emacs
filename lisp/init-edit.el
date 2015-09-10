@@ -284,7 +284,6 @@
   `((name . "Recent Directories")
     (init lambda nil
           (require 'recentf)
-          (require 'tramp)
           (recentf-mode 1))
     (candidates lambda nil (delete-dups
                             (mapcar (lambda (file)
@@ -611,11 +610,8 @@
 
 ;; xclip
 
-(defcustom iedit-toggle-key-default (kbd "C-,")
-  "If no-nil, the key is inserted into global-map, isearch-mode-map, esc-map and help-map."
-  :type 'vector
-  :group 'iedit)
-(require 'iedit)
+;; iedit
+(global-set-key (kbd "C-,") 'iedit-mode)
 
 ;; recentf
 (require 'recentf-ext)
