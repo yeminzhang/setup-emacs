@@ -44,26 +44,21 @@
 	(set-register 122 dest-dir)
 	(message (concat "Dest dir: " dest-dir))))
 
-(defun scp-copy-file (src-file dest-dir)
-  ;;  (apply 'call-process "scp" nil nil nil (list src-file dest-dir)))
-  (switch-to-buffer eshell-buffer-name)
-  (end-of-buffer)
-  (eshell-kill-input)
-  (insert (concat "scp -3 " src-file " " dest-dir))
-  (eshell-send-input))
-
-
 (defun dired-copy-file-by-register()
   (interactive)
   (let* (
-		 (src-file (get-register 121))
-		 (dest-dir (get-register 122)))
-	(with-current-buffer eshell-buffer-name
-	  (end-of-buffer)
-	  (eshell-kill-input)
-	  (insert (concat "scp -3 " src-file " " dest-dir))
-	  (message (concat "Copying from " src-file " to " dest-dir))
-	  (eshell-send-input))))
+         (src-file (get-register 121))
+         (dest-dir (get-register 122))
+         (buffer (current-buffer)))
+    (eshell)
+    (end-of-buffer)
+    (eshell-kill-input)
+    (insert "cd")
+    (eshell-send-input)
+    (insert (concat "scp -3 " src-file " " dest-dir))
+    (message (concat "Copying from " src-file " to " dest-dir))
+    (eshell-send-input)
+    (switch-to-buffer buffer)))
 
 (defun dired-read-source-file()
   (interactive)
