@@ -65,7 +65,7 @@
           (recentf-mode 1))
     (candidates lambda nil (delete-dups
                             (mapcar (lambda (file)
-                                      (if (file-directory-p file) "" file))
+                                      (if (s-ends-with-p "/" file) "" file))
                                     recentf-list)))
     (keymap keymap
             (23 . helm-yank-text-at-point)
@@ -284,10 +284,11 @@
   `((name . "Recent Directories")
     (init lambda nil
           (require 'recentf)
+          (require 'tramp)
           (recentf-mode 1))
     (candidates lambda nil (delete-dups
                             (mapcar (lambda (file)
-                                      (if (file-directory-p file) file ""))
+                                      (if (s-ends-with-p "/" file) file ""))
                                     recentf-list)))
     (keymap keymap
             (23 . helm-yank-text-at-point)
