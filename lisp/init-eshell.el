@@ -73,7 +73,12 @@
 
 (add-hook 'eshell-mode-hook
           (lambda()
-            (local-set-key (kbd "C-r") 'helm-eshell-history)
+            (local-set-key (kbd "C-r")
+                           (lambda()
+                             (interactive)
+                             (let (
+                                   (helm-split-window-default-side 'below))
+                               (helm-eshell-history))))
             (add-to-list 'eshell-visual-commands "vim")
             (add-to-list 'eshell-visual-commands "git log")
             (add-to-list 'eshell-visual-commands "telnet")
