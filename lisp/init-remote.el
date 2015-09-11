@@ -92,6 +92,7 @@
 	  (apply 'call-process "dropbox" nil 0 nil
 			 (list "start"))))
 
+(autoload 'eshell-exec-visual "em-term")
 (ssh-tunnel-run-all-preconfigured)
 (ssh-tunnel-start-timer)
 (dropbox-start)
