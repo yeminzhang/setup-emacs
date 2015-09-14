@@ -20,7 +20,7 @@
 (setq-default c-basic-offset 4)
 
 ;; whitespace
-(setq-default show-trailing-whitespace t)
+(setq-default show-trailing-whitespace nil)
 (after-load 'whitespace
   (setq whitespace-style '(tab-mark)))  ;;turns on white space mode only for tabs
 
