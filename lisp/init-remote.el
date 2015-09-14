@@ -71,9 +71,12 @@
 
 (defun ssh-host (host)
   (interactive (list (ido-completing-read "ssh to: " (ssh-host-list))))
-  (eshell-exec-visual "sshpass" "-p" (ssh-host-get-password host) "ssh" host)
-  (set-buffer (get-buffer "*sshpass*"))
-  (rename-buffer (concat "ssh-" host)))
+  (let (
+        (default-directory user-emacs-directory)
+        )
+    (eshell-exec-visual "sshpass" "-p" (ssh-host-get-password host) "ssh" host)
+    (set-buffer (get-buffer "*sshpass*"))
+    (rename-buffer (concat "ssh-" host))))
 
 (defun ssh-tunnel-start-timer ()
   (interactive)
