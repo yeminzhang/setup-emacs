@@ -1,3 +1,6 @@
 [submodule "pyim"]
 	path = pyim
 	url = git@github.com:yeminzhang/pyim-dict.git
+[submodule "mu"]
+	path = mu
+	url = git@github.com:djcb/mu.git

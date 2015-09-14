@@ -3,6 +3,7 @@
 ;; default value
 (setq *is-sv-kbmap* t)
 (setq ssh-tunnel-host-list '())
+(setq email-configured nil)
 
 (defun env-customize ()
   (interactive)
