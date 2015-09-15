@@ -1,3 +1,4 @@
+(add-to-list 'load-path (expand-file-name "mu/mu4e" user-emacs-directory))
 
 (setq message-send-mail-function 'smtpmail-send-it
       message-kill-buffer-on-exit t
