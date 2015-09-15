@@ -1,7 +1,7 @@
 (require-packages '(helm-gtags yasnippet helm-c-yasnippet ))
 
 (dolist (hook '(c-mode-common-hook python-mode-hook emacs-lisp-mode-hook erlang-mode-hook sh-mode-hook))
-  (setq show-trailing-whitespace t))
+  (add-hook hook (lambda () (setq show-trailing-whitespace t))))
 
 (defun readelf (filename)
   (interactive (list (ido-read-file-name "file: ")))
