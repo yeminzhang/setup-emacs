@@ -21,6 +21,7 @@
         mu4e-user-mail-address-list (list user-mail-address)
         mu4e-compose-reply-to-address user-mail-address
         mu4e-compose-signature 'get-message-signature
+        mu4e-hide-index-messages t
         mu4e-headers-date-format "%y-%m-%d"
         mu4e-headers-time-format "%H:%M"
         mu4e-bookmarks '(
@@ -44,7 +45,6 @@
   (define-key mu4e-headers-mode-map (kbd "r") 'mu4e-compose-reply)
   (define-key mu4e-headers-mode-map (kbd "R") 'mu4e-headers-mark-for-refile)
   (define-key mu4e-headers-mode-map (kbd "f") 'mu4e-compose-forward)
-  ;;(define-key mu4e-headers-mode-map (kbd "q")  (lambda() (interactive) (switch-to-buffer (other-buffer))))
   (define-key mu4e-headers-mode-map (kbd "q")  'bury-buffer)
   (define-key mu4e-view-mode-map (kbd "v") 'scroll-down-command)
   (define-key mu4e-view-mode-map (kbd "f") 'mu4e-view-go-to-url)
