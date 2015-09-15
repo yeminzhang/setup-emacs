@@ -3,14 +3,15 @@
 (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
 (setq uniquify-strip-common-suffix t)
 
-;; ibuffer
-(global-set-key (kbd "C-x C-b") 'ibuffer)
-;;(add-hook 'ibuffer-mode-hook #'(lambda () (hl-line-mode 1)))
-
 ;; switch buffer
-(global-set-key (kbd "C-x b") 'helm-mini)
+(global-set-key (kbd "C-x b") 'ido-switch-buffer)
 (key-chord-define-global "jj" 'ido-switch-buffer)
-(fset 'switch-to-previous-buffer (concat "\C-xb" right-little-finger-key))
+(global-set-key (kbd "C-x C-b") 'helm-mini)
+(fset 'switch-to-previous-buffer
+      (lambda (&optional arg)
+        "Same as C-x b right-little-finger-key"
+        (interactive "p")
+        (kmacro-exec-ring-item (quote ([24 98 246] "b" right-little-finger-key)) arg)))
 (key-chord-define-global "JJ" 'switch-to-previous-buffer)
 
 ;; This is a patch to prevent helm from sorting the buffer
