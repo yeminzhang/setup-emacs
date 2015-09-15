@@ -1,4 +1,5 @@
 (add-to-list 'load-path (expand-file-name "mu/mu4e" user-emacs-directory))
+(require-packages '(mu4e-maildirs-extension))
 
 (setq message-send-mail-function 'smtpmail-send-it
       message-kill-buffer-on-exit t
@@ -32,6 +33,8 @@
                               (:maildir . 10)
                               (:from-or-to . 22)
                               (:subject)))
+  (define-key mu4e-main-mode-map (kbd "q") 'bury-buffer)
+  (define-key mu4e-main-mode-map (kbd "Q") 'mu4e-quit)
   (define-key mu4e-headers-mode-map (kbd "g") 'beginning-of-buffer)
   (define-key mu4e-headers-mode-map (kbd "G") 'end-of-buffer)
   (define-key mu4e-headers-mode-map (kbd "v") 'scroll-down-command)
@@ -92,11 +95,11 @@
 (defun my-mu4e-open(ARG)
   (interactive "P")
   (require 'mu4e)
-  (when ARG
-    (email-configure))
-  (if (get-buffer mu4e~headers-buffer-name)
-      (switch-to-buffer mu4e~headers-buffer-name)
-    (call-interactively 'mu4e)))
+  (if (or ARG (not (get-buffer mu4e~headers-buffer-name)))
+      (mu4e)
+    (switch-to-buffer mu4e~headers-buffer-name)))
+
+(mu4e-maildirs-extension)
 
 (global-set-key (kbd "<f3>") 'my-mu4e-open)
 
