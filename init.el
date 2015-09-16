@@ -20,7 +20,7 @@
 (require 'init-python)
 (require 'init-erlang)
 (require 'init-git)
-(require 'init-mu4e)
+(require 'init-email)
 (require 'init-chinese)
 (require 'init-misc)
 (require 'init-session)

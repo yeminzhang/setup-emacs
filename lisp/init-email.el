@@ -117,4 +117,4 @@
 
 (global-set-key (kbd "<f3>") 'my-mu4e-open)
 
-(provide 'init-mu4e)
+(provide 'init-email)
