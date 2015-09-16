@@ -70,12 +70,14 @@
 
 
 (setq my-helm-source-recentf (copy-tree helm-source-recentf))
+(setf (nth 0 my-helm-source-recentf) '(name . "Recent files excluing directories"))
 (setf (nth 3 (nth 2 my-helm-source-recentf)) '(delete-dups
                                                (mapcar (lambda (file)
                                                          (if (s-ends-with-p "/" file) "" file))
                                                        recentf-list)))
 
 (setq my-helm-source-recentd (copy-tree helm-source-recentf))
+(setf (nth 0 my-helm-source-recentd) '(name . "Recent directories"))
 (setf (nth 3 (nth 2 my-helm-source-recentd)) '(delete-dups
                                                (mapcar (lambda (file)
                                                          (if (s-ends-with-p "/" file) file ""))
