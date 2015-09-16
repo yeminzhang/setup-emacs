@@ -17,7 +17,7 @@
         mu4e-msg2pdf (executable-find "msg2pdf")
         mu4e-get-mail-command "offlineimap"
         mu4e-sent-messages-behavior 'sent
-        mu4e-split-view nil
+        mu4e-split-view 'horizontal
         mu4e-user-mail-address-list (list user-mail-address)
         mu4e-compose-reply-to-address user-mail-address
         mu4e-compose-signature 'get-message-signature
@@ -93,6 +93,18 @@
        maxnum
        mu4e-headers-skip-duplicates
        mu4e-headers-include-related))))
+
+(defadvice mu4e-headers-mark-for-trash (after mu4e-execute-mark () activate)
+  (mu4e-mark-execute-all t))
+
+(defadvice mu4e-view-mark-for-trash (after mu4e-execute-mark () activate)
+  (mu4e-mark-execute-all t))
+
+(defadvice mu4e-headers-mark-for-untrash (after mu4e-execute-mark () activate)
+  (mu4e-mark-execute-all t))
+
+(defadvice mu4e-headers-mark-for-move (after mu4e-execute-mark () activate)
+  (mu4e-mark-execute-all t))
 
 (defun my-mu4e-open(ARG)
   (interactive "P")
