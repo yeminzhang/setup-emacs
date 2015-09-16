@@ -81,16 +81,18 @@
     ))
 
 (defun my-mu4e-headers-update()
-  (with-current-buffer mu4e~headers-buffer-name
-    (setq maxnum (unless mu4e-headers-full-search mu4e-headers-results-limit))
-    (mu4e~proc-find
-     mu4e~headers-last-query
-     mu4e-headers-show-threads
-     mu4e~headers-sort-field
-     mu4e~headers-sort-direction
-     maxnum
-     mu4e-headers-skip-duplicates
-     mu4e-headers-include-related)))
+  (let (
+        (maxnum (unless mu4e-headers-full-search mu4e-headers-results-limit))
+        )
+    (with-current-buffer mu4e~headers-buffer-name
+      (mu4e~proc-find
+       mu4e~headers-last-query
+       mu4e-headers-show-threads
+       mu4e-headers-sort-field
+       mu4e-headers-sort-direction
+       maxnum
+       mu4e-headers-skip-duplicates
+       mu4e-headers-include-related))))
 
 (defun my-mu4e-open(ARG)
   (interactive "P")
