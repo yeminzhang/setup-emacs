@@ -73,26 +73,12 @@
 
 (golden-ratio-mode 1)
 
-;; display batter usage for notebook
-(setq battery-mode-line-format "[%b%p%%,%t] ")
-(display-battery-mode 1)
-;; display time in 24hr format
-(setq display-time-24hr-format t)
-(display-time)
-(setq display-time-string-forms (delete 'load display-time-string-forms))
-
 ;; color theme
 (load-theme 'zenburn t)
 
 (set-face-attribute 'region nil :background "#666" :foreground "#ffffff")
 
 ;; override default volatile-highlights face
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -100,14 +86,27 @@
  ;; If there is more than one, they won't work right.
  '(vhl/default-face ((t (:inherit secondary-selection :background "tan" :foreground "black")))))
 
+(after-load 'smart-mode-line
+  (setq sml/theme nil
+        sml/shorten-modes t
+        sml/mode-width 10
+        sml/shorten-directory t
+        sml/name-width 35))
+(sml/setup)
+
+;; display batter usage for notebook
+(after-load 'battery
+  (setq battery-mode-line-format "[%b%p%%,%t] "))
+;; display time in 24hr format
+(after-load 'time
+  (setq display-time-24hr-format t
+        display-time-string-forms (delete 'load display-time-string-forms)))
+
+(display-battery-mode 1)
+(display-time)
+
 (diminish 'golden-ratio-mode)
 (diminish 'volatile-highlights-mode)
 (diminish 'projectile-mode)
 
-(setq sml/theme nil
-      sml/shorten-modes t
-      sml/mode-width 10
-      sml/shorten-directory t
-      sml/name-width 35)
-(sml/setup)
 (provide 'init-appearance)
