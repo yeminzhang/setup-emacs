@@ -80,6 +80,7 @@
 (defun project-compile (ARG)
   (interactive "P")
   (project-load-attributes)
+  (minor-mode-put-compilation-in-progress-top)
   (projectile-compile-project (if (bound-and-true-p projectile-project-compilation-cmd) ARG t))
   (if (or ARG (not projectile-project-compilation-cmd))
 	  (project-save-attribute 'projectile-project-compilation-cmd (gethash (projectile-project-root) projectile-compilation-cmd-map))))
@@ -96,6 +97,14 @@
 		(project-update-tags)
 		;; Always return the anticipated result of compilation-exit-message-function
 		(cons msg code)))
+
+(defun minor-mode-put-compilation-in-progress-top()
+  (let*
+      (
+       (compilation-in-progress-mode '(compilation-in-progress " Compiling"))
+       )
+    (setq minor-mode-alist (delete compilation-in-progress-mode minor-mode-alist))
+    (add-to-list 'minor-mode-alist compilation-in-progress-mode)))
 
 (defun project-configure--tags-command ()
   (let
