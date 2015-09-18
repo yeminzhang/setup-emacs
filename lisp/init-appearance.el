@@ -1,4 +1,4 @@
-(require-packages '(zenburn-theme golden-ratio diminish))
+(require-packages '(zenburn-theme golden-ratio diminish smart-mode-line))
 ;; Appearance
 (menu-bar-mode -1)
 (tool-bar-mode -1)
@@ -101,5 +101,12 @@
 
 (diminish 'golden-ratio-mode)
 (diminish 'volatile-highlights-mode)
+(diminish 'projectile-mode)
 
+(setq sml/theme nil
+      sml/shorten-modes t
+      sml/mode-width 10
+      sml/shorten-directory t
+      sml/name-width 35)
+(sml/setup)
 (provide 'init-appearance)

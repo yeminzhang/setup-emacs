@@ -58,7 +58,8 @@
                                                 (mu4e~view-quit-buffer)(switch-to-buffer mu4e~headers-buffer-name)))
 
   (add-hook 'mu4e-index-updated-hook 'my-mu4e-headers-update)
-  (add-hook 'mu4e-index-updated-hook 'mu4e-display-unread-summary)
+  (add-to-list 'global-mode-string '(:eval (mu4e-get-summary-line)))
+  (mu4e-maildirs-extension)
   )
 
 (defun get-message-signature()
@@ -113,25 +114,19 @@
   (require 'mu4e)
   (if (get-buffer mu4e~headers-buffer-name)
       (switch-to-buffer mu4e~headers-buffer-name)
-    (mu4e))
-  (mu4e-display-unread-summary))
-
-(defun mu4e-display-unread-summary()
-  (mu4e-message (mu4e-get-summary-line)))
+    (mu4e)))
 
 (defun mu4e-get-summary-line()
   (mu4e-maildirs-extension-fetch-maybe)
   (let
       (
-       (result "")
+       (result nil)
        )
     (dolist (folder mu4e-maildirs-extension-cached-maildirs-data)
       (unless
           (member (plist-get folder :path) (list mu4e-sent-folder mu4e-drafts-folder mu4e-trash-folder))
-        (setq result (concat result "  " (plist-get folder :name) ":" (int-to-string (plist-get folder :unread))))))
-    result))
-
-(mu4e-maildirs-extension)
+        (setq result (concat (if result (concat result ",") "") (plist-get folder :name) ":" (int-to-string (plist-get folder :unread))))))
+    (concat result " ")))
 
 (global-set-key (kbd "<f3>") 'my-mu4e-open)
 
