@@ -78,6 +78,7 @@
 (display-battery-mode 1)
 ;; display time in 24hr format
 (setq display-time-24hr-format t)
+(setq display-time-string-forms (delete 'load display-time-string-forms))
 (display-time)
 
 ;; color theme
