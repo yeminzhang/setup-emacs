@@ -46,6 +46,7 @@
   (define-key mu4e-headers-mode-map (kbd "R") 'mu4e-headers-mark-for-refile)
   (define-key mu4e-headers-mode-map (kbd "f") 'mu4e-compose-forward)
   (define-key mu4e-headers-mode-map (kbd "q")  'bury-buffer)
+  (define-key mu4e-headers-mode-map (kbd "Q")  'mu4e-quit)
   (define-key mu4e-view-mode-map (kbd "v") 'scroll-down-command)
   (define-key mu4e-view-mode-map (kbd "f") 'mu4e-view-go-to-url)
   (define-key mu4e-view-mode-map (kbd "g") 'beginning-of-buffer)
@@ -54,8 +55,6 @@
   (define-key mu4e-view-mode-map (kbd "f") 'mu4e-compose-forward)
   (define-key mu4e-view-mode-map (kbd "F") 'mu4e-view-go-to-url)
   (define-key mu4e-view-mode-map (kbd "R") 'mu4e-view-mark-for-refile)
-  (define-key mu4e-view-mode-map (kbd "q")    (lambda() (interactive)
-                                                (mu4e~view-quit-buffer)(switch-to-buffer mu4e~headers-buffer-name)))
 
   (add-hook 'mu4e-index-updated-hook 'my-mu4e-headers-update)
   (add-to-list 'global-mode-string '(:eval (mu4e-get-summary-line)))
@@ -117,16 +116,19 @@
     (mu4e)))
 
 (defun mu4e-get-summary-line()
-  (mu4e-maildirs-extension-fetch-maybe)
-  (let
-      (
-       (result nil)
-       )
-    (dolist (folder mu4e-maildirs-extension-cached-maildirs-data)
-      (unless
-          (member (plist-get folder :path) (list mu4e-sent-folder mu4e-drafts-folder mu4e-trash-folder))
-        (setq result (concat (if result (concat result ",") "") (plist-get folder :name) ":" (int-to-string (plist-get folder :unread))))))
-    (concat result " ")))
+  (if (mu4e-running-p)
+      (progn
+        (mu4e-maildirs-extension-fetch-maybe)
+        (let
+            (
+             (result nil)
+             )
+          (dolist (folder mu4e-maildirs-extension-cached-maildirs-data)
+            (unless
+                (member (plist-get folder :path) (list mu4e-sent-folder mu4e-drafts-folder mu4e-trash-folder))
+              (setq result (concat (if result (concat result ",") "") (plist-get folder :name) ":" (int-to-string (plist-get folder :unread))))))
+          (concat result " ")))
+    ""))
 
 (global-set-key (kbd "<f3>") 'my-mu4e-open)
 
