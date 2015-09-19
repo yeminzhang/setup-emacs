@@ -57,6 +57,7 @@
   (define-key mu4e-view-mode-map (kbd "R") 'mu4e-view-mark-for-refile)
 
   (add-hook 'mu4e-index-updated-hook 'my-mu4e-headers-update)
+  (add-hook 'mu4e-headers-mode-hook 'mu4e-headers-register-desktop-save)
   (add-to-list 'global-mode-string '(:eval (mu4e-get-summary-line)))
   (mu4e-maildirs-extension)
   )
@@ -129,6 +130,24 @@
               (setq result (concat (if result (concat result ",") "") (plist-get folder :name) ":" (int-to-string (plist-get folder :unread))))))
           (concat result " ")))
     ""))
+
+;; restore mu4e-header when emacs starts
+;; save mu4e-header buffer when save desktop
+(defun mu4e-headers-register-desktop-save ()
+  "Set `desktop-save-buffer' to a function returning the latest query."
+  (setq desktop-save-buffer (lambda (desktop-dirname) mu4e~headers-last-query)))
+
+(defun mu4e-headers-restore-desktop-buffer (d-b-file-name d-b-name d-b-misc)
+  "Restore a `mu4e-headers' buffer on `desktop' load."
+  (when (eq 'mu4e-headers-mode desktop-buffer-major-mode)
+    (let ((query d-b-misc))
+      (require 'mu4e)
+      (mu4e t)
+      (mu4e~headers-search-execute query nil)
+      (current-buffer))))
+
+(after-load 'desktop
+  (add-to-list 'desktop-buffer-mode-handlers '(mu4e-headers-mode . mu4e-headers-restore-desktop-buffer)))
 
 (global-set-key (kbd "<f3>") 'my-mu4e-open)
 
