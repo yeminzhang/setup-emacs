@@ -10,28 +10,42 @@
 
 (setq auth-sources (list "~/.authinfo"))
 
+(defcustom ssh-tunnel-autorun-list '()
+  "A list of hosts which will be established as ssh tunnels automatically."
+  :type 'list)
+
 (defun ssh-host-list ()
   (let (
-		(sconfig-list (tramp-parse-sconfig "~/.ssh/config"))
-		(ssh-host-list ()))
-	(dolist (login sconfig-list)
-	  (if (and login (nth 1 login)) (add-to-list 'ssh-host-list (nth 1 login) t)))
-	ssh-host-list))
+        (sconfig-list (tramp-parse-sconfig "~/.ssh/config"))
+        (ssh-host-list ()))
+    (dolist (login sconfig-list)
+      (if (and login (nth 1 login)) (add-to-list 'ssh-host-list (nth 1 login) t)))
+    ssh-host-list))
 
 (defun ssh-host-get-password (host)
   (let ((info (nth 0 (auth-source-search
-					  :host host))))
-	(if info
-		(let ((secret (plist-get info :secret)))
-		  (if (functionp secret)
-			  (funcall secret)
-			secret))
-	  "")))
+                      :host host))))
+    (if info
+        (let ((secret (plist-get info :secret)))
+          (if (functionp secret)
+              (funcall secret)
+            secret))
+      "")))
 
-(defun ssh-tunnel-run-all-preconfigured ()
+(defun ssh-tunnel-configure-autorun()
   (interactive)
-  (if (boundp 'ssh-tunnel-host-list)
-	  (dolist (host ssh-tunnel-host-list) (ssh-tunnel-run host))))
+  (let (
+        (sconfig-list (tramp-parse-sconfig "~/.ssh/config"))
+        (ssh-tunnel-list ()))
+    (dolist (login sconfig-list)
+      (if (and login (nth 1 login) (y-or-n-p (concat "Add " (nth 1 login) " to ssh tunnel list? ")))
+          (add-to-list 'ssh-tunnel-list (nth 1 login) t)))
+    (customize-save-variable 'ssh-tunnel-autorun-list ssh-tunnel-list)))
+
+(defun ssh-tunnel-run-all-autorun ()
+  (interactive)
+  (if (boundp 'ssh-tunnel-autorun-list)
+      (dolist (host ssh-tunnel-autorun-list) (ssh-tunnel-run host))))
 
 (defun ssh-tunnel-kill-all ()
   (interactive)
@@ -54,20 +68,20 @@
 
 (defun ssh-tunnel-command (host command)
   (let* (
-		 (args (cond ((eq command :run)
-					  (list "-M" "-f" "-N" "-T"))
-					 ((eq command :kill)
-					  (list "-O" "exit"))
-					 ((eq command :check)
-					  (list "-O" "check"))
-					 (t (error "Unknown ssh-tunnels command '%s'" command))))
-		 (destination (cond ((eq command :check) nil)
-							((eq command :run) 0)
-							((eq command :kill) 0)
-							(t nil))))
-	(apply 'call-process "ssh" nil destination nil
-		   (append args
-				   (list host)))))
+         (args (cond ((eq command :run)
+                      (list "-M" "-f" "-N" "-T"))
+                     ((eq command :kill)
+                      (list "-O" "exit"))
+                     ((eq command :check)
+                      (list "-O" "check"))
+                     (t (error "Unknown ssh-tunnels command '%s'" command))))
+         (destination (cond ((eq command :check) nil)
+                            ((eq command :run) 0)
+                            ((eq command :kill) 0)
+                            (t nil))))
+    (apply 'call-process "ssh" nil destination nil
+           (append args
+                   (list host)))))
 
 (defun ssh-host (host)
   (interactive (list (ido-completing-read "ssh to: " (ssh-host-list))))
@@ -81,22 +95,22 @@
 (defun ssh-tunnel-start-timer ()
   (interactive)
   (unless (boundp 'ssh-tunnel-monitor-timer)
-	(setq ssh-tunnel-monitor-timer (run-with-timer 60 60 'ssh-tunnel-run-all-preconfigured))))
+    (setq ssh-tunnel-monitor-timer (run-with-timer 60 60 'ssh-tunnel-run-all-autorun))))
 
 (defun ssh-tunnel-stop-timer ()
   (interactive)
   (unless (not (boundp 'ssh-tunnel-monitor-timer))
-	(cancel-timer ssh-tunnel-monitor-timer)
-	(makunbound 'ssh-tunnel-monitor-timer)))
+    (cancel-timer ssh-tunnel-monitor-timer)
+    (makunbound 'ssh-tunnel-monitor-timer)))
 
 (defun dropbox-start ()
   (interactive)
   (if (executable-find "dropbox")
-	  (apply 'call-process "dropbox" nil 0 nil
-			 (list "start"))))
+      (apply 'call-process "dropbox" nil 0 nil
+             (list "start"))))
 
 (autoload 'eshell-exec-visual "em-term")
-(ssh-tunnel-run-all-preconfigured)
+(ssh-tunnel-run-all-autorun)
 (ssh-tunnel-start-timer)
 (dropbox-start)
 
