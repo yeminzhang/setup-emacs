@@ -1,15 +1,18 @@
-;; default value
-(setq *is-sv-kbmap* t)
+(defcustom *is-sv-kbmap* nil
+  "Current keyboard layout."
+  :type 'boolean)
+
 (setq email-configured nil)
 
 (defun env-set-keyboard-layout()
   (interactive)
   (if (y-or-n-p "Do you use Swedish Keyboard layout? ")
-	  (customize-save-variable '*is-sv-kbmap* t)
-	(customize-save-variable '*is-sv-kbmap* nil)))
+      (customize-save-variable '*is-sv-kbmap* t)
+    (customize-save-variable '*is-sv-kbmap* nil))
+  (message "Please restart emacs to make it into effect"))
 
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
-(load custom-file)
+(when (file-exists-p custom-file) (load custom-file))
 
 ;; set right-little-finger-key based on keyboard layout
 (if *is-sv-kbmap*
