@@ -2,8 +2,6 @@
   "Current keyboard layout."
   :type 'boolean)
 
-(setq email-configured nil)
-
 (defun env-set-keyboard-layout()
   (interactive)
   (if (y-or-n-p "Do you use Swedish Keyboard layout? ")

@@ -1,12 +1,15 @@
 (add-to-list 'load-path (expand-file-name "mu/mu4e" user-emacs-directory))
 (require-packages '(mu4e-maildirs-extension))
 
-(setq message-send-mail-function 'smtpmail-send-it
-      message-kill-buffer-on-exit t
-      smtpmail-queue-mail nil)
+(after-load 'message
+  (setq message-send-mail-function 'smtpmail-send-it
+        message-kill-buffer-on-exit t))
+
+(after-load 'smtpmail
+  (setq smtpmail-queue-mail nil))
 
 (after-load 'mu4e
-  (unless email-configured (email-configure))
+  (unless smtpmail-smtp-server (email-configure))
   (setq mu4e-sent-folder "/Sent"
         mu4e-drafts-folder "/Drafts"
         mu4e-trash-folder "/Deleted"
@@ -78,8 +81,6 @@
     (customize-save-variable 'smtpmail-smtp-server smtp-server)
     (customize-save-variable 'user-mail-address email-addr)
     (customize-save-variable 'user-full-name full-name)
-    (customize-save-variable 'email-configured t)
-    (load custom-file)
     ))
 
 (defun my-mu4e-headers-update()
