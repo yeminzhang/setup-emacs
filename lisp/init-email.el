@@ -28,11 +28,10 @@
         mu4e-headers-date-format "%y-%m-%d"
         mu4e-headers-time-format "%H:%M"
         mu4e-bookmarks '(
-                         ("g:unread AND NOT m:/Git AND NOT m:/Deleted*" "Unread messages" 117)
-                         ("date:today..now AND NOT m:/Git AND NOT m:/Deleted*" "Today's messages" 116)
-                         ("date:7d..now AND NOT m:/Git AND NOT m:/Deleted*" "Last 7 days" 119)
+                         ("g:unread AND NOT m:/Deleted*" "Unread messages" 117)
+                         ("date:today..now AND NOT m:/Sent AND NOT m:/Deleted*" "Today's messages" 116)
+                         ("date:7d..now AND NOT m:/Sent AND NOT m:/Deleted*" "Last 7 days" 119)
                          ("mime:image/*" "Messages with images" 112))
-
         mu4e-headers-fields '((:human-date . 12)
                               (:maildir . 10)
                               (:from-or-to . 22)
@@ -51,8 +50,8 @@
   (define-key mu4e-headers-mode-map (kbd "r") 'mu4e-compose-reply)
   (define-key mu4e-headers-mode-map (kbd "R") 'mu4e-headers-mark-for-refile)
   (define-key mu4e-headers-mode-map (kbd "f") 'mu4e-compose-forward)
-  (define-key mu4e-headers-mode-map (kbd "q")  'bury-buffer)
-  (define-key mu4e-headers-mode-map (kbd "Q")  'mu4e-quit)
+  (define-key mu4e-headers-mode-map (kbd "q") 'bury-buffer)
+  (define-key mu4e-headers-mode-map (kbd "Q") 'mu4e-quit)
   (define-key mu4e-view-mode-map (kbd "v") 'scroll-down-command)
   (define-key mu4e-view-mode-map (kbd "f") 'mu4e-view-go-to-url)
   (define-key mu4e-view-mode-map (kbd "g") 'beginning-of-buffer)
