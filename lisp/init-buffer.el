@@ -5,7 +5,6 @@
 
 ;; switch buffer
 (global-set-key (kbd "C-x b") 'ido-switch-buffer)
-(key-chord-define-global "jj" 'ido-switch-buffer)
 (global-set-key (kbd "C-x C-b") 'helm-mini)
 (fset 'switch-to-previous-buffer
       (lambda (&optional arg)
