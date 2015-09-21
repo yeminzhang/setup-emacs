@@ -12,7 +12,7 @@
         "Same as C-x b right-little-finger-key"
         (interactive "p")
         (kmacro-exec-ring-item (quote ([24 98 246] "b" right-little-finger-key)) arg)))
-(key-chord-define-global "JJ" 'switch-to-previous-buffer)
+(global-set-key (kbd "<C-tab>") 'switch-to-previous-buffer)
 
 ;; This is a patch to prevent helm from sorting the buffer
 ;; list when narrowing
