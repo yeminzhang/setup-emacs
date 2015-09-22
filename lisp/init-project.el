@@ -155,6 +155,7 @@
   (setq projectile-find-dir-includes-top-level t)
   (setq projectile-tags-command nil)
   (setq projectile-idle-timer-hook (list 'project-update-tags))
+  (setq helm-projectile-fuzzy-match nil)
   (helm-projectile-on)
   (define-key projectile-mode-map (kbd "C-c p g") 'helm-projectile-grep)
   (define-key projectile-mode-map (kbd "C-c p c") 'project-configure)
