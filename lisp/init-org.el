@@ -10,6 +10,8 @@
         org-time-clocksum-format
         '(:hours "%d" :require-hours t :minutes ":%02d" :require-minutes t))
 
+  (define-key org-mode-map (kbd "<C-tab>") nil)
+
   (unless (file-exists-p org-directory) (mkdir org-directory))
   (unless org-agenda-files
     (setq org-agenda-files
