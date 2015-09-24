@@ -1,6 +1,8 @@
 (after-load 'org
   (setq org-completion-use-ido t
-        org-log-done t
+        org-log-done 'time
+        org-log-reschedule 'time
+        org-log-redeadline 'time
         org-todo-keywords
         (quote ((sequence "TODO(t)" "STARTED(s)" "|" "DONE(d!/!)")
                 (sequence "WAITING(w@/!)" "SOMEDAY(S)" "|" "CANCELLED(c@/!)")))
