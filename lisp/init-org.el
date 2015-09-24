@@ -10,15 +10,7 @@
         org-time-clocksum-format
         '(:hours "%d" :require-hours t :minutes ":%02d" :require-minutes t))
 
-  (define-key org-mode-map (kbd "<C-tab>") nil)
-
-  (unless (file-exists-p org-directory) (mkdir org-directory))
-  (unless org-agenda-files
-    (setq org-agenda-files
-          (list (concat org-directory "/life.org") (concat org-directory "/work.org"))))
-
-  (dolist (agenda-file org-agenda-files)
-    (unless (file-exists-p agenda-file) (shell-command (concat "touch " agenda-file)))))
+  (define-key org-mode-map (kbd "<C-tab>") nil))
 
 (defun org-agenda-bury ()
   (interactive)
