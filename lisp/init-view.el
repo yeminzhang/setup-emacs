@@ -62,7 +62,7 @@
   (when (boundp 'doc-view-already-continued-p)
   (unless (bmkp-get-autofile-bookmark buffer-file-name)
 	  (bmkp-autofile-set buffer-file-name))
-  (bmkp-set-tag-value (eshell/basename buffer-file-name) tag value)))
+  (bmkp-set-tag-value (file-name-nondirectory buffer-file-name) tag value)))
 
 (defadvice doc-view-set-slice (after doc-view-store-slice activate)
   (doc-view-save-attribute "slice" (doc-view-current-slice)))
