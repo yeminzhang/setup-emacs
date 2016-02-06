@@ -77,10 +77,10 @@
                                                        recentf-list)))
 
 (setq my-helm-source-locate-dir (copy-tree helm-source-locate))
-(setf (nth 1 (nth 7 my-helm-source-locate-dir)) 'helm-keep-only-dirs)
+(setf (nth 1 (nth 8 my-helm-source-locate-dir)) 'helm-keep-only-dirs)
 
 (setq my-helm-source-locate-files (copy-tree helm-source-locate))
-(setf (nth 7 my-helm-source-locate-files) (append (list (car (nth 7 my-helm-source-locate-files))) '(helm-keep-only-files) (cdr (nth 7 my-helm-source-locate-files))))
+(setf (nth 8 my-helm-source-locate-files) (append (list (car (nth 8 my-helm-source-locate-files))) '(helm-keep-only-files) (cdr (nth 8 my-helm-source-locate-files))))
 
 (defun my-helm-find-file ()
   (interactive)
