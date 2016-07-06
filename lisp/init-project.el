@@ -77,6 +77,9 @@
   (set-window-configuration window-configuration-before-gdb)
   )
 
+(defun project-get-compilation-buffer-name (mode)
+  (concat "*" (downcase mode) "-" (projectile-project-name) "*"))
+
 (defun project-compile (ARG)
   (interactive "P")
   (project-load-attributes)
@@ -86,17 +89,10 @@
 	  (project-save-attribute 'projectile-project-compilation-cmd (gethash (projectile-project-root) projectile-compilation-cmd-map))))
 
 ;; Close the compilation window if there was no error at all.
-(setq compilation-exit-message-function
-	  (lambda (status code msg)
-		;; If M-x compile exists with a 0
-		(when (and (eq status 'exit) (zerop code))
-		  ;; then bury the *compilation* buffer, so that C-x b doesn't go there
-		  (bury-buffer "*compilation*")
-		  ;; and return to whatever were looking at before
-		  (replace-buffer-in-windows "*compilation*"))
-		(project-update-tags)
-		;; Always return the anticipated result of compilation-exit-message-function
-		(cons msg code)))
+(defun compile-autoclose (buffer string)
+  (when (string-match "finished" string)
+    (bury-buffer buffer)
+    (replace-buffer-in-windows buffer)))
 
 (defun minor-mode-put-compilation-in-progress-top()
   (let*
@@ -173,7 +169,9 @@
 ;; ede for semantic
 (global-ede-mode)
 
-(setq compilation-read-command nil)
-(setq compilation-ask-about-save nil)
+(setq compilation-read-command nil
+      compilation-ask-about-save nil
+      compilation-buffer-name-function 'project-get-compilation-buffer-name
+      compilation-finish-functions 'compile-autoclose)
 
 (provide 'init-project)
