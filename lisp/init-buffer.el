@@ -7,12 +7,7 @@
 (global-set-key (kbd "C-x b") 'ido-switch-buffer)
 (global-set-key (kbd (concat "C-" right-little-finger-key)) 'ido-switch-buffer)
 (global-set-key (kbd "C-x C-b") 'helm-mini)
-(fset 'switch-to-previous-buffer
-      (lambda (&optional arg)
-        "Same as C-x b right-little-finger-key"
-        (interactive "p")
-        (kmacro-exec-ring-item (quote ([24 98 246] "b" right-little-finger-key)) arg)))
-(global-set-key (kbd "<C-tab>") 'switch-to-previous-buffer)
+(global-set-key (kbd "<C-tab>") 'mode-line-other-buffer)
 
 ;; This is a patch to prevent helm from sorting the buffer
 ;; list when narrowing
