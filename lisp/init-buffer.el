@@ -19,19 +19,12 @@
 
 (global-set-key (kbd "C-x K") 'kill-this-buffer)
 
-(add-hook 'window-configuration-change-hook
-		  'check-revert-file)
+(global-auto-revert-mode 1)
 
 ;; force all buffers to be displayed in the same window
 ;;(setq same-window-buffer-names '("*eshell*"))
 (setq pop-up-windows nil)
 (setq Man-notify-method 'pushy)
-
-(defun check-revert-file ()
-  (if (buffer-file-name)
-	  (unless (verify-visited-file-modtime (current-buffer))
-		;;(unless (buffer-modified-p) (revert-buffer t t t))
-		(revert-buffer)))) ; ask for confirmation
 
 (setq enable-local-variables :all)
 
