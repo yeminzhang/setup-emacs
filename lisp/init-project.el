@@ -172,6 +172,7 @@
 (setq compilation-read-command nil
       compilation-ask-about-save nil
       compilation-buffer-name-function 'project-get-compilation-buffer-name
-      compilation-finish-functions 'compile-autoclose)
+      compilation-finish-functions 'compile-autoclose
+      compilation-skip-threshold 2)
 
 (provide 'init-project)
