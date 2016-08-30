@@ -2,7 +2,7 @@
 (setq desktop-path (list user-emacs-directory))
 (desktop-save-mode 1)
 (setq desktop-restore-eager t)
-(setq desktop-files-not-to-save "^$")
+;;(setq desktop-files-not-to-save "^$")
 
 ;;(require 'workgroups2)
 ;;(setq wg-mode-line-display-on nil
