@@ -89,14 +89,14 @@
 (after-load 'smart-mode-line
   (setq sml/theme nil
         sml/shorten-modes t
-        sml/mode-width 10
+        sml/mode-width 'right
         sml/shorten-directory t
-        sml/name-width 35))
+        sml/name-width '(10 . 35)))
 (sml/setup)
 
 ;; display batter usage for notebook
 (after-load 'battery
-  (setq battery-mode-line-format "[%b%p%%,%t] "))
+  (setq battery-mode-line-format "[%b%p%%] "))
 ;; display time in 24hr format
 (after-load 'time
   (setq display-time-24hr-format t
