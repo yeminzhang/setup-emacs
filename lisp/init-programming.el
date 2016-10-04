@@ -16,6 +16,9 @@
   (define-key yas-minor-mode-map (kbd "S-SPC")  'helm-yas-complete))
 
 (autoload 'yas-minor-mode-on "yasnippet")
+;; company-yasnippet
+(after-load 'company
+  (add-to-list 'company-backends 'company-yasnippet))
 
 ;; configure semantic
 (semantic-mode 1)
