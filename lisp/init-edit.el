@@ -202,6 +202,7 @@
 
 ;; iedit
 (global-set-key (kbd "C-,") 'iedit-mode)
+(setq iedit-toggle-key-default (kbd "C-,"))
 
 ;; recentf
 (require 'recentf-ext)
