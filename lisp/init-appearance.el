@@ -10,7 +10,7 @@
 (show-paren-mode t)
 (setq max-mini-window-height nil)
 ;;(set-default-font "Monospace-10:pixelsize=14")
-(set-default-font "Monospace:pixelsize=14")
+(add-to-list 'default-frame-alist '(font . "Monospace:pixelsize=14"))
 ;;(set-default-font "opendesktop-fonts")
 ;;(setq font-use-system-font t)
 ;;(add-to-list 'default-frame-alist '(font . "Monospace-12"))
@@ -72,6 +72,7 @@
   (setq max-mini-window-height 1))
 
 (golden-ratio-mode 1)
+(add-to-list 'golden-ratio-exclude-modes 'term-mode)
 
 ;; color theme
 (load-theme 'zenburn t)
@@ -91,7 +92,8 @@
         sml/shorten-modes t
         sml/mode-width 'right
         sml/shorten-directory t
-        sml/name-width '(10 . 35)))
+        sml/name-width '(10 . 35)
+        sml/show-frame-identification t))
 (sml/setup)
 
 ;; display batter usage for notebook
