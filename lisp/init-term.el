@@ -1,4 +1,7 @@
+(require-packages '(multi-term))
+
 (require 'term)
+(require 'multi-term)
 
 (defun term-send-f12    () (interactive) (term-send-raw-string "\033\[24~"))
 (global-set-key (kbd "<f12>") 'term-send-f12)
@@ -19,18 +22,15 @@
 (define-key term-raw-map (kbd "<end>") 'end-of-buffer)
 (define-key term-raw-map (kbd "M-x") 'smex)
 
-
-(add-hook 'term-mode-hook #'(lambda () (local-set-key (kbd "C-o") 'other-window)))
-;; multi-term
-;;(add-to-list 'load-path "/home/eyemzha/.emacs.d/")
-;;(require 'multi-term)
-
 ;; key map
 (define-key function-key-map "\e[24~" [f5])
 
 (defun bash-term ()
-(interactive)
-(ansi-term "/bin/bash"))
+  (interactive)
+  (let ((multi-term-program "/bin/bash"))
+    (multi-term)))
+
+;;(add-to-list 'term-bind-key-alist '("C-r" . term-send-reverse-search-history))
 
 (defun term-send-function-key ()
   (interactive)
@@ -48,13 +48,6 @@
   (define-key term-raw-map
     (read-kbd-macro (format "<%s>" (car spec)))
     'term-send-function-key))
-
-
-;; yank in term
-(define-key term-raw-map "\C-y"
-  (lambda ()
-    (interactive)
-    (term-send-string (get-process (buffer-name (current-buffer))) (current-kill 0))))
 
 (defun term-toggle-submode ()
 (interactive)
