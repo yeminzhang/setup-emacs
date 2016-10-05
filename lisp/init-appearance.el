@@ -1,4 +1,4 @@
-(require-packages '(zenburn-theme golden-ratio diminish smart-mode-line))
+(require-packages '(zenburn-theme diminish smart-mode-line))
 ;; Appearance
 (menu-bar-mode -1)
 (tool-bar-mode -1)
@@ -71,10 +71,6 @@
   (setq ido-max-window-height 1)
   (setq max-mini-window-height 1))
 
-(golden-ratio-mode 1)
-(add-to-list 'golden-ratio-exclude-modes 'term-mode)
-(add-to-list 'golden-ratio-exclude-buffer-regexp "*sshpass*")
-
 ;; color theme
 (load-theme 'zenburn t)
 
@@ -108,7 +104,6 @@
 (display-battery-mode 1)
 (display-time)
 
-(diminish 'golden-ratio-mode)
 (diminish 'volatile-highlights-mode)
 (diminish 'projectile-mode)
 
