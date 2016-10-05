@@ -73,6 +73,7 @@
 
 (golden-ratio-mode 1)
 (add-to-list 'golden-ratio-exclude-modes 'term-mode)
+(add-to-list 'golden-ratio-exclude-buffer-regexp "*sshpass*")
 
 ;; color theme
 (load-theme 'zenburn t)

@@ -12,4 +12,6 @@
 ;;(add-hook 'emacs-startup-hook 'wg-reload-session)
 ;;(add-hook 'kill-emacs-hook 'wg-save-session)
 
+(global-set-key (kbd "C-M-o") 'other-frame)
+
 (provide 'init-session)
