@@ -1,3 +1,5 @@
+(require-packages '(frame-cmds))
+
 ;; desktop save
 (setq desktop-path (list user-emacs-directory))
 (desktop-save-mode 1)
@@ -11,7 +13,7 @@
 
 ;;(add-hook 'emacs-startup-hook 'wg-reload-session)
 ;;(add-hook 'kill-emacs-hook 'wg-save-session)
-
+(require 'frame-cmds)
 (global-set-key (kbd "C-M-o") 'other-frame)
 
 (provide 'init-session)
