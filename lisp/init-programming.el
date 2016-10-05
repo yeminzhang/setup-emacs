@@ -17,6 +17,9 @@
 
 (autoload 'yas-minor-mode-on "yasnippet")
 
+(after-load 'company
+  (push '(company-semantic :with company-yasnippet) company-backends))
+
 ;; configure semantic
 (semantic-mode 1)
 (global-semanticdb-minor-mode 1)
