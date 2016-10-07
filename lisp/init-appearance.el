@@ -11,6 +11,7 @@
 (setq max-mini-window-height nil)
 ;;(set-default-font "Monospace-10:pixelsize=14")
 (add-to-list 'default-frame-alist '(font . "Monospace:pixelsize=14"))
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
 ;;(set-default-font "opendesktop-fonts")
 ;;(setq font-use-system-font t)
 ;;(add-to-list 'default-frame-alist '(font . "Monospace-12"))

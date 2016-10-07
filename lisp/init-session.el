@@ -3,7 +3,8 @@
 ;; desktop save
 (setq desktop-path (list user-emacs-directory))
 (desktop-save-mode 1)
-(setq desktop-restore-eager t)
+(setq desktop-restore-eager t
+      desktop-restore-frames nil)
 ;;(setq desktop-files-not-to-save "^$")
 
 ;;(require 'workgroups2)
