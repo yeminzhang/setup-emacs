@@ -1,0 +1,10 @@
+#!/bin/bash
+HOST=$1
+
+PASSWORD=$(grep "^machine $HOST" ~/.authinfo | cut -d ' ' -f 4)
+
+if [ -e $PASSWORD ]; then
+   ssh $HOST
+else
+   sshpass -p $PASSWORD ssh $HOST
+fi

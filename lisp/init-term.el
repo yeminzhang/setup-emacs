@@ -25,12 +25,16 @@
 ;; key map
 (define-key function-key-map "\e[24~" [f5])
 
+(defun term-switch-to-terminal-frame ()
+  (let (
+        (frame (or (get-a-frame "terminal") (make-frame '((name . "terminal"))))))
+    (select-frame-set-input-focus frame)))
+
 (defun bash-term ()
   (interactive)
   (let ((multi-term-program "/bin/bash"))
+    (term-switch-to-terminal-frame)
     (multi-term)))
-
-;;(add-to-list 'term-bind-key-alist '("C-r" . term-send-reverse-search-history))
 
 (defun term-send-function-key ()
   (interactive)

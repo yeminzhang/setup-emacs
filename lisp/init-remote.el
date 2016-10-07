@@ -85,17 +85,16 @@
 
 (defun ssh-host (host)
   (interactive (list (ido-completing-read "ssh to: " (ssh-host-list))))
-  (let (
-        (default-directory user-emacs-directory)
-        (password (ssh-host-get-password host))
-        )
-    (if (not (string= password ""))
-        (progn
-          (eshell-exec-visual "sshpass" "-p" password "ssh" host)
-          (set-buffer (get-buffer "*sshpass*")))
-      (progn
-        (eshell-exec-visual "ssh" host)
-        (set-buffer (get-buffer "*ssh*"))))
+  (let* (
+         (default-directory user-emacs-directory)
+         (password (ssh-host-get-password host))
+         (multi-term-program (expand-file-name "utils/myssh" user-emacs-directory))
+         (multi-term-program-switches host)
+         )
+    (term-switch-to-terminal-frame)
+    (multi-term)
+;;    (term-send-raw-string "export TERM=xterm")
+  ;;  (term-send-return)
     (rename-buffer (concat "ssh-" host))))
 
 (defun ssh-tunnel-start-timer ()
