@@ -1,4 +1,4 @@
-;; init-c is for c-mode, c++-mode
+;; init-c-cpp is for c-mode, c++-mode
 (require-packages '(company-c-headers))
 ;;(require 'flymake-cursor)
 ;;(add-hook 'find-file-hook 'flymake-find-file-hook)
@@ -96,4 +96,4 @@
   (setq company-c-headers-path-user 'cc-get-headers-path-user)
   (setq company-c-headers-path-system 'cc-get-headers-path-system))
 
-(provide 'init-c)
+(provide 'init-c-cpp)
