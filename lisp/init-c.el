@@ -1,5 +1,5 @@
 ;; init-c is for c-mode, c++-mode
-(require-packages '(function-args company-c-headers))
+(require-packages '(company-c-headers))
 ;;(require 'flymake-cursor)
 ;;(add-hook 'find-file-hook 'flymake-find-file-hook)
 
@@ -86,8 +86,7 @@
   (dolist (mode-hook '(c-mode-hook c++-mode-hook))
     (add-hook mode-hook
               (lambda ()
-                (local-set-key  (kbd "C-c o") 'cc-switch-source-header-file))))
-  (fa-config-default))
+                (local-set-key  (kbd "C-c o") 'cc-switch-source-header-file)))))
 
 ;; company-c-headers
 (after-load 'company
