@@ -25,6 +25,8 @@
 ;; key map
 (define-key function-key-map "\e[24~" [f5])
 
+(delete '("M-o" . term-send-backspace) term-bind-key-alist)
+
 (defun term-switch-to-terminal-frame ()
   (let (
         (frame (or (get-a-frame "terminal") (make-frame '((name . "terminal"))))))
