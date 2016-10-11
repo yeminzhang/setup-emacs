@@ -32,11 +32,8 @@
         (frame (or (get-a-frame "terminal") (make-frame '((name . "terminal"))))))
     (select-frame-set-input-focus frame)))
 
-(defun bash-term ()
-  (interactive)
-  (let ((multi-term-program "/bin/bash"))
-    (term-switch-to-terminal-frame)
-    (multi-term)))
+(defadvice multi-term (before multi-term-switch-to-frame activate)
+  (term-switch-to-terminal-frame))
 
 (defun term-send-function-key ()
   (interactive)

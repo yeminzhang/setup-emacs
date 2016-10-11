@@ -91,7 +91,6 @@
          (multi-term-program (expand-file-name "utils/myssh" user-emacs-directory))
          (multi-term-program-switches host)
          )
-    (term-switch-to-terminal-frame)
     (multi-term)
 ;;    (term-send-raw-string "export TERM=xterm")
   ;;  (term-send-return)
@@ -114,7 +113,6 @@
       (apply 'call-process "dropbox" nil 0 nil
              (list "start"))))
 
-(autoload 'eshell-exec-visual "em-term")
 (ssh-tunnel-run-all-autorun)
 (ssh-tunnel-start-timer)
 (dropbox-start)
