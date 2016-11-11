@@ -82,8 +82,18 @@
 (setq my-helm-source-locate-files (copy-tree helm-source-locate))
 (setf (nth 8 my-helm-source-locate-files) (append (list (car (nth 8 my-helm-source-locate-files))) '(helm-keep-only-files) (cdr (nth 8 my-helm-source-locate-files))))
 
-(defun my-helm-find-file ()
-  (interactive)
+;; By default regexp is not used. Add -r in a helm session to enable it
+(defun make-locate-command (ARG)
+  (let (
+        (locate-db-file
+         (if (or ARG (not (projectile-project-p)) (not (file-exists-p (expand-file-name ".mlocate.db" (projectile-project-root)))))
+             locate-db-file
+           (expand-file-name ".mlocate.db" (projectile-project-root)))))
+    (concat "locate %s -d " locate-db-file " -e -A %s")))
+
+(defun my-helm-find-file (ARG)
+  (interactive "P")
+  (let ((helm-locate-command (make-locate-command ARG)))
   (helm
    :prompt "Open file: "
    :candidate-number-limit 25                 ;; up to 25 of each
@@ -91,19 +101,20 @@
    '(
      helm-source-files-in-current-dir ;; current dir
      my-helm-source-recentf               ;; recent files
-     helm-source-projectile-files-list
-     my-helm-source-locate-files)))            ;; use 'locate'
+;;     helm-source-projectile-files-list
+     my-helm-source-locate-files))))            ;; use 'locate'
 
-(defun my-helm-find-dir ()
-  (interactive)
+(defun my-helm-find-dir (ARG)
+  (interactive "P")
+  (let ((helm-locate-command (make-locate-command ARG)))
   (helm
    :prompt "Go to dir: "
    :candidate-number-limit 25                 ;; up to 25 of each
    :sources
    '(
-     helm-source-projectile-directories-list
+;;     helm-source-projectile-directories-list
      my-helm-source-recentd
-     my-helm-source-locate-dir)))
+     my-helm-source-locate-dir))))
 
 ;; find a file
 (global-set-key (kbd "C-x C-f") 'my-helm-find-file)
@@ -113,9 +124,6 @@
 (global-set-key (kbd "M-y") 'helm-show-kill-ring)
 
 (setq locate-db-file "~/.mlocate.db")
-;; By default regexp is not used. Add -r in a helm session to enable it
-(if *is-linux*
-    (setq helm-locate-command (concat "locate %s -d " locate-db-file " -e -A %s")))
 
 (defun updatedb ()
   (interactive)
