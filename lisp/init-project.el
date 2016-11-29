@@ -57,7 +57,7 @@
   (interactive ())
   (if (eq gud-minor-mode 'gdbmi) (cc-debug-quit))
   (gud-restore-window-configuration)
-  (bury-buffer "*gud-main*")
+  (bury-buffer gud-comint-buffer)
   )
 
 (defun gud-active-process ()

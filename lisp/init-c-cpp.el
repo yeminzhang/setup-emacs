@@ -15,7 +15,7 @@
          (read-from-minibuffer "Parameters: ")
          (read-from-minibuffer "Envs: ")
          ))
-  (setq command-line (concat "gdb -i=mi " executable)
+  (setq command-line (concat "gdb -i=mi -cd=" (projectile-project-root) " " executable)
         gdb-many-windows t
         gdb-show-main t)
   (gdb command-line)
@@ -34,7 +34,7 @@
   )
 
 (defun cc-breakpoints-filename ()
-  (with-current-buffer "*gud-main*"
+  (with-current-buffer gud-comint-buffer
     (concat "/tmp/" (s-replace "/" "!" project-executable-file))))
 
 (defun cc-debug-quit ()
