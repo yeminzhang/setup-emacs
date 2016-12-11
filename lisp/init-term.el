@@ -21,11 +21,20 @@
 (define-key term-raw-map (kbd "<home>") 'beginning-of-buffer)
 (define-key term-raw-map (kbd "<end>") 'end-of-buffer)
 (define-key term-raw-map (kbd "M-x") 'smex)
+(define-key term-raw-map (kbd "C-v") 'scroll-up-command)
+;; sometimes we need to use vi in term-mode. so we need to make esc work
+(define-key term-raw-map (kbd "<escape>") 'term-send-esc)
 
 ;; key map
 (define-key function-key-map "\e[24~" [f5])
 
 (delete '("M-o" . term-send-backspace) term-bind-key-alist)
+
+;; bind C-r to search shell command history, and M-r to search buffer
+(delete '("M-r" . term-send-reverse-search-history) term-bind-key-alist)
+(delete '("C-r" . isearch-backward) term-bind-key-alist)
+(add-to-list 'term-bind-key-alist '("M-r" . isearch-backward))
+(add-to-list 'term-bind-key-alist '("C-r" . term-send-reverse-search-history))
 
 (defun term-switch-to-terminal-frame ()
   (let (
