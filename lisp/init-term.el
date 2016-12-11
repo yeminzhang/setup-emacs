@@ -41,8 +41,11 @@
         (frame (or (get-a-frame "terminal") (make-frame '((name . "terminal"))))))
     (select-frame-set-input-focus frame)))
 
-(defadvice multi-term (before multi-term-switch-to-frame activate)
-  (term-switch-to-terminal-frame))
+;;(defadvice multi-term (before multi-term-switch-to-frame activate)
+;;  (term-switch-to-terminal-frame))
+
+(defadvice multi-term (before multi-term-set-program activate)
+  (when (file-exists-p "/bin/zsh") (setenv "SHELL" "/bin/zsh")))
 
 (defun term-send-function-key ()
   (interactive)
