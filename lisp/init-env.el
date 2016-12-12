@@ -1,24 +1,10 @@
-(defcustom *is-sv-kbmap* nil
-  "Current keyboard layout."
-  :type 'boolean)
-
-(defun env-set-keyboard-layout()
-  (interactive)
-  (if (y-or-n-p "Do you use Swedish Keyboard layout? ")
-      (customize-save-variable '*is-sv-kbmap* t)
-    (customize-save-variable '*is-sv-kbmap* nil))
-  (message "Please restart emacs to make it into effect"))
-
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (when (file-exists-p custom-file) (load custom-file))
 
-;; set right-little-finger-key based on keyboard layout
-(if *is-sv-kbmap*
-	(defconst right-little-finger-key "ö")
-  (defconst right-little-finger-key ";"))
-(if *is-sv-kbmap*
-	(defconst bottom-right-finger-key "-")
-  (defconst bottom-right-finger-key "/"))
+;; optional for those who set keyboard layout to ö at ; in order to
+;; speed up switch-to-buffer and press RETURN in various mode.
+;; If your keyboard layout doesn't have ö set, then just ignore it.
+(defconst right-little-finger-key "ö")
 
 ;; OS
 (defconst *is-linux* (eq system-type 'gnu/linux))
