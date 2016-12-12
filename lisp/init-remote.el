@@ -90,11 +90,15 @@
          (password (ssh-host-get-password host))
          (multi-term-program (expand-file-name "utils/myssh" user-emacs-directory))
          (multi-term-program-switches host)
+         (index 1)
          )
     (multi-term)
 ;;    (term-send-raw-string "export TERM=xterm")
-  ;;  (term-send-return)
-    (rename-buffer (concat "ssh-" host))))
+    ;;  (term-send-return)
+    ;; Compute index.
+    (while (buffer-live-p (get-buffer (format "*%s<%s>*" host index)))
+      (setq index (1+ index)))
+    (rename-buffer (format "*%s<%s>*" host index))))
 
 (defun ssh-tunnel-start-timer ()
   (interactive)
