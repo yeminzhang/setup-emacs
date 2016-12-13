@@ -8,7 +8,7 @@
 ;;(display-time)
 (fset 'yes-or-no-p 'y-or-n-p)
 (show-paren-mode t)
-(setq max-mini-window-height nil)
+(setq split-height-threshold nil)
 ;;(set-default-font "Monospace-10:pixelsize=14")
 (add-to-list 'default-frame-alist '(font . "Monospace:pixelsize=14"))
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
