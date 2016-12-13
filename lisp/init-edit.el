@@ -17,6 +17,7 @@
 (setq-default show-trailing-whitespace nil)
 (after-load 'whitespace
   (setq whitespace-style '(tab-mark)))  ;;turns on white space mode only for tabs
+(add-to-list 'write-file-hooks 'delete-trailing-whitespace)
 
 (global-set-key (kbd "C-x g") 'beginning-of-buffer)
 (global-set-key (kbd "C-x G") 'end-of-buffer)
