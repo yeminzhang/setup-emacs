@@ -9,8 +9,11 @@
 (fset 'yes-or-no-p 'y-or-n-p)
 (show-paren-mode t)
 (setq split-height-threshold nil)
-;;(set-default-font "Monospace-10:pixelsize=14")
-(add-to-list 'default-frame-alist '(font . "Monospace:pixelsize=14"))
+
+;; font style and size can be customized and saved in custom.el
+(unless (boundp 'default-frame-font)
+  (customize-save-variable 'default-frame-font "Monospace:pixelsize=14"))
+(add-to-list 'default-frame-alist (cons 'font default-frame-font))
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 ;;(set-default-font "opendesktop-fonts")
 ;;(setq font-use-system-font t)
