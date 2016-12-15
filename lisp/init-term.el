@@ -10,6 +10,7 @@
 (autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t)
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
 (setq ansi-color-for-comint-mode t)
+(setq term-buffer-maximum-size 0)
 
 (setq term-default-bg-color nil)
 (setq term-default-fg-color nil)
