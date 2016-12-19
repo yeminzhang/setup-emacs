@@ -25,6 +25,9 @@
 (define-key term-raw-map (kbd "C-v") 'scroll-up-command)
 ;; sometimes we need to use vi in term-mode. so we need to make esc work
 (define-key term-raw-map (kbd "<escape>") 'term-send-esc)
+;; bind C-n/p to behave the same as ordinary term
+(define-key term-raw-map (kbd "C-n") 'term-send-down)
+(define-key term-raw-map (kbd "C-p") 'term-send-up)
 
 ;; key map
 (define-key function-key-map "\e[24~" [f5])
@@ -36,6 +39,23 @@
 (delete '("C-r" . isearch-backward) term-bind-key-alist)
 (add-to-list 'term-bind-key-alist '("M-r" . isearch-backward))
 (add-to-list 'term-bind-key-alist '("C-r" . term-send-reverse-search-history))
+
+(defun term-copy ()
+  (interactive)
+;;  (let* ((mark-command-begin (progn (term-send-raw-string "\C-a") (point)))
+;;    (mark-command-end (progn (end-of-line) (point))))
+;;    (if mark-active (kill-ring-save (region-beginning) (region-end))
+  ;;    (kill-ring-save mark-command-begin mark-command-end))))
+  (let* ((proc (get-buffer-process (current-buffer)))
+         (pmark (process-mark proc))
+         (pmark-val (marker-position pmark))
+         (input-is-new (>= (point) pmark-val))
+         (intxt (if input-is-new
+                    (progn (if term-eol-on-send (end-of-line))
+                           (buffer-substring pmark (point)))
+                  (funcall term-get-old-input))))
+    (message intxt)))
+
 
 (defun term-switch-to-terminal-frame ()
   (let (
