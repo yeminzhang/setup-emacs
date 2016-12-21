@@ -65,8 +65,8 @@
 ;;(defadvice multi-term (before multi-term-switch-to-frame activate)
 ;;  (term-switch-to-terminal-frame))
 
-(defadvice multi-term (before multi-term-set-program activate)
-  (when (file-exists-p "/bin/zsh") (setenv "SHELL" "/bin/zsh")))
+;;(defadvice multi-term (before multi-term-set-program activate)
+;;  (when (file-exists-p "/bin/zsh") (setenv "SHELL" "/bin/zsh")))
 
 (defun term-send-function-key ()
   (interactive)
@@ -91,5 +91,27 @@
 
 (define-key term-mode-map (kbd "M-SPC") 'term-toggle-submode)
 (define-key term-raw-map (kbd "M-SPC") 'term-toggle-submode)
+
+(add-hook 'term-mode-hook 'term-register-desktop-save)
+
+;; save multi-term buffer when save desktop
+(defun term-register-desktop-save ()
+  "Set `desktop-save-buffer' to a function returning nothing."
+  (setq desktop-save-buffer (lambda (desktop-dirname) (concat term-ansi-at-host " " default-directory))))
+
+(defun term-restore-desktop-buffer (d-b-file-name d-b-name d-b-misc)
+  "Restore a `multi-term' buffer on `desktop' load."
+  (let (
+        (addr-pair (split-string d-b-misc " ")))
+        (if (string= (nth 0 addr-pair) (system-name))
+            ;;localhost
+            (let ((default-directory (nth 1 addr-pair))) (multi-term))
+          ;; ssh-host
+          (ssh-host (nth 0 addr-pair))
+    )))
+
+(after-load 'desktop
+  (add-to-list 'desktop-buffer-mode-handlers '(term-mode . term-restore-desktop-buffer)))
+
 
 (provide 'init-term)

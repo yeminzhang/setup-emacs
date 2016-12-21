@@ -87,7 +87,6 @@
   (interactive (list (ido-completing-read "ssh to: " (ssh-host-list))))
   (let* (
          (default-directory user-emacs-directory)
-         (password (ssh-host-get-password host))
          (multi-term-program (expand-file-name "utils/myssh" user-emacs-directory))
          (multi-term-program-switches host)
          (index 1)
@@ -98,7 +97,11 @@
     ;; Compute index.
     (while (buffer-live-p (get-buffer (format "*%s<%s>*" host index)))
       (setq index (1+ index)))
-    (rename-buffer (format "*%s<%s>*" host index))))
+    (rename-buffer (format "*%s<%s>*" host index))
+    (with-current-buffer (format "*%s<%s>*" host index)
+      (setq term-ansi-at-host host)
+      (current-buffer))
+    ))
 
 (defun ssh-tunnel-start-timer ()
   (interactive)
