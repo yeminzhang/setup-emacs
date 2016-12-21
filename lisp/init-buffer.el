@@ -8,7 +8,6 @@
 (global-set-key (kbd right-little-finger-key) 'ido-switch-buffer)
 (global-set-key (kbd (concat "M-" right-little-finger-key)) 'ido-switch-buffer-other-window)
 (global-set-key (kbd "C-x C-b") 'helm-mini)
-(global-set-key (kbd "<C-tab>") 'mode-line-other-buffer)
 
 ;; This is a patch to prevent helm from sorting the buffer
 ;; list when narrowing
