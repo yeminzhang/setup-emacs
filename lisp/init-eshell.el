@@ -93,13 +93,14 @@
 ;; save eshell buffer when save desktop
 (defun eshell-register-desktop-save ()
   "Set `desktop-save-buffer' to a function returning nothing."
-  (setq desktop-save-buffer (lambda (desktop-dirname) "")))
+  (setq desktop-save-buffer (lambda (desktop-dirname) default-directory)))
 
 (defun eshell-restore-desktop-buffer (d-b-file-name d-b-name d-b-misc)
   "Restore a `eshell' buffer on `desktop' load."
-  (progn
+  (let (
+      (default-directory d-b-misc))
     (eshell)
-    (get-buffer "*eshell*")
+    (get-buffer eshell-buffer-name)
     ))
 
 (after-load 'desktop
