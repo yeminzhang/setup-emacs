@@ -14,14 +14,9 @@
   (interactive)
   (find-function (function-called-at-point)))
 
-(defun elisp-save-and-eval-buffer ()
-  (interactive)
-  (progn
-	(save-buffer)
-	(eval-buffer)
-	))
+(defadvice eval-buffer (before save-buffer-before-eval activate)
+  (save-buffer))
 
-(define-key emacs-lisp-mode-map (kbd "<f6>") 'elisp-save-and-eval-buffer)
 (define-key emacs-lisp-mode-map (kbd "M-.") 'elisp-find-function-under-point)
 
 (provide 'init-elisp)
