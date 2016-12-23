@@ -68,4 +68,13 @@
   (interactive)
   (message (concat "Dest dir: " (get-register 122))))
 
+(global-set-key (kbd "C-c d") 'dired-here)
+
+(defun dired-here()
+  (interactive)
+  (let* ((parent (if (buffer-file-name)
+                     (file-name-directory (buffer-file-name))
+                   default-directory)))
+    (dired parent)))
+
 (provide 'init-dired)
