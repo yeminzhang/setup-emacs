@@ -90,6 +90,45 @@
             (add-hook 'eshell-post-command-hook 'eshell-notify-done)
             ))
 
+;;(defun eshell-here ()
+;;  (interactive)
+;;  (let (
+;;        (dir default-directory)
+;;        )
+;;    (eshell)
+;;    (cd dir)
+;;    (end-of-buffer)
+;;    (eshell-kill-input)
+;;    (eshell-send-input)))
+
+(defun eshell-here ()
+  "Opens up a new shell in the directory associated with the
+current buffers file. The eshell is renamed to match that
+directory to make multiple eshell windows easier."
+  (interactive)
+  (let* ((parent (if (buffer-file-name)
+                     (file-name-directory (buffer-file-name))
+                   default-directory))
+         (height (/ (window-total-height) 3))
+         (name   (car (last (split-string parent "/" t)))))
+    (split-window-vertically (- height))
+    (other-window 1)
+    (setq eshell-window-splitted t)
+    (eshell)
+    (cd parent)
+    (end-of-buffer)
+    (eshell-kill-input)
+    (eshell-send-input)))
+
+(defun eshell/x ()
+  (if (and (boundp 'eshell-window-splitted) eshell-window-splitted)
+      (progn
+        (delete-window)
+        (setq eshell-window-splitted nil))
+  (bury-buffer)))
+
+(global-set-key (kbd "C-c e") 'eshell-here)
+
 ;; save eshell buffer when save desktop
 (defun eshell-register-desktop-save ()
   "Set `desktop-save-buffer' to a function returning nothing."
