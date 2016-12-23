@@ -155,16 +155,14 @@
   (setq helm-projectile-fuzzy-match nil)
   (helm-projectile-on)
   (define-key projectile-mode-map (kbd "C-c p g") 'helm-projectile-grep)
-  (define-key projectile-mode-map (kbd "C-c p c") 'project-configure)
   (define-key projectile-mode-map (kbd "C-c p R") 'project-update-tags)
+  (define-key projectile-mode-map (kbd "C-c p c") 'project-compile)
+  (define-key projectile-mode-map (kbd "C-c p r") 'project-run)
+  (define-key projectile-mode-map (kbd "C-c p d") 'project-debug)
   (custom-set-variables '(projectile-enable-idle-timer t)))
 
 (set-display-buffer-other-window (rx bos "*compilation*" eos))
 (set-display-buffer-other-window (rx bos "*Shell Command Output*" eos))
-
-(define-key projectile-mode-map (kbd "C-c p m") 'project-compile)
-(define-key projectile-mode-map (kbd "C-c p r") 'project-run)
-(define-key projectile-mode-map (kbd "C-c p d") 'project-debug)
 
 (projectile-global-mode 1)
 
