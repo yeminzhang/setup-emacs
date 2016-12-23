@@ -44,6 +44,7 @@
 
 ;; smex
 (global-set-key (kbd "M-x") 'smex)
+(global-set-key (kbd (concat "C-" right-little-finger-key)) 'smex)
 
 ;; auto update smex cache after load a file
 (defun smex-update-after-load (unused)
