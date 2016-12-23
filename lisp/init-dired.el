@@ -74,7 +74,8 @@
   (interactive)
   (let* ((parent (if (buffer-file-name)
                      (file-name-directory (buffer-file-name))
-                   default-directory)))
+                  default-directory)))
+    (maybe-split-window t)
     (dired parent)))
 
 (provide 'init-dired)

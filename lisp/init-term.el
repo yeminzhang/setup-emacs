@@ -56,18 +56,6 @@
                   (funcall term-get-old-input))))
     (message intxt)))
 
-
-(defun term-switch-to-terminal-frame ()
-  (let (
-        (frame (or (get-a-frame "terminal") (make-frame '((name . "terminal"))))))
-    (select-frame-set-input-focus frame)))
-
-;;(defadvice multi-term (before multi-term-switch-to-frame activate)
-;;  (term-switch-to-terminal-frame))
-
-;;(defadvice multi-term (before multi-term-set-program activate)
-;;  (when (file-exists-p "/bin/zsh") (setenv "SHELL" "/bin/zsh")))
-
 (defun term-send-function-key ()
   (interactive)
   (let* ((char last-input-event)
@@ -91,6 +79,18 @@
 
 (define-key term-mode-map (kbd "M-SPC") 'term-toggle-submode)
 (define-key term-raw-map (kbd "M-SPC") 'term-toggle-submode)
+
+(global-set-key (kbd "C-c t") 'term-here)
+
+(defun term-here ()
+  (interactive)
+  (let* ((parent (if (buffer-file-name)
+                     (file-name-directory (buffer-file-name))
+                   default-directory)))
+    (maybe-split-window t)
+    (let (
+          (default-directory parent))
+    (multi-term))))
 
 (add-hook 'term-mode-hook 'term-register-desktop-save)
 

@@ -108,12 +108,8 @@ directory to make multiple eshell windows easier."
   (interactive)
   (let* ((parent (if (buffer-file-name)
                      (file-name-directory (buffer-file-name))
-                   default-directory))
-         (height (/ (window-total-height) 3))
-         (name   (car (last (split-string parent "/" t)))))
-    (split-window-vertically (- height))
-    (other-window 1)
-    (setq eshell-window-splitted t)
+                  default-directory)))
+    (maybe-split-window t)
     (eshell)
     (cd parent)
     (end-of-buffer)
@@ -121,11 +117,7 @@ directory to make multiple eshell windows easier."
     (eshell-send-input)))
 
 (defun eshell/x ()
-  (if (and (boundp 'eshell-window-splitted) eshell-window-splitted)
-      (progn
-        (delete-window)
-        (setq eshell-window-splitted nil))
-  (bury-buffer)))
+  (bury-buffer))
 
 (global-set-key (kbd "C-c e") 'eshell-here)
 

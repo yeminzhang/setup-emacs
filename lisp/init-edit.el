@@ -53,6 +53,12 @@
 
 (add-hook 'after-load-functions 'smex-update-after-load)
 
+
+(defun maybe-split-window (&optional switch-window)
+  (when (one-window-p t)
+    (split-window-horizontally))
+  (when switch-window) (other-window 1))
+
 (defun helm-keep-only-dirs (files)
   (cl-loop for i in files
            if (and (stringp i) (file-directory-p i))
