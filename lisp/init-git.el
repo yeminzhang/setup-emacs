@@ -12,7 +12,8 @@
   (define-key magit-log-mode-map (kbd "g") 'beginning-of-buffer)
   (define-key magit-log-mode-map (kbd "G") 'end-of-buffer)
   (setq magit-status-buffer-switch-function 'switch-to-buffer
-        magit-push-always-verify nil)
+        magit-push-always-verify nil
+        auto-revert-check-vc-info t)
   (add-hook 'magit-status-mode-hook 'magit-status-register-desktop-save)
   (set-display-buffer-other-window (rx bos "*magit-rev:" (one-or-more anything) "*" eos))
   (set-display-buffer-other-window (rx bos "*magit-diff:" (one-or-more anything) "*" eos))
@@ -22,7 +23,11 @@
   (info-initialize)
   (add-to-list 'Info-directory-list (expand-file-name "magit" user-emacs-directory)))
 
-(global-set-key (kbd "<f4>") 'magit-status)
+(global-set-key (kbd "C-c g s") 'magit-status)
+(global-set-key (kbd "C-c g l") (lambda () (interactive) (magit-log '("HEAD"))))
+(global-set-key (kbd "C-c g d") (lambda () (interactive) (call-interactively 'magit-diff-popup)))
+(global-set-key (kbd "C-c g b") (lambda () (interactive) (call-interactively 'magit-branch-popup)))
+(global-set-key (kbd "C-c g P") 'magit-pull-popup)
 
 ;; restore magit-status when emacs starts
 ;; save magit-status buffer when save desktop

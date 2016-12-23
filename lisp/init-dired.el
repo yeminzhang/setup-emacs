@@ -29,8 +29,6 @@
   (define-key dired-mode-map (kbd "C-c r d") 'dired-read-destination-dir)
   (define-key dired-mode-map (kbd "C-o") 'other-window))
 
-(setq auto-revert-interval 2)
-
 (defun dired-remove-tramp-method (path)
   (if (tramp-tramp-file-p path) (substring path (+ 1 (s-index-of ":" path))) path))
 
