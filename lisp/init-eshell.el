@@ -1,7 +1,8 @@
 ;; eshell
 
 (after-load 'em-hist
-  (setq eshell-history-size 100000))
+  (setq eshell-history-size 100000
+        eshell-hist-ignoredups t))
 
 (after-load 'em-dirs
   (setq eshell-last-dir-ring-size 10000))
@@ -43,57 +44,49 @@
         (ring-insert eshell-history-ring last-command)
         (eshell-write-history)))))
 
-(defun eshell-cd-history ()
-  (let ((len (ring-length eshell-last-dir-ring))
-        (index 0))
-    (if (= len 0)
-        (error "Directory ring empty"))
-    (eshell-init-print-buffer)
-    (while (< index len)
-      (eshell-buffered-print
-       (concat (ring-ref eshell-last-dir-ring index) "\n"))
-      (setq index (1+ index)))
-    (eshell-flush)
-    ))
-
-(after-load 'helm-eshell
-  (defvar my-helm-source-eshell-history
-    `((name . "Eshell history")
-      (init . (lambda ()
-                (let (eshell-hist-ignoredups)
-                  ;; Write the content's of ring to file.
-                  (eshell-write-history eshell-history-file-name)
-                  (with-current-buffer (helm-candidate-buffer 'global)
-                    (insert-file-contents eshell-history-file-name)))
-                ;; Same comment as in `helm-source-esh'
-                (remove-hook 'minibuffer-setup-hook 'eshell-mode)))
-      (candidates-in-buffer)
-      (keymap . ,helm-eshell-history-map)
-      (filtered-candidate-transformer . (lambda (candidates sources)
-                                          (reverse candidates)))
-      (candidate-number-limit . 9999)
-      (action . (lambda (candidate)
-                  (progn
-                    (eshell)
-                    (end-of-buffer)
-                    (eshell-kill-input)
-                    (insert candidate)
-                    (eshell-send-input)))))
-    "Helm source for Eshell history."))
-
-(defun my-eshell-execute-history ()
+(defun helm-eshell-dir-history ()
+  "Preconfigured helm for eshell history."
   (interactive)
-  (require 'em-hist)
+  (require 'helm-elisp)
   (require 'helm-eshell)
-  (helm
-   :prompt "Go to: "
-   :candidate-number-limit 25    ;; up to 25 of each
-   :sources
-   '(
-     my-helm-source-eshell-history
-     )))
+  (let* ((end   (point))
+         (beg   (save-excursion (eshell-bol) (point)))
+         (input (buffer-substring beg end))
+         flag-empty)
+    (when (eq beg end)
+      (insert " ")
+      (setq flag-empty t)
+      (setq end (point)))
+    (unwind-protect
+        (with-helm-show-completion beg end
+          (helm :sources (helm-make-source "Eshell dir history"
+                             'helm-eshell-dir-history-source)
+                :buffer "*helm eshell dir history*"
+                :resume 'noresume
+                :input input))
+      (when (and flag-empty
+                 (looking-back " " (1- (point))))
+        (delete-char -1)))))
 
-(global-set-key (kbd "<f2>") 'my-eshell-execute-history)
+(defclass helm-eshell-dir-history-source (helm-source-sync)
+  ((init :initform
+         (lambda ()
+           ;; Same comment as in `helm-source-esh'.
+           (remove-hook 'minibuffer-setup-hook 'eshell-mode)))
+   (candidates
+    :initform
+    (lambda ()
+      (with-helm-current-buffer
+        (cl-loop for c from 0 to (ring-length eshell-last-dir-ring)
+                 collect (ring-ref eshell-last-dir-ring c)))))
+   (nomark :initform t)
+   (multiline :initform t)
+   (keymap :initform helm-eshell-history-map)
+   (candidate-number-limit :initform 9999)
+   (action :initform (lambda (candidate)
+                       (cd candidate)
+                       (eshell-run-command ""))))
+  "Helm class to define source for Eshell dir history.")
 
 (defun eshell-set-keybindings ()
   (define-key eshell-mode-map (kbd "C-r")
@@ -103,6 +96,13 @@
             (helm-split-window-default-side 'below))
         (recenter)
         (helm-eshell-history))))
+  (define-key eshell-mode-map (kbd "C-j")
+    (lambda ()
+      (interactive)
+      (let (
+            (helm-split-window-default-side 'below))
+        (recenter)
+        (helm-eshell-dir-history))))
   (define-key eshell-mode-map (kbd "C-w") 'eshell-kill-input))
 
 (add-hook 'eshell-mode-hook 'eshell-set-keybindings)
