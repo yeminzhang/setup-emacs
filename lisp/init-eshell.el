@@ -106,6 +106,7 @@
 
 (add-hook 'eshell-mode-hook 'eshell-set-keybindings)
 (add-hook 'eshell-mode-hook 'eshell-register-desktop-save)
+(add-hook 'eshell-mode-hook 'company-mode)
 
 (after-load 'em-term
   (add-to-list 'eshell-visual-commands "vim")
