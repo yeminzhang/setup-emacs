@@ -1,23 +1,44 @@
 ;; eshell
 
 (after-load 'em-hist
-  (setq eshell-history-size 512))
+  (setq eshell-history-size 100000))
 
 (defun eshell-notify-done ()
   (if (string-prefix-p "scp" (ring-ref eshell-history-ring 0))
       (message (concat (ring-ref eshell-history-ring 0) " done!"))))
 
+;; make sure eshell buffer is on focus
+(defun eshell-run-command (command)
+  (end-of-buffer)
+  (eshell-kill-input)
+  (insert command)
+  (eshell-send-input))
+
+(defun eshell-cmd-valuable-p (command)
+  (cond
+   ((string= command "x") nil)
+   ((string= command "pwd") nil)
+   ((s-starts-with-p "cd" command) nil)
+   ((file-directory-p command) nil)
+   (t)))
+
+(defun eshell-persistent-command (command)
+  (let ((first-char (substring command 0 1)))
+    (if (or (string= first-char "{") (string= first-char "("))
+        command
+      (concat "{cd " (abbreviate-file-name (eshell/pwd)) ";  " command "} "))))
+
 (defun eshell-modify-cmd-history ()
-  (progn (setq my-last-ring (ring-ref eshell-history-ring 0))
-         (ring-remove eshell-history-ring 0)
-         (setq my-last-ring (chomp my-last-ring))
-         (setq modified-ring my-last-ring)
-         (unless (or (string= (substring my-last-ring 0 1) "{") (string= (substring my-last-ring 0 1) "("))
-           (setq modified-ring (concat "{" (abbreviate-file-name (eshell/pwd)) ";  " my-last-ring "} ")))
-         (setq index (ring-member eshell-history-ring modified-ring))
-         (if index (ring-remove eshell-history-ring index))
-         (ring-insert eshell-history-ring modified-ring)
-         (eshell-write-history)))
+  (let* (
+         (last-command (chomp (ring-ref eshell-history-ring 0))))
+    (ring-remove eshell-history-ring 0)
+    (when (eshell-cmd-valuable-p last-command)
+      (let* (
+             (last-command (eshell-persistent-command last-command))
+             (index (ring-member eshell-history-ring last-command)))
+        (when index (ring-remove eshell-history-ring index))
+        (ring-insert eshell-history-ring last-command)
+        (eshell-write-history)))))
 
 (defun eshell-cd-history ()
   (let ((len (ring-length eshell-last-dir-ring))
@@ -71,35 +92,28 @@
 
 (global-set-key (kbd "<f2>") 'my-eshell-execute-history)
 
-(add-hook 'eshell-mode-hook
-          (lambda()
-            (local-set-key (kbd "C-r")
-                           (lambda()
-                             (interactive)
-                             (let (
-                                   (helm-split-window-default-side 'below))
-                               (helm-eshell-history))))
-            (add-to-list 'eshell-visual-commands "vim")
-            (add-to-list 'eshell-visual-commands "git log")
-            (add-to-list 'eshell-visual-commands "telnet")
-            (add-to-list 'eshell-visual-commands "ssh")
-            (add-to-list 'eshell-visual-commands "sshpass")
-            (add-to-list 'eshell-visual-commands "tclsh8.5")
-            (eshell-register-desktop-save)
-            (add-hook 'eshell-post-command-hook 'eshell-modify-cmd-history)
-            (add-hook 'eshell-post-command-hook 'eshell-notify-done)
-            ))
+(defun eshell-set-keybindings ()
+  (define-key eshell-mode-map (kbd "C-r")
+    (lambda ()
+      (interactive)
+      (let (
+            (helm-split-window-default-side 'below))
+        (recenter)
+        (helm-eshell-history)))))
 
-;;(defun eshell-here ()
-;;  (interactive)
-;;  (let (
-;;        (dir default-directory)
-;;        )
-;;    (eshell)
-;;    (cd dir)
-;;    (end-of-buffer)
-;;    (eshell-kill-input)
-;;    (eshell-send-input)))
+(add-hook 'eshell-mode-hook 'eshell-set-keybindings)
+(add-hook 'eshell-mode-hook 'eshell-register-desktop-save)
+
+(after-load 'em-term
+  (add-to-list 'eshell-visual-commands "vim")
+  (add-to-list 'eshell-visual-commands "git log")
+  (add-to-list 'eshell-visual-commands "telnet")
+  (add-to-list 'eshell-visual-commands "ssh")
+  (add-to-list 'eshell-visual-commands "sshpass")
+  (add-to-list 'eshell-visual-commands "tclsh8.5"))
+
+(add-hook 'eshell-post-command-hook 'eshell-modify-cmd-history)
+(add-hook 'eshell-post-command-hook 'eshell-notify-done)
 
 (defun eshell-here ()
   "Opens up a new shell in the directory associated with the
@@ -112,9 +126,7 @@ directory to make multiple eshell windows easier."
     (maybe-split-window t)
     (eshell)
     (cd parent)
-    (end-of-buffer)
-    (eshell-kill-input)
-    (eshell-send-input)))
+    (eshell-run-command "")))
 
 (defun eshell/x ()
   (bury-buffer))
