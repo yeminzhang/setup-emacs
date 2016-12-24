@@ -102,7 +102,8 @@
       (let (
             (helm-split-window-default-side 'below))
         (recenter)
-        (helm-eshell-history)))))
+        (helm-eshell-history))))
+  (define-key eshell-mode-map (kbd "C-w") 'eshell-kill-input))
 
 (add-hook 'eshell-mode-hook 'eshell-set-keybindings)
 (add-hook 'eshell-mode-hook 'eshell-register-desktop-save)
