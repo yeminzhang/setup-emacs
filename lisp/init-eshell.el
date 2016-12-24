@@ -3,6 +3,9 @@
 (after-load 'em-hist
   (setq eshell-history-size 100000))
 
+(after-load 'em-dirs
+  (setq eshell-last-dir-ring-size 10000))
+
 (defun eshell-notify-done ()
   (if (string-prefix-p "scp" (ring-ref eshell-history-ring 0))
       (message (concat (ring-ref eshell-history-ring 0) " done!"))))
