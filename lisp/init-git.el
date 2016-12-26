@@ -15,8 +15,10 @@
         magit-push-always-verify nil
         auto-revert-check-vc-info t)
   (add-hook 'magit-status-mode-hook 'magit-status-register-desktop-save)
-  (set-display-buffer-other-window (rx bos "*magit-rev:" (one-or-more anything) "*" eos))
-  (set-display-buffer-other-window (rx bos "*magit-diff:" (one-or-more anything) "*" eos))
+  (set-display-buffer-other-window (rx bos "*magit-rev:"))
+  (set-display-buffer-other-window (rx bos "*magit-diff:"))
+  (set-display-buffer-other-window (rx bos "*magit-log:"))
+  (set-display-buffer-other-window (rx bos "*magit:"))
   )
 
 (after-load 'info

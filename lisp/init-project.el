@@ -84,7 +84,6 @@
   (interactive "P")
   (project-load-attributes)
   (minor-mode-put-compilation-in-progress-top)
-  (maybe-split-window)
   (projectile-compile-project (if (bound-and-true-p projectile-project-compilation-cmd) ARG t))
   (if (or ARG (not projectile-project-compilation-cmd))
 	  (project-save-attribute 'projectile-project-compilation-cmd (gethash (projectile-project-root) projectile-compilation-cmd-map))))
@@ -161,7 +160,7 @@
   (define-key projectile-mode-map (kbd "C-c p d") 'project-debug)
   (custom-set-variables '(projectile-enable-idle-timer t)))
 
-(set-display-buffer-other-window (rx bos "*compilation*" eos))
+(set-display-buffer-other-window (rx bos "*compilation-"))
 (set-display-buffer-other-window (rx bos "*Shell Command Output*" eos))
 
 (projectile-global-mode 1)
