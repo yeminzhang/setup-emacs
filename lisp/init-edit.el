@@ -151,20 +151,29 @@
 
 (require 'evil)
 
-(defun my-kill-ring-save ()
+(define-key evil-visual-state-map (kbd "C-g") (lambda()(interactive)(evil-local-mode -1)))
+
+(defadvice evil-yank (after disable-evil activate)
+  (evil-local-mode -1))
+
+(defadvice evil-delete (after disable-evil activate)
+  (evil-local-mode -1))
+
+(defun smart-kill-ring-save ()
   "When called interactively with no active region, copy the whole line."
   (interactive)
   (if mark-active (kill-ring-save (region-beginning) (region-end))
     (call-interactively 'evil-yank-line)))
 
-(defun my-kill-region ()
+(defun smart-kill-region ()
   "When called interactively with no active region, kill the whole line."
   (interactive)
   (if mark-active (kill-region (region-beginning) (region-end))
     (call-interactively 'evil-delete-whole-line)))
 
-(global-set-key (kbd "C-w") 'my-kill-region)
-(global-set-key (kbd "M-w") 'my-kill-ring-save)
+(global-set-key (kbd "M-i") 'evil-visual-line)
+(global-set-key (kbd "C-w") 'smart-kill-region)
+(global-set-key (kbd "M-w") 'smart-kill-ring-save)
 (global-set-key (kbd "C-y") 'evil-paste-after)
 (global-set-key (kbd "C-x Y") 'evil-paste-before)
 
