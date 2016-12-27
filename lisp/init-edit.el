@@ -84,50 +84,49 @@
                                                          (if (s-ends-with-p "/" file) file ""))
                                                        recentf-list)))
 
-(setq my-helm-source-locate-dir (copy-tree helm-source-locate))
-(setf (nth 1 (nth 8 my-helm-source-locate-dir)) 'helm-keep-only-dirs)
+(setq helm-source-locate-dirs (copy-tree helm-source-locate))
+(setf (nth 1 (nth 8 helm-source-locate-dirs)) 'helm-keep-only-dirs)
 
-(setq my-helm-source-locate-files (copy-tree helm-source-locate))
-(setf (nth 8 my-helm-source-locate-files) (append (list (car (nth 8 my-helm-source-locate-files))) '(helm-keep-only-files) (cdr (nth 8 my-helm-source-locate-files))))
+(setq helm-source-locate-files (copy-tree helm-source-locate))
+(let ((candidate-transformer (nth 8 helm-source-locate-files)))
+  (setcdr candidate-transformer (cons 'helm-keep-only-files (cdr candidate-transformer))))
 
 ;; By default regexp is not used. Add -r in a helm session to enable it
 (defun make-locate-command (ARG)
   (let (
         (locate-db-file
-         (if (or ARG (not (projectile-project-p)) (not (file-exists-p (expand-file-name ".mlocate.db" (projectile-project-root)))))
+         (if (or ARG
+                 (not (projectile-project-p))
+                 (not (file-exists-p (expand-file-name ".mlocate.db" (projectile-project-root)))))
              locate-db-file
            (expand-file-name ".mlocate.db" (projectile-project-root)))))
     (concat "locate %s -d " locate-db-file " -e -A %s")))
 
-(defun my-helm-find-file (ARG)
-  (interactive "P")
+(defun helm-find-file-internal (ARG prompt sources)
   (let ((helm-locate-command (make-locate-command ARG)))
-  (helm
-   :prompt "Open file: "
-   :candidate-number-limit 25                 ;; up to 25 of each
-   :sources
-   '(
-     helm-source-files-in-current-dir ;; current dir
-     my-helm-source-recentf               ;; recent files
-;;     helm-source-projectile-files-list
-     my-helm-source-locate-files))))            ;; use 'locate'
+    (helm
+     :prompt prompt
+     :candidate-number-limit 25                 ;; up to 25 of each
+     :sources sources)))
 
-(defun my-helm-find-dir (ARG)
+(defun helm-find-file (ARG)
   (interactive "P")
-  (let ((helm-locate-command (make-locate-command ARG)))
-  (helm
-   :prompt "Go to dir: "
-   :candidate-number-limit 25                 ;; up to 25 of each
-   :sources
-   '(
-;;     helm-source-projectile-directories-list
-     my-helm-source-recentd
-     my-helm-source-locate-dir))))
+  (helm-find-file-internal ARG
+                           "Open file: "
+                           '(  helm-source-files-in-current-dir
+                               my-helm-source-recentf
+                               helm-source-locate-files)))
 
+(defun helm-find-dir (ARG)
+  (interactive "P")
+  (helm-find-file-internal ARG
+                           "Open dir: "
+                           '(my-helm-source-recentd
+                             helm-source-locate-dirs)))
 ;; find a file
-(global-set-key (kbd "C-x C-f") 'my-helm-find-file)
+(global-set-key (kbd "C-x C-f") 'helm-find-file)
 ;; find a dir
-(global-set-key (kbd "C-x C-d") 'my-helm-find-dir)
+(global-set-key (kbd "C-x C-d") 'helm-find-dir)
 
 (global-set-key (kbd "M-y") 'helm-show-kill-ring)
 
