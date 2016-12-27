@@ -15,6 +15,6 @@
               (company-mode 1)
               (helm-gtags-mode 1)
               (yas-minor-mode-on)
-              (local-set-key (kbd "C-i") 'clang-format))))
+              (local-set-key [tab] 'clang-format))))
 
 (provide 'init-cc)

@@ -171,7 +171,8 @@
   (if mark-active (kill-region (region-beginning) (region-end))
     (call-interactively 'evil-delete-whole-line)))
 
-(global-set-key (kbd "M-i") 'evil-visual-line)
+(global-set-key (kbd "C-i") 'evil-visual-line)
+(global-set-key [tab] 'indent-for-tab-command)
 (global-set-key (kbd "C-w") 'smart-kill-region)
 (global-set-key (kbd "M-w") 'smart-kill-ring-save)
 (global-set-key (kbd "C-y") 'evil-paste-after)
