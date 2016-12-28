@@ -10,6 +10,11 @@
 
 (global-auto-revert-mode 1)
 
+;; now only elisp buffer file is supported
+(defun buffer-file-run ()
+  (interactive)
+  (when (eq major-mode 'emacs-lisp-mode) (eval-buffer)))
+
 ;; force all buffers to be displayed in the same window
 ;;(setq same-window-buffer-names '("*eshell*"))
 (setq pop-up-windows nil)

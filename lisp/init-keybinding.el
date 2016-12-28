@@ -49,6 +49,8 @@
 (global-set-key (kbd (concat "M-" right-little-finger-key)) 'ido-switch-buffer-other-window)
 (global-set-key (kbd "C-x C-b") 'helm-mini)
 
+(global-set-key (kbd "C-c f r") 'buffer-file-run)
+
 ;; jump to bookmarked buffer
 (global-set-key (kbd "C-x r b") 'helm-bookmarks)
 
