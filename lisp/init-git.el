@@ -9,8 +9,7 @@
 
 (after-load 'magit
   (setq magit-status-buffer-switch-function 'switch-to-buffer
-        magit-push-always-verify nil
-        auto-revert-check-vc-info t)
+        magit-push-always-verify nil)
   (add-hook 'magit-status-mode-hook 'magit-status-register-desktop-save)
   (set-display-buffer-other-window (rx bos "*magit-rev:"))
   (set-display-buffer-other-window (rx bos "*magit-diff:"))
