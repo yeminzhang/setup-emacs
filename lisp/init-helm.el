@@ -6,7 +6,7 @@
         helm-completion-mode-string ""
         helm-full-frame nil
         helm-buffers-fuzzy-matching t
-        helm-split-window-default-side 'right))
+        helm-split-window-default-side 'other))
 
 (after-load 'helm-files
   ;; Show full file-path in helm result

@@ -22,7 +22,6 @@
                `(,regex
                  (display-buffer-reuse-window
                   display-buffer-pop-up-window)
-                 (reusable-frames . visible))
-               ))
+                 (reusable-frames . visible))))
 
 (provide 'init-buffer)
