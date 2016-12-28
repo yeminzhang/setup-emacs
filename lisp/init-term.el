@@ -15,31 +15,6 @@
 (setq term-default-bg-color nil)
 (setq term-default-fg-color nil)
 
-(define-key term-raw-map (kbd "C-o") 'other-window)
-(define-key term-raw-map (kbd "<prior>") 'scroll-down-command)
-(define-key term-raw-map (kbd "<next>") 'scroll-up-command)
-;;(define-key term-raw-map (kbd "C-h k") 'describe-key)
-(define-key term-raw-map (kbd "<home>") 'beginning-of-buffer)
-(define-key term-raw-map (kbd "<end>") 'end-of-buffer)
-(define-key term-raw-map (kbd "M-x") 'smex)
-(define-key term-raw-map (kbd "C-v") 'scroll-up-command)
-;; sometimes we need to use vi in term-mode. so we need to make esc work
-(define-key term-raw-map (kbd "<escape>") 'term-send-esc)
-;; bind C-n/p to behave the same as ordinary term
-(define-key term-raw-map (kbd "C-n") 'term-send-down)
-(define-key term-raw-map (kbd "C-p") 'term-send-up)
-
-;; key map
-(define-key function-key-map "\e[24~" [f5])
-
-(delete '("M-o" . term-send-backspace) term-bind-key-alist)
-
-;; bind C-r to search shell command history, and M-r to search buffer
-(delete '("M-r" . term-send-reverse-search-history) term-bind-key-alist)
-(delete '("C-r" . isearch-backward) term-bind-key-alist)
-(add-to-list 'term-bind-key-alist '("M-r" . isearch-backward))
-(add-to-list 'term-bind-key-alist '("C-r" . term-send-reverse-search-history))
-
 (defun term-copy ()
   (interactive)
 ;;  (let* ((mark-command-begin (progn (term-send-raw-string "\C-a") (point)))
@@ -76,11 +51,6 @@
 (defun term-toggle-submode ()
 (interactive)
 (if (term-in-char-mode) (term-line-mode) (term-char-mode)))
-
-(define-key term-mode-map (kbd "M-SPC") 'term-toggle-submode)
-(define-key term-raw-map (kbd "M-SPC") 'term-toggle-submode)
-
-(global-set-key (kbd "C-c t") 'term-here)
 
 (defun term-here ()
   (interactive)

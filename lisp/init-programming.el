@@ -13,11 +13,7 @@
 
 ;; Package: yasnippet
 (after-load 'yasnippet
-  (yas-reload-all)
-  (define-key yas-minor-mode-map [backtab] nil)
-  (define-key yas-minor-mode-map [(tab)]        nil)
-  (define-key yas-minor-mode-map (kbd "TAB")    nil)
-  (define-key yas-minor-mode-map (kbd "S-SPC")  'helm-yas-complete))
+  (yas-reload-all))
 
 (autoload 'yas-minor-mode-on "yasnippet")
 
@@ -38,15 +34,7 @@
    helm-gtags-pulse-at-cursor t
    helm-gtags-prefix-key "\C-cg"
    helm-gtags-suggested-key-mapping t
-   helm-gtags-mode-name " HG"
-   )
-  ;; key bindings
-  (define-key helm-gtags-mode-map (kbd "C-c g a") 'helm-gtags-tags-in-this-function)
-  (define-key helm-gtags-mode-map (kbd "C-j") 'helm-code-select)
-  (define-key helm-gtags-mode-map (kbd "M-.") 'helm-gtags-dwim)
-  (define-key helm-gtags-mode-map (kbd "M-,") 'helm-gtags-pop-stack)
-  (define-key helm-gtags-mode-map (kbd "C-c <") 'helm-gtags-previous-history)
-  (define-key helm-gtags-mode-map (kbd "C-c >") 'helm-gtags-next-history))
+   helm-gtags-mode-name " HG"))
 
 (defun helm-code-select ()
   (interactive)

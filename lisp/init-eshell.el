@@ -88,24 +88,6 @@
                        (eshell-run-command ""))))
   "Helm class to define source for Eshell dir history.")
 
-(defun eshell-set-keybindings ()
-  (define-key eshell-mode-map (kbd "C-r")
-    (lambda ()
-      (interactive)
-      (let (
-            (helm-split-window-default-side 'below))
-        (recenter)
-        (helm-eshell-history))))
-  (define-key eshell-mode-map (kbd "C-j")
-    (lambda ()
-      (interactive)
-      (let (
-            (helm-split-window-default-side 'below))
-        (recenter)
-        (helm-eshell-dir-history))))
-  (define-key eshell-mode-map (kbd "C-w") 'eshell-kill-input))
-
-(add-hook 'eshell-mode-hook 'eshell-set-keybindings)
 (add-hook 'eshell-mode-hook 'eshell-register-desktop-save)
 (add-hook 'eshell-mode-hook 'company-mode)
 
@@ -135,8 +117,6 @@ directory to make multiple eshell windows easier."
 
 (defun eshell/x ()
   (bury-buffer))
-
-(global-set-key (kbd "C-c e") 'eshell-here)
 
 ;; save eshell buffer when save desktop
 (defun eshell-register-desktop-save ()

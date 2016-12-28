@@ -8,9 +8,7 @@
                 (sequence "WAITING(w@/!)" "SOMEDAY(S)" "|" "CANCELLED(c@/!)")))
         ;; Show clock sums as hours and minutes, not "n days" etc.
         org-time-clocksum-format
-        '(:hours "%d" :require-hours t :minutes ":%02d" :require-minutes t))
-
-  (define-key org-mode-map (kbd "<C-tab>") nil))
+        '(:hours "%d" :require-hours t :minutes ":%02d" :require-minutes t)))
 
 (defun org-agenda-bury ()
   (interactive)
@@ -18,13 +16,7 @@
   (other-window 1))
 
 (after-load 'org-agenda
-  (define-key org-agenda-mode-map (kbd "q") 'org-agenda-bury)
   (add-hook 'org-agenda-mode-hook 'org-agenda-register-desktop-save))
-
-(global-set-key (kbd "C-c b") 'org-iswitchb)
-(global-set-key (kbd "C-c a") 'org-agenda)
-(global-set-key (kbd "C-c l") 'org-store-link)
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Org clock

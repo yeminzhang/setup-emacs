@@ -17,17 +17,9 @@
   (add-hook 'dired-mode-hook
             (lambda ()
               (hl-line-mode 1)
-              (local-set-key (kbd "b") 'scroll-down-command)
-              (local-set-key (kbd " ") 'scroll-up-command)
               (rename-buffer (concat "d-" dired-directory))
               ;;Automatically revert buffer every 2 seconds
-              (auto-revert-mode 1)))
-  (define-key dired-mode-map (kbd "C-c m s") 'dired-mark-source-file)
-  (define-key dired-mode-map (kbd "C-c m d") 'dired-mark-destination-dir)
-  (define-key dired-mode-map (kbd "c") 'dired-copy-file-by-register)
-  (define-key dired-mode-map (kbd "C-c r s") 'dired-read-source-file)
-  (define-key dired-mode-map (kbd "C-c r d") 'dired-read-destination-dir)
-  (define-key dired-mode-map (kbd "C-o") 'other-window))
+              (auto-revert-mode 1))))
 
 (defun dired-remove-tramp-method (path)
   (if (tramp-tramp-file-p path) (substring path (+ 1 (s-index-of ":" path))) path))
@@ -63,8 +55,6 @@
 (defun dired-read-destination-dir()
   (interactive)
   (message (concat "Dest dir: " (get-register 122))))
-
-(global-set-key (kbd "C-c d") 'dired-here)
 
 (defun dired-here()
   (interactive)

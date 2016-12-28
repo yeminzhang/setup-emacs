@@ -86,12 +86,6 @@
     (list "." "..")
     ))
 
-(after-load 'cc-mode
-  (dolist (mode-hook '(c-mode-hook c++-mode-hook))
-    (add-hook mode-hook
-              (lambda ()
-                (local-set-key  (kbd "C-c o") 'cc-switch-source-header-file)))))
-
 ;; company-c-headers
 (after-load 'company
   (add-to-list 'company-backends 'company-c-headers))

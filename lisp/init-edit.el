@@ -1,13 +1,5 @@
 (require-packages '(smex undo-tree volatile-highlights iedit bookmark+ evil recentf-ext))
 
-;; key bindings
-(global-set-key (kbd "C-o") 'other-window)
-(global-set-key (kbd "C--") 'undo)
-(global-set-key (kbd "<home>") 'beginning-of-buffer)
-(global-set-key (kbd "<end>") 'end-of-buffer)
-(global-set-key (kbd "<backspace>") 'backward-delete-char)
-(global-set-key (kbd "M-j") 'delete-indentation)
-
 ;; Tabsn
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
@@ -18,9 +10,6 @@
 (after-load 'whitespace
   (setq whitespace-style '(tab-mark)))  ;;turns on white space mode only for tabs
 (add-to-list 'write-file-hooks 'delete-trailing-whitespace)
-
-(global-set-key (kbd "C-x g") 'beginning-of-buffer)
-(global-set-key (kbd "C-x G") 'end-of-buffer)
 
 (setq x-select-enable-clipboard t)
 
@@ -33,18 +22,8 @@
   (add-to-list 'ido-ignore-buffers "\*helm")
   (add-to-list 'ido-ignore-buffers "\*magit")
   (add-to-list 'ido-ignore-buffers "TAGS")
-  (add-to-list 'ido-ignore-buffers "\*tramp")
-  (add-hook 'ido-minibuffer-setup-hook 'ido-common-bind-key))
+  (add-to-list 'ido-ignore-buffers "\*tramp"))
 (ido-mode 'both)
-
-(defun ido-common-bind-key ()
-  (define-key ido-common-completion-map (kbd right-little-finger-key) 'ido-exit-minibuffer)
-  (define-key ido-common-completion-map (kbd "SPC") 'ido-next-match)
-  (define-key ido-common-completion-map (kbd ",") 'ido-prev-match))
-
-;; smex
-(global-set-key (kbd "M-x") 'smex)
-(global-set-key (kbd (concat "C-" right-little-finger-key)) 'smex)
 
 ;; auto update smex cache after load a file
 (defun smex-update-after-load (unused)
@@ -123,12 +102,6 @@
                            "Open dir: "
                            '(my-helm-source-recentd
                              helm-source-locate-dirs)))
-;; find a file
-(global-set-key (kbd "C-x C-f") 'helm-find-file)
-;; find a dir
-(global-set-key (kbd "C-x C-d") 'helm-find-dir)
-
-(global-set-key (kbd "M-y") 'helm-show-kill-ring)
 
 (setq locate-db-file "~/.mlocate.db")
 
@@ -150,8 +123,6 @@
 
 (require 'evil)
 
-(define-key evil-visual-state-map (kbd "C-g") (lambda()(interactive)(evil-local-mode -1)))
-
 (defadvice evil-yank (after disable-evil activate)
   (evil-local-mode -1))
 
@@ -169,12 +140,6 @@
   (interactive)
   (if mark-active (kill-region (region-beginning) (region-end))
     (call-interactively 'evil-delete-whole-line)))
-
-(global-set-key (kbd "M-i") 'evil-visual-line)
-(global-set-key (kbd "C-w") 'smart-kill-region)
-(global-set-key (kbd "M-w") 'smart-kill-ring-save)
-(global-set-key (kbd "C-y") 'evil-paste-after)
-(global-set-key (kbd "C-x Y") 'evil-paste-before)
 
 ;; undo-tree
 (require 'undo-tree)
@@ -223,10 +188,6 @@
 
 
 ;; xclip
-
-;; iedit
-(global-set-key (kbd "C-,") 'iedit-mode)
-(setq iedit-toggle-key-default (kbd "C-,"))
 
 ;; recentf
 (require 'recentf-ext)

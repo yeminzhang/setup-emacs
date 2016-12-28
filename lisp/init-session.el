@@ -68,10 +68,4 @@
 
 (add-hook 'kill-emacs-hook 'session-save)
 
-(global-set-key (kbd "C-c s c") 'session-create)
-(global-set-key (kbd "C-c s s") 'session-switch)
-(global-set-key (kbd "C-c s k") 'session-kill)
-(global-set-key (kbd "M-o") 'wconf-use-next)
-(global-set-key (kbd "<C-tab>") 'session-switch-to-last-used)
-
 (provide 'init-session)

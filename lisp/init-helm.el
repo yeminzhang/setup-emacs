@@ -6,8 +6,7 @@
         helm-completion-mode-string ""
         helm-full-frame nil
         helm-buffers-fuzzy-matching t
-        helm-split-window-default-side 'right)
-  (define-key helm-map (kbd right-little-finger-key) 'helm-maybe-exit-minibuffer))
+        helm-split-window-default-side 'right))
 
 (after-load 'helm-files
   ;; Show full file-path in helm result

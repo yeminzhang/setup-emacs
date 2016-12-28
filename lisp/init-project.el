@@ -4,7 +4,6 @@
 (setq next-error-highlight t)
 
 (require 'gud)
-(define-key gud-mode-map (kbd "C-q") 'project-debug-quit)
 
 (defun project-save-attribute (symbol value)
   (let (
@@ -153,11 +152,6 @@
   (setq projectile-idle-timer-hook (list 'project-update-tags))
   (setq helm-projectile-fuzzy-match nil)
   (helm-projectile-on)
-  (define-key projectile-mode-map (kbd "C-c p g") 'helm-projectile-grep)
-  (define-key projectile-mode-map (kbd "C-c p R") 'project-update-tags)
-  (define-key projectile-mode-map (kbd "C-c p c") 'project-compile)
-  (define-key projectile-mode-map (kbd "C-c p r") 'project-run)
-  (define-key projectile-mode-map (kbd "C-c p d") 'project-debug)
   (custom-set-variables '(projectile-enable-idle-timer t)))
 
 (set-display-buffer-other-window (rx bos "*compilation-"))

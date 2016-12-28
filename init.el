@@ -25,3 +25,4 @@
 (require 'init-misc)
 (require 'init-session)
 (require 'init-appearance)
+(require 'init-keybinding)

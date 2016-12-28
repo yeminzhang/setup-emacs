@@ -17,6 +17,4 @@
 (defadvice eval-buffer (before save-buffer-before-eval activate)
   (save-buffer))
 
-(define-key emacs-lisp-mode-map (kbd "M-.") 'elisp-find-function-under-point)
-
 (provide 'init-elisp)
