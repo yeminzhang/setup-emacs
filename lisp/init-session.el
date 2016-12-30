@@ -36,6 +36,10 @@
   (interactive)
   (call-interactively 'eyebrowse-next-window-config))
 
+(defun session-previous()
+  (interactive)
+  (call-interactively 'eyebrowse-prev-window-config))
+
 (defun session-last()
   (interactive)
   (eyebrowse-last-window-config))

@@ -184,9 +184,12 @@
 (global-set-key (kbd "C-c s s") 'session-switch)
 (global-set-key (kbd "C-c s k") 'session-kill)
 (global-set-key (kbd "C-c s r") 'session-rename)
-(global-set-key (kbd "C-c s o") 'session-next)
+(global-set-key (kbd "C-c s n") 'session-next)
+(global-set-key (kbd "C-c s p") 'session-previous)
 (global-set-key (kbd "C-c s <tab>") 'session-last)
 (global-set-key (kbd "M-o") 'session-next)
+(global-set-key (kbd "M-n") 'session-next)
+(global-set-key (kbd "M-p") 'session-previous)
 (global-set-key (kbd "<C-tab>") 'session-last)
 
 (global-set-key (kbd "C-S-SPC")
