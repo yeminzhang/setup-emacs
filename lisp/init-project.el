@@ -18,10 +18,12 @@
 	))
 
 (defun project-set-running-command ()
-  (project-save-attribute 'project-executable-file (ido-read-file-name "Executable: "))
-  (project-save-attribute 'project-executable-parameters (read-from-minibuffer "Parameters: "))
-  (project-save-attribute 'project-executable-envs (read-from-minibuffer "Envs: "))
-  )
+  (setq executable-file (ido-read-file-name "Executable: "))
+  (setq executable-args (read-from-minibuffer "Parameters: "))
+  (setq executable-envs (read-from-minibuffer "Envs: "))
+  (project-save-attribute2 :executable-file executable-file)
+  (project-save-attribute2 :executable-args executable-args)
+  (project-save-attribute2 :executable-envs executable-envs))
 
 (defun project-load-attributes()
   (hack-dir-local-variables)
@@ -29,28 +31,57 @@
 	(set (make-local-variable (car pair)) (cdr pair)))
   )
 
+(unless (boundp 'project-list)
+  (customize-save-variable 'project-list '()))
+
+(defun project-get-plist()
+  (let ((result nil))
+    (dolist (project project-list)
+      (when (string= (projectile-project-root) (plist-get project :root))
+        (setq result project)))
+    result))
+
+(defun project-get-attribute(&rest attribute)
+  (let (
+        (project-plist (project-get-plist)))
+    (if project-plist
+        (plist-get project-plist (car attribute))
+      nil)))
+
+(defun project-save-attribute2(&rest attributes)
+  (let (
+        (project-plist (project-get-plist)))
+    (if project-plist
+        (delete project-plist project-list)
+      (setq project-plist (plist-put project-plist :root (projectile-project-root))))
+    (add-to-list 'project-list (plist-put project-plist (car attributes) (car (cdr attributes))))
+    (customize-save-variable 'project-list project-list)))
+
 (defun project-run (ARG)
   (interactive "P")
-  (project-load-attributes)
+  (let (
+        (executable-file (project-get-attribute :executable-file))
+        (executable-args (project-get-attribute :executable-args))
+        (executable-envs (project-get-attribute :executable-envs)))
   (projectile-save-project-buffers)
-  (if (or ARG (not (boundp 'project-executable-file)))
-	  (project-set-running-command)
-	)
-  (project-load-attributes)
-  (shell-command (concat project-executable-file " " project-executable-parameters)))
+  (if (or ARG (not executable-file))
+	  (project-set-running-command))
+  (shell-command (concat executable-file " "executable-args))))
 
 (defun project-debug (ARG)
   (interactive "P")
-  (project-load-attributes)
-  (if (not (boundp 'project-debug-program))
-	  (project-save-attribute 'project-debug-program (ido-completing-read "Debugger: " (list "gdb"))))
-  (if (or ARG (not (boundp 'project-executable-file)))
-	  (project-set-running-command)
-	)
-  (project-load-attributes)
+  (let (
+        (executable-file (project-get-attribute :executable-file))
+        (executable-args (project-get-attribute :executable-args))
+        (executable-envs (project-get-attribute :executable-envs))
+        (debug-program (project-get-attribute :debug-program)))
+  (when (not debug-program)
+    (setq debug-program (ido-completing-read "Debugger: " (list "gdb")))
+    (project-save-attribute2 :debug-program debug-program))
+  (if (or ARG (not executable-file))
+	  (project-set-running-command))
   (gud-save-window-configuration)
-  (if (string= project-debug-program "gdb") (cc-debug project-executable-file project-executable-parameters project-executable-envs))
-  )
+  (if (string= debug-program "gdb") (cc-debug executable-file executable-args executable-envs))))
 
 (defun project-debug-quit ()
   (interactive ())
@@ -81,11 +112,11 @@
 
 (defun project-compile (ARG)
   (interactive "P")
-  (project-load-attributes)
-  (minor-mode-put-compilation-in-progress-top)
-  (projectile-compile-project (if (bound-and-true-p projectile-project-compilation-cmd) ARG t))
-  (if (or ARG (not projectile-project-compilation-cmd))
-	  (project-save-attribute 'projectile-project-compilation-cmd (gethash (projectile-project-root) projectile-compilation-cmd-map))))
+  (let ((projectile-project-compilation-cmd (project-get-attribute :compilation-cmd)))
+    (minor-mode-put-compilation-in-progress-top)
+    (projectile-compile-project (if projectile-project-compilation-cmd ARG t))
+    (if (or ARG (not projectile-project-compilation-cmd))
+        (project-save-attribute2 :compilation-cmd (gethash (projectile-project-root) projectile-compilation-cmd-map)))))
 
 ;; Close the compilation window if there was no error at all.
 (defun compile-autoclose (buffer string)
