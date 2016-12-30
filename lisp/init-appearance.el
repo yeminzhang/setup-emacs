@@ -78,7 +78,7 @@
 ;; color theme
 (load-theme 'zenburn t)
 
-(set-face-attribute 'region nil :background "#666" :foreground "#ffffff")
+;;(set-face-attribute 'region nil :background "#666" :foreground "#ffffff")
 
 ;; override default volatile-highlights face
 (custom-set-faces
