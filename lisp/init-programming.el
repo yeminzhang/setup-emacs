@@ -1,4 +1,4 @@
-(require-packages '(helm-gtags yasnippet helm-c-yasnippet ))
+(require-packages '(helm-gtags yasnippet helm-c-yasnippet highlight-parentheses))
 
 (dolist (hook '(c-mode-common-hook python-mode-hook emacs-lisp-mode-hook erlang-mode-hook sh-mode-hook))
   (add-hook hook 'configure-programming-buffer-common))
@@ -10,6 +10,15 @@
 (defun readelf (filename)
   (interactive (list (ido-read-file-name "file: ")))
   (shell-command (concat "readelf -a " filename)))
+
+;; highlight-parentheses
+(add-hook 'prog-mode-hook 'highlight-parentheses-mode)
+(after-load 'highlight-parentheses
+  (setq hl-paren-delay 0.2
+        hl-paren-colors '("Springgreen3"
+                          "IndianRed1"
+                          "IndianRed3"
+                          "IndianRed4")))
 
 ;; Package: yasnippet
 (after-load 'yasnippet
