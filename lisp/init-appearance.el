@@ -1,4 +1,4 @@
-(require-packages '(zenburn-theme diminish smart-mode-line rainbow-mode))
+(require-packages '(zenburn-theme diminish rainbow-mode spaceline))
 ;; Appearance
 (menu-bar-mode -1)
 (tool-bar-mode -1)
@@ -88,14 +88,8 @@
  ;; If there is more than one, they won't work right.
  '(vhl/default-face ((t (:inherit secondary-selection :background "tan" :foreground "black")))))
 
-(after-load 'smart-mode-line
-  (setq sml/theme nil
-        sml/shorten-modes t
-        sml/mode-width 'right
-        sml/shorten-directory t
-        sml/name-width '(10 . 35)
-        sml/show-frame-identification t))
-(sml/setup)
+(require 'spaceline-config)
+(spaceline-spacemacs-theme)
 
 ;; display batter usage for notebook
 (after-load 'battery

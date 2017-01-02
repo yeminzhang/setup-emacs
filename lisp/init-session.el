@@ -15,7 +15,9 @@
   (add-to-list 'persp-before-switch-functions 'session-save-last-used-name)
   (add-to-list 'persp-activated-functions 'session-save-currently-used-name)
   (setq persp-nil-hidden t
-        persp-filter-save-buffers-functions nil)
+        persp-filter-save-buffers-functions nil
+        ;; spaceline will show the current persp, so lighter is not needed
+        persp-lighter nil)
 ;;
 ;; patch
 (defun persp-switch-to-buffer (buffer-or-name &optional norecord force-same-window)
