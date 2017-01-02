@@ -1,3 +1,6 @@
+(require-packages '(which-key))
+(which-key-mode t)
+
 ;; key bindings
 (global-set-key (kbd "C-o") 'other-window)
 (global-set-key (kbd "C--") 'undo)
