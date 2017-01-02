@@ -1,4 +1,4 @@
-(require-packages '(zenburn-theme diminish smart-mode-line))
+(require-packages '(zenburn-theme diminish smart-mode-line rainbow-mode))
 ;; Appearance
 (menu-bar-mode -1)
 (tool-bar-mode -1)
@@ -107,6 +107,8 @@
 
 (display-battery-mode 1)
 (display-time)
+
+(rainbow-mode t)
 
 (diminish 'volatile-highlights-mode)
 (diminish 'projectile-mode)
