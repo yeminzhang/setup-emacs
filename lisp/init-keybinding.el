@@ -45,8 +45,7 @@
 
 ;; switch buffer
 (global-set-key (kbd "C-x b") 'ido-switch-buffer)
-(global-set-key (kbd right-little-finger-key) 'ido-switch-buffer)
-(global-set-key (kbd (concat "M-" right-little-finger-key)) 'ido-switch-buffer-other-window)
+(global-set-key (kbd right-little-finger-key) 'persp-switch-to-buffer)
 (global-set-key (kbd "C-x C-b") 'helm-mini)
 
 (global-set-key (kbd "C-c f r") 'buffer-file-run)
@@ -186,7 +185,9 @@
 (global-set-key (kbd "C-c s r") 'session-rename)
 (global-set-key (kbd "C-c s n") 'session-next)
 (global-set-key (kbd "C-c s p") 'session-previous)
+(global-set-key (kbd "C-c s a") 'session-add-buffer)
 (global-set-key (kbd "C-c s <tab>") 'session-last)
+(global-set-key (kbd (concat "M-" right-little-finger-key)) 'session-switch)
 (global-set-key (kbd "M-o") 'session-next)
 (global-set-key (kbd "M-n") 'session-next)
 (global-set-key (kbd "M-p") 'session-previous)
