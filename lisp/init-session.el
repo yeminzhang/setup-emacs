@@ -11,6 +11,8 @@
 (add-hook 'desktop-not-loaded-hook 'persp-mode)
 (add-hook 'desktop-no-desktop-file-hook 'persp-mode)
 
+(setq persp-keymap-prefix "^Cs")
+
 (after-load 'persp-mode
   (add-to-list 'persp-before-switch-functions 'session-save-last-used-name)
   (add-to-list 'persp-activated-functions 'session-save-currently-used-name)
