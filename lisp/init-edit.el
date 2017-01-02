@@ -13,6 +13,9 @@
 
 (setq x-select-enable-clipboard t)
 
+;; smooth scrolling
+(setq scroll-conservatively 101)
+
 ;; ido
 (after-load 'ido
   (setq ido-enable-flex-matching t)
