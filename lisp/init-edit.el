@@ -1,4 +1,4 @@
-(require-packages '(smex undo-tree volatile-highlights iedit bookmark+ evil recentf-ext))
+(require-packages '(smex undo-tree volatile-highlights iedit bookmark+ evil recentf-ext anzu))
 
 ;; Tabsn
 (setq-default indent-tabs-mode nil)
@@ -35,6 +35,8 @@
 
 (add-hook 'after-load-functions 'smex-update-after-load)
 
+;; show number of matches in current search
+(global-anzu-mode t)
 
 (defun maybe-split-window (&optional switch-window)
   (when (one-window-p t)
