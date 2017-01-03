@@ -1,12 +1,17 @@
-(require-packages '(helm-gtags yasnippet helm-c-yasnippet highlight-parentheses expand-region))
+(require-packages '(helm-gtags yasnippet helm-c-yasnippet highlight-parentheses expand-region linum-relative))
 
 (add-hook 'prog-mode-hook 'configure-programming-buffer-common)
 
 (defun configure-programming-buffer-common ()
   (setq show-trailing-whitespace t)
+  (linum-relative-mode t)
   (linum-mode t)
   (highlight-parentheses-mode t)
   (local-set-key (kbd "C-.") 'er/expand-region))
+
+(after-load 'linum-relative
+  (setq linum-relative-plusp-offset 1
+        linum-relative-current-symbol ""))
 
 (defun readelf (filename)
   (interactive (list (ido-read-file-name "file: ")))
