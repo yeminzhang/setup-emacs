@@ -1,15 +1,20 @@
-(require-packages '(helm-gtags yasnippet helm-c-yasnippet highlight-parentheses))
+(require-packages '(helm-gtags yasnippet helm-c-yasnippet highlight-parentheses expand-region))
 
 (add-hook 'prog-mode-hook 'configure-programming-buffer-common)
 
 (defun configure-programming-buffer-common ()
   (setq show-trailing-whitespace t)
   (linum-mode t)
-  (highlight-parentheses-mode t))
+  (highlight-parentheses-mode t)
+  (local-set-key (kbd "C-.") 'er/expand-region))
 
 (defun readelf (filename)
   (interactive (list (ido-read-file-name "file: ")))
   (shell-command (concat "readelf -a " filename)))
+
+;; expand region
+(setq expand-region-contract-fast-key ","
+      expand-region-reset-fast-key "r")
 
 ;; highlight-parentheses
 (after-load 'highlight-parentheses
