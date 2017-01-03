@@ -33,6 +33,10 @@
 (after-load 'company
   (push '(company-semantic :with company-yasnippet) company-backends))
 
+;; which function mode
+(which-function-mode t)
+(setq which-func-modes '(emacs-lisp-mode c++-mode c-mode))
+
 ;; configure semantic
 (semantic-mode 1)
 (global-semanticdb-minor-mode 1)
