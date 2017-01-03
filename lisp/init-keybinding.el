@@ -58,8 +58,6 @@
 
 (global-set-key (kbd "C-x K") 'kill-this-buffer)
 
-(define-key emacs-lisp-mode-map (kbd "M-.") 'elisp-find-function-under-point)
-
 (global-set-key (kbd "C-c g s") 'magit-status)
 (global-set-key (kbd "C-c g l") (lambda () (interactive) (magit-log '("HEAD"))))
 (global-set-key (kbd "C-c g d") 'magit-diff-popup)
