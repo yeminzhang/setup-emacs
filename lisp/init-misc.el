@@ -1,4 +1,4 @@
-(require-packages '(helm-proc))
+(require-packages '(helm-proc restart-emacs))
 
 (defun print-time ()
   (interactive)
