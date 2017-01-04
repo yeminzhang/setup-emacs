@@ -84,8 +84,7 @@
    (keymap :initform helm-eshell-history-map)
    (candidate-number-limit :initform 9999)
    (action :initform (lambda (candidate)
-                       (cd candidate)
-                       (eshell-run-command ""))))
+                       (eshell-run-command (concat "cd " candidate)))))
   "Helm class to define source for Eshell dir history.")
 
 (add-hook 'eshell-mode-hook 'eshell-register-desktop-save)
@@ -112,8 +111,7 @@ directory to make multiple eshell windows easier."
                   default-directory)))
     (maybe-split-window t)
     (eshell)
-    (cd parent)
-    (eshell-run-command "")))
+    (eshell-run-command (concat "cd " parent))))
 
 (defun eshell/x ()
   (bury-buffer))
