@@ -94,7 +94,7 @@
         sml/mode-width 'right
         sml/shorten-directory t
         sml/name-width '(10 . 35)
-        sml/show-frame-identification t))
+        sml/show-frame-identification nil))
 (sml/setup)
 
 ;; display batter usage for notebook
