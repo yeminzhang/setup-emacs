@@ -18,6 +18,11 @@
   (add-to-list 'persp-activated-functions 'session-save-currently-used-name)
   (setq persp-nil-hidden t
         persp-filter-save-buffers-functions nil)
+  (add-to-list 'persp-filter-save-buffers-functions
+               (lambda
+                 (b)
+                 (string-prefix-p "*magit"
+                                  (buffer-name b))))
 ;;
 ;; patch
 (defun persp-switch-to-buffer (buffer-or-name &optional norecord force-same-window)
