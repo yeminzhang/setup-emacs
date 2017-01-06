@@ -75,7 +75,10 @@
         (addr-pair (split-string d-b-misc " ")))
         (if (string= (nth 0 addr-pair) (system-name))
             ;;localhost
-            (let ((default-directory (nth 1 addr-pair))) (multi-term))
+            (let ((default-directory (nth 1 addr-pair)))
+              (multi-term)
+              (rename-buffer d-b-name)
+              (current-buffer))
           ;; ssh-host
           (ssh-host (nth 0 addr-pair))
     )))
