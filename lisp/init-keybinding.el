@@ -48,7 +48,7 @@
 
 ;; switch buffer
 (global-set-key (kbd "C-x b") 'ido-switch-buffer)
-(global-set-key (kbd right-little-finger-key) 'persp-switch-to-buffer)
+(global-set-key (kbd right-little-finger-key) 'ido-switch-buffer)
 (global-set-key (kbd "C-x C-b") 'helm-mini)
 
 (global-set-key (kbd "C-c f r") 'buffer-file-run)
@@ -180,7 +180,6 @@
 
 (global-set-key (kbd "C-c t") 'term-here)
 
-(global-set-key (kbd "C-c s c") 'session-create)
 (global-set-key (kbd "C-c s s") 'session-switch)
 (global-set-key (kbd "C-c s k") 'session-kill)
 (global-set-key (kbd "C-c s r") 'session-rename)
