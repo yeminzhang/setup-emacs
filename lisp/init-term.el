@@ -15,6 +15,9 @@
 (setq term-default-bg-color nil)
 (setq term-default-fg-color nil)
 
+(after-load 'multi-term
+  (setq multi-term-switch-after-close nil))
+
 (defun term-copy ()
   (interactive)
 ;;  (let* ((mark-command-begin (progn (term-send-raw-string "\C-a") (point)))
