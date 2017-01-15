@@ -31,8 +31,7 @@
 	(set (make-local-variable (car pair)) (cdr pair)))
   )
 
-(unless (boundp 'project-list)
-  (customize-save-variable 'project-list '()))
+(customize-save-default 'project-list '())
 
 (defun project-get-plist()
   (let ((result nil))

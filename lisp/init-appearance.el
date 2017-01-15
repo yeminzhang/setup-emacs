@@ -11,8 +11,7 @@
 (setq split-height-threshold nil)
 
 ;; font style and size can be customized and saved in custom.el
-(unless (boundp 'default-frame-font)
-  (customize-save-variable 'default-frame-font "Monospace:pixelsize=14"))
+(customize-save-default 'default-frame-font "Monospace:pixelsize=14")
 (add-to-list 'default-frame-alist (cons 'font default-frame-font))
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 ;;(set-default-font "opendesktop-fonts")

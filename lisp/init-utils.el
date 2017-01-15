@@ -13,4 +13,8 @@
     (setq str (replace-match "" t t str)))
   str)
 
+(defun customize-save-default (symbol value)
+  (unless (boundp symbol)
+    (customize-save-variable symbol value)))
+
 (provide 'init-utils)

@@ -111,10 +111,11 @@
                              helm-source-locate-dirs)))
 
 (setq locate-db-file "~/.mlocate.db")
+(customize-save-default 'updatedb-option "-l 0")
 
 (defun updatedb ()
   (interactive)
-  (call-process-shell-command (concat "updatedb -o " locate-db-file " -l 0") nil 0))
+  (call-process-shell-command (concat "updatedb " updatedb-option " -o " locate-db-file) nil 0))
 
 ;; updatedb every 30 minutes
 (unless (boundp 'updatedb-timer)
