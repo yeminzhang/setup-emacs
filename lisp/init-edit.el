@@ -35,6 +35,9 @@
 
 (add-hook 'after-load-functions 'smex-update-after-load)
 
+(after-load 'ediff-wind
+  (setq ediff-split-window-function 'split-window-horizontally))
+
 ;; show number of matches in current search
 (global-anzu-mode t)
 (after-load 'anzu
