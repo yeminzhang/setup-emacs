@@ -5,6 +5,9 @@
 (add-hook 'emacs-lisp-mode-hook 'yas-minor-mode-on)
 (add-hook 'emacs-lisp-mode-hook 'turn-on-elisp-slime-nav-mode)
 
+(after-load 'elisp-slime-nav
+  (diminish 'elisp-slime-nav-mode))
+
 (setq lisp-body-indent 2)
 
 (defun elisp-indent-line ()

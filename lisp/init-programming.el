@@ -11,7 +11,8 @@
 
 (after-load 'linum-relative
   (setq linum-relative-plusp-offset 1
-        linum-relative-current-symbol ""))
+        linum-relative-current-symbol "")
+  (diminish 'linum-relative-mode))
 
 (defun readelf (filename)
   (interactive (list (ido-read-file-name "file: ")))

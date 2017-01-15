@@ -37,6 +37,8 @@
 
 ;; show number of matches in current search
 (global-anzu-mode t)
+(after-load 'anzu
+  (diminish 'anzu-mode))
 
 (defun maybe-split-window (&optional switch-window)
   (when (one-window-p t)
