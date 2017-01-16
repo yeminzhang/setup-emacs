@@ -98,11 +98,30 @@
      :candidate-number-limit 25                 ;; up to 25 of each
      :sources sources)))
 
+;; disable fuzzy match. that is the only difference from the default helm-files-in-current-dir-source
+(defclass my-helm-files-in-current-dir-source (helm-source-sync helm-type-file)
+  ((candidates :initform (lambda ()
+                           (with-helm-current-buffer
+                             (let ((dir (helm-current-directory)))
+                               (when (file-accessible-directory-p dir)
+                                 (directory-files dir t))))))
+   (pattern-transformer :initform 'helm-recentf-pattern-transformer)
+   (match-part :initform (lambda (candidate)
+                           (if (or helm-ff-transformer-show-only-basename
+                                   helm-recentf--basename-flag)
+                               (helm-basename candidate) candidate)))
+   (fuzzy-match :initform nil)
+   (migemo :initform t)))
+
+(defvar my-helm-source-files-in-current-dir
+  (helm-make-source "Files from Current Directory"
+      my-helm-files-in-current-dir-source))
+
 (defun helm-find-file (ARG)
   (interactive "P")
   (helm-find-file-internal ARG
                            "Open file: "
-                           '(  helm-source-files-in-current-dir
+                           '(  my-helm-source-files-in-current-dir
                                my-helm-source-recentf
                                helm-source-locate-files)))
 
