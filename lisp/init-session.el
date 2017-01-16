@@ -18,11 +18,12 @@
 
 (defun perspectives-hash-filter ()
   (require 'seq-24)
+  (require 'subr-x)
   (let (
         (result ())
         (keys (hash-table-keys perspectives-hash))
-        (curr-persp (persp-name persp-curr))
-        (last-persp (persp-name persp-last)))
+        (curr-persp (if persp-curr (persp-name persp-curr) nil))
+        (last-persp (if persp-last (persp-name persp-last) nil)))
     ;; for every perspective...
     (dolist (key keys)
       (with-perspective key
@@ -63,9 +64,9 @@
               )
             (window-state-put (cdr (nth 1 (nth 1 elem))))
             ))
-        (when (boundp 'persp-last-name)
+        (when (bound-and-true-p persp-last-name)
           (persp-switch persp-last-name))
-        (when (boundp 'persp-curr-name)
+        (when (bound-and-true-p persp-curr-name)
           (persp-switch persp-curr-name))
         )
     (message "No state found")))
