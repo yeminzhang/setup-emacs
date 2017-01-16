@@ -13,7 +13,7 @@
 ;; now only elisp buffer file is supported
 (defun buffer-file-run ()
   (interactive)
-  (when (eq major-mode 'emacs-lisp-mode) (eval-buffer)))
+  (when (eq major-mode 'emacs-lisp-mode) (elisp-save-and-eval-buffer)))
 
 ;; force all buffers to be displayed in the same window
 ;;(setq same-window-buffer-names '("*eshell*"))

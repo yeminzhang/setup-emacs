@@ -16,7 +16,9 @@
   (delete-horizontal-space)
   (lisp-indent-line))
 
-(defadvice eval-buffer (before save-buffer-before-eval activate)
-  (save-buffer))
+(defun elisp-save-and-eval-buffer ()
+  (interactive)
+  (save-buffer)
+  (eval-buffer))
 
 (provide 'init-elisp)
