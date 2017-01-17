@@ -234,6 +234,12 @@
 (delete '("C-r" . isearch-backward) term-bind-key-alist)
 (add-to-list 'term-bind-key-alist '("M-r" . isearch-backward))
 (add-to-list 'term-bind-key-alist '("C-r" . term-send-reverse-search-history))
+(delete '("C-n" . next-line) term-bind-key-alist)
+(delete '("C-p" . previous-line) term-bind-key-alist)
+(delete '("M-p" . term-send-up) term-bind-key-alist)
+(delete '("M-n" . term-send-down) term-bind-key-alist)
+(add-to-list 'term-bind-key-alist '("C-n" . term-send-down))
+(add-to-list 'term-bind-key-alist '("C-p" . term-send-up))
 
 (define-key term-mode-map (kbd "M-SPC") 'term-toggle-submode)
 (define-key term-raw-map (kbd "M-SPC") 'term-toggle-submode)
