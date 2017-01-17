@@ -5,7 +5,7 @@
 (desktop-save-mode 1)
 (setq desktop-restore-eager t
       desktop-restore-frames nil
-      desktop-auto-save-timeout 180)
+      desktop-auto-save-timeout 300)
 ;;(setq desktop-files-not-to-save "^$")
 
 (defun perspectives-buffer-name-p (buffer)
