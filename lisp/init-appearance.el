@@ -1,4 +1,3 @@
-(require-packages '(zenburn-theme diminish smart-mode-line rainbow-mode))
 ;; Appearance
 (menu-bar-mode -1)
 (tool-bar-mode -1)
@@ -70,11 +69,10 @@
 (global-hl-line-mode 1)
 (column-number-mode 1)
 
-(after-load 'ido
-  (setq ido-max-window-height 1)
-  (setq max-mini-window-height 1))
-
 ;; color theme
+(use-package zenburn-theme
+  :ensure t
+  :defer t)
 (load-theme 'zenburn t)
 
 ;;(set-face-attribute 'region nil :background "#666" :foreground "#ffffff")
@@ -87,7 +85,10 @@
  ;; If there is more than one, they won't work right.
  '(vhl/default-face ((t (:inherit secondary-selection :background "tan" :foreground "black")))))
 
-(after-load 'smart-mode-line
+(use-package smart-mode-line
+  :ensure t
+  :defer t
+  :config
   (setq sml/theme nil
         sml/shorten-modes t
         sml/mode-width 'right
@@ -97,19 +98,25 @@
 (sml/setup)
 
 ;; display batter usage for notebook
-(after-load 'battery
+(use-package battery
+  :defer t
+  :config
   (setq battery-mode-line-format "[%b%p%%] "))
+
 ;; display time in 24hr format
-(after-load 'time
+(use-package time
+  :defer t
+  :config
   (setq display-time-24hr-format t
         display-time-string-forms (delete 'load display-time-string-forms)))
 
 (display-battery-mode 1)
 (display-time)
 
-(rainbow-mode t)
+(use-package rainbow-mode
+  :defer t
+  :ensure t)
 
-(diminish 'volatile-highlights-mode)
-(diminish 'projectile-mode)
+(rainbow-mode t)
 
 (provide 'init-appearance)

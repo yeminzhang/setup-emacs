@@ -1,10 +1,6 @@
-(require-packages '(projectile helm-projectile ))
-(setq compilation-auto-jump-to-first-error t)
-(setq compilation-scroll-output 'first-error)
 (setq next-error-highlight t)
 
 (require 'gud)
-
 (defun project-save-attribute (symbol value)
   (let (
 		(default-directory (projectile-project-root))
@@ -69,17 +65,23 @@
 
 (defun project-debug (ARG)
   (interactive "P")
+  (require 'gud)
   (let (
         (executable-file (project-get-attribute :executable-file))
         (executable-args (project-get-attribute :executable-args))
         (executable-envs (project-get-attribute :executable-envs))
-        (debug-program (project-get-attribute :debug-program)))
+        (debug-program (project-get-attribute :debug-program))
+        (debug-prerun (project-get-attribute :debug-prerun)))
   (when (not debug-program)
     (setq debug-program (ido-completing-read "Debugger: " (list "gdb")))
     (project-save-attribute2 :debug-program debug-program))
   (if (or ARG (not executable-file))
-	  (project-set-running-command))
+      (project-set-running-command))
+  (if (or ARG (not debug-prerun))
+      (setq debug-prerun (read-from-minibuffer "Pre-run: ")))
   (gud-save-window-configuration)
+  (if debug-prerun
+      (shell-command debug-prerun))
   (if (string= debug-program "gdb") (cc-debug executable-file executable-args executable-envs))))
 
 (defun project-debug-quit ()
@@ -87,23 +89,6 @@
   (if (eq gud-minor-mode 'gdbmi) (cc-debug-quit))
   (gud-restore-window-configuration)
   (bury-buffer gud-comint-buffer)
-  )
-
-(defun gud-active-process ()
-  (if (get-buffer-process gud-comint-buffer) t nil)
-  )
-
-(defun gud-send-command (command)
-  (if (gud-active-process)
-	  (comint-send-string gud-comint-buffer (concat command "\n"))
-	))
-
-(defun gud-save-window-configuration ()
-  (setq window-configuration-before-gdb (current-window-configuration))
-  )
-
-(defun gud-restore-window-configuration ()
-  (set-window-configuration window-configuration-before-gdb)
   )
 
 (defun project-get-compilation-buffer-name (mode)
@@ -116,12 +101,6 @@
     (projectile-compile-project (if projectile-project-compilation-cmd ARG t))
     (if (or ARG (not projectile-project-compilation-cmd))
         (project-save-attribute2 :compilation-cmd (gethash (projectile-project-root) projectile-compilation-cmd-map)))))
-
-;; Close the compilation window if there was no error at all.
-(defun compile-autoclose (buffer string)
-  (when (string-match "finished" string)
-    (bury-buffer buffer)
-    (replace-buffer-in-windows buffer)))
 
 (defun minor-mode-put-compilation-in-progress-top()
   (let*
@@ -174,17 +153,25 @@
 	  (with-current-buffer buffer (project-load-attributes)))))
 
 ;; projectile
-(after-load 'projectile
+(use-package projectile
+  :ensure t
+  :defer t
+  :config
   (setq projectile-completion-system 'helm)
   (setq projectile-mode-line '(:eval (if (projectile-project-p) (format " Proj[%s]" (projectile-project-name)) "")))
   (setq projectile-find-dir-includes-top-level t)
   (setq projectile-tags-command nil)
   (setq projectile-idle-timer-hook (list 'project-update-tags))
-  (setq helm-projectile-fuzzy-match nil)
   (helm-projectile-on)
-  (custom-set-variables '(projectile-enable-idle-timer t)))
+  :init
+  (setq projectile-enable-idle-timer t))
 
-(set-display-buffer-other-window (rx bos "*compilation-"))
+(use-package helm-projectile
+  :ensure t
+  :defer t
+  :config
+  (setq helm-projectile-fuzzy-match nil))
+
 (set-display-buffer-other-window (rx bos "*Shell Command Output*" eos))
 
 (projectile-global-mode 1)
@@ -192,10 +179,43 @@
 ;; ede for semantic
 (global-ede-mode)
 
-(setq compilation-read-command nil
-      compilation-ask-about-save nil
-      compilation-buffer-name-function 'project-get-compilation-buffer-name
-      compilation-finish-functions 'compile-autoclose
-      compilation-skip-threshold 2)
+(use-package compile
+  :defer t
+  :config
+  (setq compilation-read-command nil
+        compilation-ask-about-save nil
+        compilation-buffer-name-function 'project-get-compilation-buffer-name
+        compilation-finish-functions 'compile-autoclose
+        compilation-skip-threshold 2
+        compilation-auto-jump-to-first-error t
+        compilation-scroll-output 'first-error)
+  (set-display-buffer-other-window (rx bos "*compilation-"))
+  ;; Close the compilation window if there was no error at all.
+  (defun compile-autoclose (buffer string)
+    (when (string-match "finished" string)
+      (bury-buffer buffer)
+      (replace-buffer-in-windows buffer)))
+  )
+
+(use-package gud
+  :defer t
+  :config
+  (defun gud-active-process ()
+    (if (get-buffer-process gud-comint-buffer) t nil)
+    )
+
+  (defun gud-send-command (command)
+    (if (gud-active-process)
+        (comint-send-string gud-comint-buffer (concat command "\n"))
+      ))
+
+  (defun gud-save-window-configuration ()
+    (setq window-configuration-before-gdb (current-window-configuration))
+    )
+
+  (defun gud-restore-window-configuration ()
+    (set-window-configuration window-configuration-before-gdb)
+    )
+  )
 
 (provide 'init-project)

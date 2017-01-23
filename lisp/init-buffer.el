@@ -1,12 +1,8 @@
 ;; uniquify
-(require 'uniquify)
-(setq uniquify-buffer-name-style 'post-forward-angle-brackets)
-(setq uniquify-strip-common-suffix t)
-
-;; This is a patch to prevent helm from sorting the buffer
-;; list when narrowing
-(defun helm-buffers-sort-transformer (candidates _source)
-  candidates)
+(use-package uniquify
+  :config
+  (setq uniquify-buffer-name-style 'post-forward-angle-brackets
+        uniquify-strip-common-suffix t))
 
 (global-auto-revert-mode 1)
 

@@ -1,10 +1,14 @@
 ;; eshell
 
-(after-load 'em-hist
+(use-package em-hist
+  :defer t
+  :config
   (setq eshell-history-size 100000
         eshell-hist-ignoredups t))
 
-(after-load 'em-dirs
+(use-package em-dirs
+  :defer t
+  :config
   (setq eshell-last-dir-ring-size 10000))
 
 (defun eshell-notify-done ()
@@ -90,7 +94,9 @@
 (add-hook 'eshell-mode-hook 'eshell-register-desktop-save)
 (add-hook 'eshell-mode-hook 'company-mode)
 
-(after-load 'em-term
+(use-package em-term
+  :defer t
+  :config
   (add-to-list 'eshell-visual-commands "vim")
   (add-to-list 'eshell-visual-commands "git log")
   (add-to-list 'eshell-visual-commands "telnet")
@@ -129,7 +135,9 @@ directory to make multiple eshell windows easier."
     (get-buffer eshell-buffer-name)
     ))
 
-(after-load 'desktop
+(use-package desktop
+  :defer t
+  :config
   (add-to-list 'desktop-buffer-mode-handlers '(eshell-mode . eshell-restore-desktop-buffer)))
 
 ;; eshell auto completion

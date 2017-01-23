@@ -1,5 +1,5 @@
 ;; init-c-cpp is for c-mode, c++-mode
-(require-packages '(company-c-headers))
+
 ;;(require 'flymake-cursor)
 ;;(add-hook 'find-file-hook 'flymake-find-file-hook)
 
@@ -10,11 +10,6 @@
 (setq gdb-speedbar-auto-raise t)
 
 (defun cc-debug (executable parameters envs)
-  (interactive
-   (list (ido-read-file-name "Executable: ")
-         (read-from-minibuffer "Parameters: ")
-         (read-from-minibuffer "Envs: ")
-         ))
   (setq command-line (concat "gdb -i=mi -cd=" (projectile-project-root) " " executable)
         gdb-many-windows t
         gdb-show-main t)
@@ -86,12 +81,11 @@
     (list "." "..")
     ))
 
-;; company-c-headers
-(after-load 'company
+(use-package company-c-headers
+  :ensure t
+  :config
+  (setq company-c-headers-path-user 'cc-get-headers-path-user
+        company-c-headers-path-system 'cc-get-headers-path-system)
   (add-to-list 'company-backends 'company-c-headers))
-
-(after-load 'company-c-headers
-  (setq company-c-headers-path-user 'cc-get-headers-path-user)
-  (setq company-c-headers-path-system 'cc-get-headers-path-system))
 
 (provide 'init-c-cpp)

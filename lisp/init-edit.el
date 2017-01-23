@@ -1,5 +1,3 @@
-(require-packages '(smex undo-tree volatile-highlights iedit bookmark+ evil recentf-ext anzu))
-
 ;; Tabsn
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
@@ -7,78 +5,70 @@
 
 ;; whitespace
 (setq-default show-trailing-whitespace nil)
-(after-load 'whitespace
+(use-package whitespace
+  :defer t
+  :config
   (setq whitespace-style '(tab-mark)))  ;;turns on white space mode only for tabs
 (add-to-list 'write-file-hooks 'delete-trailing-whitespace)
 
+;; xclip
 (setq x-select-enable-clipboard t)
 
 ;; smooth scrolling
 (setq scroll-conservatively 101)
 
 ;; ido
-(after-load 'ido
-  (setq ido-enable-flex-matching t)
-  (setq ido-enable-dot-prefix t)
-  (setq ido-enable-regexp nil)
-  (setq ido-ignore-extensions nil)
+(use-package ido
+  :defer t
+  :config
+  (setq ido-enable-flex-matching t
+        ido-enable-dot-prefix t
+        ido-enable-regexp nil
+        ido-ignore-extensions nil
+        ido-max-window-height 1
+        max-mini-window-height 1)
   (add-to-list 'ido-ignore-buffers "\*helm")
   (add-to-list 'ido-ignore-buffers "\*magit")
   (add-to-list 'ido-ignore-buffers "TAGS")
   (add-to-list 'ido-ignore-buffers "\*tramp"))
 (ido-mode 'both)
 
-;; auto update smex cache after load a file
-(defun smex-update-after-load (unused)
-  (when (boundp 'smex-cache)
-    (smex-update)))
+(use-package smex
+  :defer t
+  :ensure t
+  :config
+  ;; auto update smex cache after load a file
+  (defun smex-update-after-load (unused)
+    (when (boundp 'smex-cache)
+      (smex-update)))
+  (add-hook 'after-load-functions 'smex-update-after-load))
 
-(add-hook 'after-load-functions 'smex-update-after-load)
-
-(after-load 'ediff-wind
+(use-package ediff-wind
+  :defer t
+  :config
   (setq ediff-split-window-function 'split-window-horizontally))
 
 ;; show number of matches in current search
+(use-package anzu
+  :ensure t
+  :defer t
+  :diminish anzu-mode)
 (global-anzu-mode t)
-(after-load 'anzu
-  (diminish 'anzu-mode))
 
 (defun maybe-split-window (&optional switch-window)
   (when (one-window-p t)
     (split-window-horizontally))
   (when switch-window) (other-window 1))
 
-(defun helm-keep-only-dirs (files)
+(defun keep-only-dirs (files)
   (cl-loop for i in files
            if (and (stringp i) (file-directory-p i))
            collect i))
 
-(defun helm-keep-only-files (files)
+(defun keep-only-files (files)
   (cl-loop for i in files
            if (and (stringp i) (not (file-directory-p i)))
            collect i))
-
-
-(setq my-helm-source-recentf (copy-tree helm-source-recentf))
-(setf (nth 0 my-helm-source-recentf) '(name . "Recent files excluing directories"))
-(setf (nth 3 (nth 2 my-helm-source-recentf)) '(delete-dups
-                                               (mapcar (lambda (file)
-                                                         (if (s-ends-with-p "/" file) "" file))
-                                                       recentf-list)))
-
-(setq my-helm-source-recentd (copy-tree helm-source-recentf))
-(setf (nth 0 my-helm-source-recentd) '(name . "Recent directories"))
-(setf (nth 3 (nth 2 my-helm-source-recentd)) '(delete-dups
-                                               (mapcar (lambda (file)
-                                                         (if (s-ends-with-p "/" file) file ""))
-                                                       recentf-list)))
-
-(setq helm-source-locate-dirs (copy-tree helm-source-locate))
-(setf (nth 1 (nth 8 helm-source-locate-dirs)) 'helm-keep-only-dirs)
-
-(setq helm-source-locate-files (copy-tree helm-source-locate))
-(let ((candidate-transformer (nth 8 helm-source-locate-files)))
-  (setcdr candidate-transformer (cons 'helm-keep-only-files (cdr candidate-transformer))))
 
 ;; By default regexp is not used. Add -r in a helm session to enable it
 (defun make-locate-command (ARG)
@@ -90,47 +80,6 @@
              locate-db-file
            (expand-file-name ".mlocate.db" (projectile-project-root)))))
     (concat "locate %s -d " locate-db-file " -e -A %s")))
-
-(defun helm-find-file-internal (ARG prompt sources)
-  (let ((helm-locate-command (make-locate-command ARG)))
-    (helm
-     :prompt prompt
-     :candidate-number-limit 25                 ;; up to 25 of each
-     :sources sources)))
-
-;; disable fuzzy match. that is the only difference from the default helm-files-in-current-dir-source
-(defclass my-helm-files-in-current-dir-source (helm-source-sync helm-type-file)
-  ((candidates :initform (lambda ()
-                           (with-helm-current-buffer
-                             (let ((dir (helm-current-directory)))
-                               (when (file-accessible-directory-p dir)
-                                 (directory-files dir t))))))
-   (pattern-transformer :initform 'helm-recentf-pattern-transformer)
-   (match-part :initform (lambda (candidate)
-                           (if (or helm-ff-transformer-show-only-basename
-                                   helm-recentf--basename-flag)
-                               (helm-basename candidate) candidate)))
-   (fuzzy-match :initform nil)
-   (migemo :initform t)))
-
-(defvar my-helm-source-files-in-current-dir
-  (helm-make-source "Files from Current Directory"
-      my-helm-files-in-current-dir-source))
-
-(defun helm-find-file (ARG)
-  (interactive "P")
-  (helm-find-file-internal ARG
-                           "Open file: "
-                           '(  my-helm-source-files-in-current-dir
-                               my-helm-source-recentf
-                               helm-source-locate-files)))
-
-(defun helm-find-dir (ARG)
-  (interactive "P")
-  (helm-find-file-internal ARG
-                           "Open dir: "
-                           '(my-helm-source-recentd
-                             helm-source-locate-dirs)))
 
 (setq locate-db-file "~/.mlocate.db")
 (customize-save-default 'updatedb-option "-l 0")
@@ -148,16 +97,19 @@
   (interactive (list (ido-completing-read "Char to insert: " (list "ö" "ä" "å" "Ö" "Ä" "Å" "~"))))
   (insert char_str))
 
-(after-load 'desktop
+(use-package desktop
+  :defer t
+  :config
   (add-to-list 'desktop-globals-to-save 'kill-ring))
 
-(require 'evil)
+(use-package evil
+  :ensure t
+  :config
+  (defadvice evil-yank (after disable-evil activate)
+    (evil-local-mode -1))
 
-(defadvice evil-yank (after disable-evil activate)
-  (evil-local-mode -1))
-
-(defadvice evil-delete (after disable-evil activate)
-  (evil-local-mode -1))
+  (defadvice evil-delete (after disable-evil activate)
+    (evil-local-mode -1)))
 
 (defun smart-kill-ring-save ()
   "When called interactively with no active region, copy the whole line."
@@ -172,13 +124,25 @@
     (call-interactively 'evil-delete-whole-line)))
 
 ;; undo-tree
-(require 'undo-tree)
-(global-undo-tree-mode)
-(setq undo-tree-mode-lighter "")
+(use-package undo-tree
+  :ensure t
+  :diminish undo-tree-mode
+  :config
+  (global-undo-tree-mode))
 
+(use-package volatile-highlights
+  :ensure t
+  :diminish volatile-highlights-mode)
 ;; volatile-highlights
-(require 'volatile-highlights)
 (volatile-highlights-mode t)
+
+(use-package ace-jump-mode
+  :ensure t
+  :defer t)
+
+(use-package ace-isearch
+  :ensure t)
+(global-ace-isearch-mode 1)
 
 ;; auto-save file
 ;; Save all tempfiles in ~/.emacs-tmp/
@@ -199,18 +163,24 @@
            (let ((mark-even-if-inactive transient-mark-mode))
              (indent-region (region-beginning) (region-end) nil))))))
 
-;; xclip
 
 ;; recentf
-(require 'recentf-ext)
-(setq recentf-max-menu-items 100
-      recentf-max-saved-items nil)
+(use-package recentf-ext
+  :ensure t
+  :config
+  (setq recentf-max-menu-items 100
+        recentf-max-saved-items nil))
 
 ;; bookmark+
 (defun bookmark-load-if-not ()
-  (require 'bookmark+)
+  (use-package bookmark+
+    :ensure t)
   (if (and (not bookmarks-already-loaded) (file-readable-p bookmark-default-file))
       (bookmark-load bookmark-default-file)))
+
+(use-package iedit
+  :ensure t
+  :defer t)
 
 ;; Auto save bookmark to file every 8 modifications
 (setq bookmark-save-flag 8)

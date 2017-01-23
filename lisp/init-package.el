@@ -2,13 +2,12 @@
 (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
 (package-initialize)
 
-(defun require-packages (packages)
-  (dolist (package packages)
-	(unless (package-installed-p package)
-	  (unless (boundp 'package-refreshed) (package-refresh-contents)(setq package-refreshed t))
-	  (package-install package))))
+;; install use-package
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
 
-(require-packages '(s))
-(require 's)
+(use-package diminish
+  :ensure t)
 
 (provide 'init-package)
