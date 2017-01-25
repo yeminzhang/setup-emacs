@@ -1,6 +1,5 @@
 (setq next-error-highlight t)
 
-(require 'gud)
 (defun project-save-attribute (symbol value)
   (let (
 		(default-directory (projectile-project-root))
@@ -97,18 +96,9 @@
 (defun project-compile (ARG)
   (interactive "P")
   (let ((projectile-project-compilation-cmd (project-get-attribute :compilation-cmd)))
-    (minor-mode-put-compilation-in-progress-top)
     (projectile-compile-project (if projectile-project-compilation-cmd ARG t))
     (if (or ARG (not projectile-project-compilation-cmd))
         (project-save-attribute2 :compilation-cmd (gethash (projectile-project-root) projectile-compilation-cmd-map)))))
-
-(defun minor-mode-put-compilation-in-progress-top()
-  (let*
-      (
-       (compilation-in-progress-mode '(compilation-in-progress " Compiling"))
-       )
-    (setq minor-mode-alist (delete compilation-in-progress-mode minor-mode-alist))
-    (add-to-list 'minor-mode-alist compilation-in-progress-mode)))
 
 (defun project-configure--tags-command ()
   (let
@@ -158,7 +148,7 @@
   :defer t
   :config
   (setq projectile-completion-system 'helm)
-  (setq projectile-mode-line '(:eval (if (projectile-project-p) (format " Proj[%s]" (projectile-project-name)) "")))
+  (setq projectile-mode-line '(" Proj" (:eval (spinner-print compile--spinner))))
   (setq projectile-find-dir-includes-top-level t)
   (setq projectile-tags-command nil)
   (setq projectile-idle-timer-hook (list 'project-update-tags))
@@ -181,6 +171,7 @@
 
 (use-package compile
   :defer t
+  :diminish compilation-in-progress
   :config
   (setq compilation-read-command nil
         compilation-ask-about-save nil
@@ -190,8 +181,14 @@
         compilation-auto-jump-to-first-error t
         compilation-scroll-output 'first-error)
   (set-display-buffer-other-window (rx bos "*compilation-"))
+  (defvar compile--spinner (spinner-create 'rotating-line))
+
+  (defadvice compile (after compile-start-spinner activate)
+    (spinner-start compile--spinner))
+
   ;; Close the compilation window if there was no error at all.
   (defun compile-autoclose (buffer string)
+    (spinner-stop compile--spinner)
     (when (string-match "finished" string)
       (bury-buffer buffer)
       (replace-buffer-in-windows buffer)))

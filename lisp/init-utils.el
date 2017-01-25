@@ -12,4 +12,8 @@
 (use-package s
   :ensure t)
 
+(use-package spinner
+  :ensure t
+  :defer t)
+
 (provide 'init-utils)
