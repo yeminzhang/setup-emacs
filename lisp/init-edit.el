@@ -141,7 +141,14 @@
   :defer t)
 
 (use-package ace-isearch
-  :ensure t)
+  :ensure t
+  :diminish ace-isearch-mode
+  :defer t
+  :config
+  (setq ace-isearch-use-jump 'printing-char
+        ace-isearch-func-delay 1
+        ace-isearch-jump-delay 0.8)
+  )
 (global-ace-isearch-mode 1)
 
 ;; auto-save file
