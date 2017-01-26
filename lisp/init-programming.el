@@ -1,3 +1,49 @@
+(use-package compile
+  :defer t
+  :diminish compilation-in-progress
+  :config
+  (setq compilation-read-command nil
+        compilation-ask-about-save nil
+        compilation-buffer-name-function 'project-get-compilation-buffer-name
+        compilation-finish-functions 'compile-autoclose
+        compilation-skip-threshold 2
+        compilation-auto-jump-to-first-error t
+        compilation-scroll-output 'first-error)
+  (set-display-buffer-other-window (rx bos "*compilation-"))
+  (defvar compile--spinner (spinner-create 'rotating-line))
+
+  (defadvice compile (after compile-start-spinner activate)
+    (spinner-start compile--spinner))
+
+  ;; Close the compilation window if there was no error at all.
+  (defun compile-autoclose (buffer string)
+    (spinner-stop compile--spinner)
+    (when (string-match "finished" string)
+      (bury-buffer buffer)
+      (replace-buffer-in-windows buffer)))
+  )
+
+(use-package gud
+  :defer t
+  :config
+  (defun gud-active-process ()
+    (if (get-buffer-process gud-comint-buffer) t nil)
+    )
+
+  (defun gud-send-command (command)
+    (if (gud-active-process)
+        (comint-send-string gud-comint-buffer (concat command "\n"))
+      ))
+
+  (defun gud-save-window-configuration ()
+    (setq window-configuration-before-gdb (current-window-configuration))
+    )
+
+  (defun gud-restore-window-configuration ()
+    (set-window-configuration window-configuration-before-gdb)
+    )
+  )
+
 (use-package linum-relative
   :ensure t
   :defer t
