@@ -59,7 +59,7 @@
 ;; switch buffer
 (global-set-key (kbd right-little-finger-key) 'ido-switch-buffer)
 (use-package helm-buffers
-  :bind ("C-x C-b" . helm-mini))
+  :bind ("C-x C-b" . helm-buffers-list))
 
 (global-set-key (kbd "C-c f r") 'buffer-file-run)
 

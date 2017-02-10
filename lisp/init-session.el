@@ -4,116 +4,169 @@
   :config
   (setq desktop-path (list user-emacs-directory)
         desktop-restore-eager t
-        desktop-restore-frames nil
+        desktop-restore-frames t
         desktop-auto-save-timeout 300)
-  (add-hook 'desktop-after-read-hook 'perspectives-restore-state)
-  (add-hook 'desktop-no-desktop-file-hook 'persp-mode)
-  (add-hook 'desktop-not-loaded-hook 'persp-mode)
-
-  (defun perspectives-restore-state ()
-    (unless (bound-and-true-p persp-mode)
-      (persp-mode t))
-    ;; get the serialized state off of the frame
-    (if (boundp 'perspectives-hash-serialized)
-        (progn
-          (message "Found state, attempting restore")
-          (dolist (elem perspectives-hash-serialized)
-            ;; recreate the perspective
-            (with-perspective (car elem)
-              (dolist (buffer-name (nth 1 (nth 0 (nth 1 elem))))
-                ;; add the buffer back to the perspective
-                (persp-add-buffer buffer-name)
-                )
-              (window-state-put (cdr (nth 1 (nth 1 elem))))
-              ))
-          (when (bound-and-true-p persp-last-name)
-            (persp-switch persp-last-name))
-          (when (bound-and-true-p persp-curr-name)
-            (persp-switch persp-curr-name))
-          )
-      (message "No state found"))))
+  )
 
 (desktop-save-mode 1)
 
-(use-package seq
-  :ensure t
-  :defer t)
-
-(use-package perspective
+(use-package eyebrowse
   :ensure t
   :defer t
   :config
-  (defun perspectives-buffer-name-p (buffer)
-    (if (and buffer
-             (buffer-name buffer))
-        ;;           (not (string-prefix-p "*" (buffer-name buffer)))
-        ;;           (not (string-suffix-p "*" (buffer-name buffer))))
-        t
-      nil))
-
-  (defun perspectives-hash-filter ()
-    (require 'seq-24)
-    (require 'subr-x)
-    (let (
-          (result ())
-          (keys (hash-table-keys perspectives-hash))
-          (curr-persp (if persp-curr (persp-name persp-curr) nil))
-          (last-persp (if persp-last (persp-name persp-last) nil)))
-      ;; for every perspective...
-      (dolist (key keys)
-        (with-perspective key
-          (let ((persp (gethash key perspectives-hash))
-                (wconf (window-state-get (frame-root-window (selected-frame)) 'writable))
-                (value ()))
-            ;; that isn't killed...
-            (when (not (persp-killed persp))
-              (add-to-list 'value (cons "buffers"
-                                        (list
-                                         (mapcar 'buffer-name (seq-filter 'perspectives-buffer-name-p (persp-buffers persp))))))
-              (add-to-list 'value (cons "windows" wconf) t)
-              (add-to-list 'result (cons key (list value))))))
-        )
-      ;; return a different variable name so perspectives doesn't clobber it
-      (when (> (length result) 0)
-        (setq perspectives-hash-serialized result
-              persp-curr-name curr-persp
-              persp-last-name last-persp))
-      ))
+  (setq eyebrowse-wrap-around t
+        eyebrowse-mode-line-separator ","
+        eyebrowse-new-workspace t)
 
   (defun session-kill ()
     (interactive)
-    (call-interactively 'persp-kill))
+    (eyebrowse-close-window-config))
 
-  (defun session-switch ()
-    (interactive)
-    (call-interactively 'persp-switch))
+  (defun session-switch (session)
+    (interactive (list (eyebrowse--read-slot)))
+    (if (numberp session) (eyebrowse-switch-to-window-config session)
+      (progn
+        (eyebrowse-create-window-config)
+        (eyebrowse-rename-window-config (eyebrowse--get 'current-slot) session)
+        )
+      ))
 
-  (defun session-rename ()
-    (interactive)
-    (call-interactively 'persp-rename))
+  (defun session-rename (ARG)
+    (interactive "P")
+    (call-interactively 'eyebrowse-rename-window-config))
 
   (defun session-next()
     (interactive)
-    (call-interactively 'persp-next))
+    (call-interactively 'eyebrowse-next-window-config))
 
   (defun session-previous()
     (interactive)
-    (call-interactively 'persp-prev))
-
-  (defun session-add-buffer ()
-    (interactive)
-    (call-interactively 'persp-add-buffer))
+    (call-interactively 'eyebrowse-prev-window-config))
 
   (defun session-last()
     (interactive)
-    (persp-switch-last))
+    (eyebrowse-last-window-config))
 
-  (use-package desktop
-    :defer t
-    :config
-    (add-to-list 'desktop-globals-to-save 'perspectives-hash-serialized)
-    (add-to-list 'desktop-globals-to-save 'persp-curr-name)
-    (add-to-list 'desktop-globals-to-save 'persp-last-name)
-    (add-hook 'desktop-save-hook 'perspectives-hash-filter)))
+  (defun eyebrowse-format-slot (window-config)
+    (let* ((slot (car window-config))
+           (tag (nth 2 window-config))
+           (format-string (if (and tag (> (length tag) 0))
+                              "%t"
+                            eyebrowse-slot-format))
+           ;; NOTE: `format-spec' sets `deactivate-mark' to t which
+           ;; makes `eyebrowse-format-slot' usage in
+           ;; `eyebrowse-mode-line-indicator' always deactivate the mark
+           ;; after activating it as this triggers mode line updates...
+           deactivate-mark)
+      (format-spec format-string
+                   (format-spec-make ?s slot ?t tag))))
+
+  (defun eyebrowse--read-slot ()
+    "Read in a window config SLOT to switch to.
+A formatted list of window configs is presented as candidates."
+    (let* ((candidates (--map (cons (eyebrowse-format-slot it)
+                                    (car it))
+                              (eyebrowse--get 'window-configs)))
+           (candidate-tag (ido-completing-read
+                           "Session: " (mapcar 'car candidates) nil nil))
+           (candidate (assoc candidate-tag candidates)))
+      (if candidate
+          (cdr candidate)
+        candidate-tag)))
+
+  (defadvice switch-to-buffer (after eyebrowse-add-buffers)
+    (let ((buf (ad-get-arg 0)))
+      (when buf
+        (eyebrowse-add-buffer buf))))
+
+  (defadvice display-buffer (after eyebrowse-add-buffers)
+    (when ad-return-value
+      (let ((buf (ad-get-arg 0))
+            (frame (window-frame ad-return-value)))
+        (when (and buf frame)
+          (with-selected-frame frame
+            (eyebrowse-add-buffer buf))))))
+
+  (defadvice set-window-buffer (after eyebrowse-add-buffers)
+    (let ((buf (ad-get-arg 1))
+          (frame (window-frame (ad-get-arg 0))))
+      (when (and buf frame)
+        (with-selected-frame frame
+          (eyebrowse-add-buffer buf)))))
+
+  (defun eyebrowse-activate-buffer-management ()
+    (ad-activate 'switch-to-buffer)
+    (ad-activate 'display-buffer)
+    (ad-activate 'set-window-buffer))
+
+  (defun eyebrowse-deactivate-buffer-management ()
+    (ad-deactivate 'switch-to-buffer)
+    (ad-deactivate 'display-buffer)
+    (ad-deactivate 'set-window-buffer))
+
+  (defun eyebrowse-add-buffer (buffer)
+    (let (
+          (buffer-list (gethash (eyebrowse--get 'current-slot) eyebrowse-buffers))
+          (buffer-str (if (stringp buffer) buffer (buffer-name buffer)))
+          )
+      (if buffer-list
+          (puthash (eyebrowse--get 'current-slot) (delete-dups (cons buffer-str buffer-list)) eyebrowse-buffers)
+        (puthash (eyebrowse--get 'current-slot) (list buffer-str) eyebrowse-buffers))))
+
+  (defun eyebrowse-set-ido-buffers ()
+    "Restrict the ido buffer to the current perspective."
+    (let* ((buffer-names (gethash (eyebrowse--get 'current-slot) eyebrowse-buffers))
+          (indices (make-hash-table :test 'equal)))
+      (cl-loop for elt in ido-temp-list
+               for i upfrom 0
+               do (puthash elt i indices))
+      (setq ido-temp-list
+            (sort (intersection buffer-names ido-temp-list :test 'equal)
+                  (lambda (a b)
+                    (< (gethash a indices)
+                       (gethash b indices)))))))
+
+  (add-hook 'ido-make-buffer-list-hook 'eyebrowse-set-ido-buffers)
+
+  (defun eyebrowse-save-buffers ()
+    (with-temp-file eyebrowse-buffers-filename
+      (prin1 eyebrowse-buffers (current-buffer))))
+
+  (defun eyebrowse-load-buffers ()
+    (if (file-exists-p eyebrowse-buffers-filename)
+    (with-temp-buffer
+      (insert-file-contents eyebrowse-buffers-filename)
+      (goto-char (point-min))
+      (setq eyebrowse-buffers
+            (read (current-buffer)))))
+    )
+
+  (add-hook 'eyebrowse-mode-hook 'eyebrowse-load-buffers)
+  ;; disable adding buffer during session switch in order to prevent buffers of one session
+  ;; added to other session. both perspective and eyebrowse have this problem
+  (add-hook 'eyebrowse-pre-window-switch-hook 'eyebrowse-deactivate-buffer-management)
+  (add-hook 'eyebrowse-post-window-switch-hook 'eyebrowse-activate-buffer-management)
+  (add-hook 'kill-emacs-hook 'eyebrowse-save-buffers)
+  (add-hook 'desktop-delay-hook 'eyebrowse-activate-buffer-management)
+  (add-hook 'desktop-no-desktop-file-hook 'eyebrowse-activate-buffer-management)
+  (add-hook 'desktop-not-loaded-hook 'eyebrowse-activate-buffer-management)
+
+  ;; use helm-buffers-list to show all buffers
+  (defadvice helm-buffers-list (before eyebrowse-disable-modify-list activate)
+    (remove-hook 'ido-make-buffer-list-hook 'eyebrowse-set-ido-buffers))
+
+  (defadvice helm-buffers-list (after eyebrowse-disable-modify-list activate)
+    (add-hook 'ido-make-buffer-list-hook 'eyebrowse-set-ido-buffers))
+
+  :init
+  (defface eyebrowse-mode-line-active
+    '((t (:foreground "#F0DFAF")))
+    "The face used to highlight the current perspective on the modeline.")
+  (defvar eyebrowse-buffers (make-hash-table :test 'equal))
+  (defvar eyebrowse-buffers-filename (expand-file-name "eyebrowse-buffers" user-emacs-directory))
+
+  )
+
+(eyebrowse-mode t)
 
 (provide 'init-session)
