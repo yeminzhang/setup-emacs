@@ -97,21 +97,25 @@ A formatted list of window configs is presented as candidates."
   (defun eyebrowse-activate-buffer-management ()
     (ad-activate 'switch-to-buffer)
     (ad-activate 'display-buffer)
-    (ad-activate 'set-window-buffer))
+    (ad-activate 'set-window-buffer)
+    (setq eyebrowse-allow-add-buffer t))
 
   (defun eyebrowse-deactivate-buffer-management ()
     (ad-deactivate 'switch-to-buffer)
     (ad-deactivate 'display-buffer)
-    (ad-deactivate 'set-window-buffer))
+    (ad-deactivate 'set-window-buffer)
+    (setq eyebrowse-allow-add-buffer nil)
+    )
 
   (defun eyebrowse-add-buffer (buffer)
     (let (
           (buffer-list (gethash (eyebrowse--get 'current-slot) eyebrowse-buffers))
           (buffer-str (if (stringp buffer) buffer (buffer-name buffer)))
           )
-      (if buffer-list
-          (puthash (eyebrowse--get 'current-slot) (delete-dups (cons buffer-str buffer-list)) eyebrowse-buffers)
-        (puthash (eyebrowse--get 'current-slot) (list buffer-str) eyebrowse-buffers))))
+      (when (bound-and-true-p eyebrowse-allow-add-buffer)
+        (if buffer-list
+            (puthash (eyebrowse--get 'current-slot) (delete-dups (cons buffer-str buffer-list)) eyebrowse-buffers)
+          (puthash (eyebrowse--get 'current-slot) (list buffer-str) eyebrowse-buffers)))))
 
   (defun eyebrowse-set-ido-buffers ()
     "Restrict the ido buffer to the current perspective."
