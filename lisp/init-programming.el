@@ -114,7 +114,7 @@
 ;; TODO investigate how to use ycmd for auto complete
 (semantic-mode 1)
 (global-semanticdb-minor-mode 1)
-(global-semantic-idle-scheduler-mode 1)
+(global-semantic-idle-scheduler-mode -1)
 
 ;; helm-gtags
 (use-package helm-gtags
