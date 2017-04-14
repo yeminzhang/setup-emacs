@@ -12,6 +12,8 @@
 (use-package s
   :ensure t)
 
+(use-package subr-x)
+
 (use-package spinner
   :ensure t
   :defer t)

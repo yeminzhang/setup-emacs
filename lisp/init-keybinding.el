@@ -216,7 +216,6 @@
 (global-set-key (kbd "C-c s r") 'session-rename)
 (global-set-key (kbd "C-c s n") 'session-next)
 (global-set-key (kbd "C-c s p") 'session-previous)
-(global-set-key (kbd "C-c s a") 'session-add-buffer)
 (global-set-key (kbd "C-c s f") 'toggle-frame-fullscreen)
 (global-set-key (kbd "C-c s <tab>") 'session-last)
 (global-set-key (kbd (concat "M-" right-little-finger-key)) 'session-switch)

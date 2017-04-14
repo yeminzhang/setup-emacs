@@ -98,6 +98,8 @@
     (while (buffer-live-p (get-buffer (format "*%s<%s>*" host index)))
       (setq index (1+ index)))
     (rename-buffer (format "*%s<%s>*" host index))
+    ;; add the renamed buffer name to eyebrowse-buffers
+    (switch-to-buffer (current-buffer))
     (with-current-buffer (format "*%s<%s>*" host index)
       (setq term-ansi-at-host host)
       (current-buffer))
