@@ -115,7 +115,8 @@ A formatted list of window configs is presented as candidates."
           (buffer-list (gethash (eyebrowse--get 'current-slot) eyebrowse-buffers))
           (buffer-str (if (stringp buffer) buffer (buffer-name buffer)))
           )
-      (when (or (not (eyebrowse-buffer-in-other-session-p buffer-str))
+      (when (or (string= buffer-str "*scratch*")
+                (not (eyebrowse-buffer-in-other-session-p buffer-str))
                 FORCE)
         (if buffer-list
             (puthash (eyebrowse--get 'current-slot) (delete-dups (cons buffer-str buffer-list)) eyebrowse-buffers)
