@@ -25,3 +25,4 @@ tramp
 /.python-environments/
 /persp-confs/*
 /eyebrowse-buffers
+/pyim/*
