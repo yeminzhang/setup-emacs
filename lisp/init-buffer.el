@@ -6,6 +6,12 @@
 
 (global-auto-revert-mode 1)
 
+(use-package autorevert
+  :config
+  (setq auto-revert-interval 1
+        auto-revert-verbose nil
+        auto-revert-remote-files t))
+
 ;; now only elisp buffer file is supported
 (defun buffer-file-run ()
   (interactive)
