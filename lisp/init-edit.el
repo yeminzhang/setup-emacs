@@ -138,14 +138,15 @@
 
 (use-package ace-jump-mode
   :ensure t
-  :defer t)
+  :bind (("C-c /" . ace-jump-mode)
+         ))
 
 (use-package ace-isearch
   :ensure t
   :diminish ace-isearch-mode
   :defer t
   :config
-  (setq ace-isearch-use-jump 'printing-char
+  (setq ace-isearch-use-jump 'never
         ace-isearch-func-delay 1
         ace-isearch-jump-delay 0.8)
   )
