@@ -160,7 +160,7 @@ A formatted list of window configs is presented as candidates."
     )
 
   (add-hook 'eyebrowse-mode-hook 'eyebrowse-load-buffers)
-  (add-hook 'kill-emacs-hook 'eyebrowse-save-buffers)
+  (add-hook 'desktop-save-hook 'eyebrowse-save-buffers)
   (add-hook 'desktop-delay-hook 'eyebrowse-activate-buffer-management)
   (add-hook 'desktop-no-desktop-file-hook 'eyebrowse-activate-buffer-management)
   (add-hook 'desktop-not-loaded-hook 'eyebrowse-activate-buffer-management)
