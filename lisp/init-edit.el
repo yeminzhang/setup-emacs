@@ -176,7 +176,9 @@
   :ensure t
   :config
   (setq recentf-max-menu-items 100
-        recentf-max-saved-items nil))
+        recentf-max-saved-items nil
+        recentf-auto-cleanup 'never ;; in order to keep tramp files
+        ))
 
 ;; bookmark+
 (defun bookmark-load-if-not ()

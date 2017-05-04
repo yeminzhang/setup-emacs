@@ -4,7 +4,6 @@
 (setq password-cache-expiry nil)
 (setq tramp-default-method "ssh")
 (setq tramp-default-user nil)
-(setq recentf-auto-cleanup 'never)
 (setq tramp-use-ssh-controlmaster-options nil)
 (setq tramp-connection-timeout 5)
 
