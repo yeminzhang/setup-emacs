@@ -30,12 +30,17 @@
   (add-to-list 'ido-ignore-buffers "\*helm")
   (add-to-list 'ido-ignore-buffers "\*magit")
   (add-to-list 'ido-ignore-buffers "TAGS")
-  (add-to-list 'ido-ignore-buffers "\*tramp"))
+  (add-to-list 'ido-ignore-buffers "\*tramp")
+  (defun ido-common-bind-key ()
+    (define-key ido-common-completion-map (kbd ";") 'ido-exit-minibuffer)
+    (define-key ido-common-completion-map (kbd "SPC") 'ido-next-match)
+    (define-key ido-common-completion-map (kbd ",") 'ido-prev-match))
+  (add-hook 'ido-minibuffer-setup-hook 'ido-common-bind-key))
 (ido-mode 'both)
 
 (use-package smex
-  :defer t
   :ensure t
+  :bind ("M-x" . smex)
   :config
   ;; auto update smex cache after load a file
   (defun smex-update-after-load (unused)

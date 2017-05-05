@@ -1,6 +1,9 @@
 (use-package helm
   :defer t
   :ensure t
+  :bind (:map helm-map
+              (";" . helm-maybe-exit-minibuffer)
+              )
   :config
   (setq helm-input-idle-delay 0.01
         helm-full-frame nil
@@ -17,7 +20,8 @@
   :diminish helm-mode)
 
 (use-package helm-files
-  :defer t
+  :bind (("C-x C-f" . helm-find-file)
+         ("C-x C-d" . helm-find-dir))
   :config
   ;; Show full file-path in helm result
   (setq helm-ff-transformer-show-only-basename nil)

@@ -1,39 +1,11 @@
-(use-package which-key
-  :ensure t
-  :defer t
-  :diminish which-key-mode)
-(which-key-mode t)
 
 ;; key bindings
 (global-set-key (kbd "C-o") 'other-window)
-(global-set-key (kbd "C--") 'undo)
-(global-set-key (kbd "<home>") 'beginning-of-buffer)
-(global-set-key (kbd "<end>") 'end-of-buffer)
 (global-set-key (kbd "<backspace>") 'backward-delete-char)
 (global-set-key (kbd "M-j") 'delete-indentation)
 
 (global-set-key (kbd "C-x g") 'beginning-of-buffer)
 (global-set-key (kbd "C-x G") 'end-of-buffer)
-
-(use-package ido
-  :bind ("C-x b" . ido-switch-buffer)
-  :config
-  (defun ido-common-bind-key ()
-    (define-key ido-common-completion-map (kbd right-little-finger-key) 'ido-exit-minibuffer)
-    (define-key ido-common-completion-map (kbd "SPC") 'ido-next-match)
-    (define-key ido-common-completion-map (kbd ",") 'ido-prev-match))
-
-  (add-hook 'ido-minibuffer-setup-hook 'ido-common-bind-key))
-
-;; smex
-(use-package smex
-  :bind ("M-x" . smex))
-(global-set-key (kbd (concat "C-" right-little-finger-key)) 'smex)
-
-;; find a file
-(use-package helm-files
-  :bind (("C-x C-f" . helm-find-file)
-         ("C-x C-d" . helm-find-dir)))
 
 (global-set-key (kbd "M-y") 'helm-show-kill-ring)
 
@@ -51,13 +23,7 @@
 
 (define-key evil-visual-state-map (kbd "C-g") (lambda()(interactive)(evil-local-mode -1)))
 
-(use-package helm
-  :defer t
-  :config
-  (define-key helm-map (kbd right-little-finger-key) 'helm-maybe-exit-minibuffer))
-
 ;; switch buffer
-(global-set-key (kbd right-little-finger-key) 'ido-switch-buffer)
 (use-package helm-buffers
   :bind ("C-x C-b" . helm-buffers-list))
 
@@ -90,7 +56,7 @@
               ("C-n" . company-select-next-or-abort)
               ("C-p" . company-select-previous-or-abort))
   :config
-  (define-key company-active-map (kbd right-little-finger-key) 'company-complete-selection))
+  (define-key company-active-map (kbd ";") 'company-complete-selection))
 
 (use-package dired
   :bind (:map dired-mode-map
@@ -218,7 +184,7 @@
 (global-set-key (kbd "C-c s p") 'session-previous)
 (global-set-key (kbd "C-c s f") 'toggle-frame-fullscreen)
 (global-set-key (kbd "C-c s <tab>") 'session-last)
-(global-set-key (kbd (concat "M-" right-little-finger-key)) 'session-switch)
+(global-set-key (kbd "M-;") 'session-switch)
 (global-set-key (kbd "M-o") 'session-next)
 (global-set-key (kbd "M-n") 'session-next)
 (global-set-key (kbd "M-p") 'session-previous)

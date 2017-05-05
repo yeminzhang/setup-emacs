@@ -18,4 +18,10 @@
   :ensure t
   :defer t)
 
+(use-package which-key
+  :ensure t
+  :defer t
+  :diminish which-key-mode)
+(which-key-mode t)
+
 (provide 'init-utils)
