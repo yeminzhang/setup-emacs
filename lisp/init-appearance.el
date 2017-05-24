@@ -75,7 +75,7 @@
   :defer t)
 (load-theme 'zenburn t)
 
-;;(set-face-attribute 'region nil :background "#666" :foreground "#ffffff")
+(set-cursor-color "#aaaaaa")
 
 ;; override default volatile-highlights face
 (custom-set-faces
