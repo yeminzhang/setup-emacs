@@ -1,5 +1,4 @@
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
-;;(byte-recompile-directory (expand-file-name "lisp" user-emacs-directory) 0)
 (require 'init-package)
 (require 'init-utils)
 (require 'init-env)
