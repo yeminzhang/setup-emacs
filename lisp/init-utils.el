@@ -39,4 +39,9 @@
   :diminish which-key-mode)
 (which-key-mode t)
 
+(use-package window-numbering
+  :ensure t
+  :defer t)
+(window-numbering-mode t)
+
 (provide 'init-utils)
