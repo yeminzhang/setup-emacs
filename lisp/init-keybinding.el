@@ -184,6 +184,7 @@
 (global-set-key (kbd "C-c s p") 'session-previous)
 (global-set-key (kbd "C-c s f") 'toggle-frame-fullscreen)
 (global-set-key (kbd "C-c s <tab>") 'session-last)
+(global-set-key (kbd "<M-tab>") 'session-last)
 (global-set-key (kbd "M-;") 'session-switch)
 (global-set-key (kbd "M-o") 'session-next)
 (global-set-key (kbd "M-n") 'session-next)
