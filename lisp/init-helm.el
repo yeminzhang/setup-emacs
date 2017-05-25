@@ -88,7 +88,10 @@
     candidates)
   )
 
-;;(require 'helm-config)
+(use-package helm-config
+  :init
+  (setq helm-command-prefix-key "C-c h"))
+
 (helm-mode 1)
 
 (provide 'init-helm)
