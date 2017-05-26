@@ -2,13 +2,17 @@
 
 (use-package chinese-pyim
   :ensure t
-  :defer t)
+  :bind (
+  ("C-S-SPC" . toggle-input-method)
+))
 
 (use-package chinese-pyim-core
-  :defer t
   :config
 ;;  (setq pyim-dicts  '((:name "bigdict" :file "~/.emacs.d/pyim/pyim-bigdict.txt" :coding utf-8-unix)))
-  (setq pyim-use-tooltip t))
+  (setq pyim-use-tooltip t)
+  :bind (:map pyim-mode-map
+              ("." . pyim-page-next-page)
+              ("," . pyim-page-previous-page)))
 
 (use-package chinese-pyim-greatdict
   :ensure t
@@ -18,6 +22,9 @@
 
 (use-package pinyin-search
   :ensure t
-  :defer t)
+  :bind (
+  ("C-S-s" . isearch-forward-pinyin)
+  ("C-S-r" . isearch-backward-pinyin)
+))
 
 (provide 'init-chinese)

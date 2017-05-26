@@ -183,7 +183,20 @@ A formatted list of window configs is presented as candidates."
   (defvar eyebrowse-force-add-buffer nil)
   (defvar eyebrowse-buffers-filename (expand-file-name "eyebrowse-buffers" user-emacs-directory))
 
-  )
+  :bind (
+  ("C-c s s" . session-switch)
+  ("C-c s k" . session-kill)
+  ("C-c s r" . session-rename)
+  ("C-c s n" . session-next)
+  ("C-c s p" . session-previous)
+  ("C-c s f" . toggle-frame-fullscreen)
+  ("C-c s <tab>" . session-last)
+  ("<M-tab>" . session-last)
+  ("M-;" . session-switch)
+  ("M-o" . session-next)
+  ("M-n" . session-next)
+  ("M-p" . session-previous)
+))
 
 (eyebrowse-mode t)
 

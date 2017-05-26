@@ -177,33 +177,7 @@
 
 (global-set-key (kbd "C-c t") 'term-here)
 
-(global-set-key (kbd "C-c s s") 'session-switch)
-(global-set-key (kbd "C-c s k") 'session-kill)
-(global-set-key (kbd "C-c s r") 'session-rename)
-(global-set-key (kbd "C-c s n") 'session-next)
-(global-set-key (kbd "C-c s p") 'session-previous)
-(global-set-key (kbd "C-c s f") 'toggle-frame-fullscreen)
-(global-set-key (kbd "C-c s <tab>") 'session-last)
-(global-set-key (kbd "<M-tab>") 'session-last)
-(global-set-key (kbd "M-;") 'session-switch)
-(global-set-key (kbd "M-o") 'session-next)
-(global-set-key (kbd "M-n") 'session-next)
-(global-set-key (kbd "M-p") 'session-previous)
-(global-set-key (kbd "<C-tab>") 'session-last)
 
-(global-set-key (kbd "C-S-SPC")
-                (lambda ()
-                  (interactive)
-                  (require 'chinese-pyim)
-                  (toggle-input-method)))
-
-(global-set-key (kbd "C-S-s") 'isearch-forward-pinyin)
-(global-set-key (kbd "C-S-r") 'isearch-backward-pinyin)
-
-(use-package chinese-pyim-core
-  :bind (:map pyim-mode-map
-              ("." . pyim-page-next-page)
-              ("," . pyim-page-previous-page)))
 
 (use-package term
   :defer t
