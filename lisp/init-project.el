@@ -9,7 +9,7 @@
   (setq projectile-mode-line '(" Proj" (:eval (spinner-print compile--spinner))))
   (setq projectile-find-dir-includes-top-level t)
   (setq projectile-tags-command nil)
-  (setq projectile-idle-timer-hook (list 'project-update-tags))
+  (setq projectile-idle-timer-hook (list 'project-update-tags 'project-updatedb))
   (helm-projectile-on)
   (defun project-save-attribute (symbol value)
     (let (
@@ -109,7 +109,10 @@
     (let ((projectile-project-compilation-cmd (project-get-attribute :compilation-cmd)))
       (projectile-compile-project (if projectile-project-compilation-cmd ARG t))
       (if (or ARG (not projectile-project-compilation-cmd))
-          (project-save-attribute2 :compilation-cmd (gethash (projectile-project-root) projectile-compilation-cmd-map)))))
+          (project-save-attribute2 :compilation-cmd (gethash (projectile-project-root) projectile-compilation-cmd-map))))
+    (project-update-tags)
+    (project-updatedb)
+    )
 
   (defun project-configure--tags-command ()
     (let
@@ -123,6 +126,13 @@
       (project-load-attributes)
       (if (bound-and-true-p projectile-tags-command)
           (call-process-shell-command projectile-tags-command nil 0))))
+
+  (defun project-updatedb ()
+    (interactive)
+    (when (projectile-project-p)
+      (call-process-shell-command
+       (concat "updatedb " updatedb-option " -U " (projectile-project-root) " -o " (expand-file-name ".mlocate.db" (projectile-project-root)))
+       nil 0)))
 
   (defun project-configure (ARG)
     (interactive "P")
