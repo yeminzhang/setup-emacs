@@ -2,9 +2,13 @@
 
 (use-package chinese-pyim
   :ensure t
-  :bind (
-  ("C-S-SPC" . toggle-input-method)
-))
+  :defer t)
+
+(global-set-key (kbd "C-S-SPC")
+                (lambda ()
+                  (interactive)
+                  (require 'chinese-pyim)
+                  (toggle-input-method)))
 
 (use-package chinese-pyim-core
   :config
