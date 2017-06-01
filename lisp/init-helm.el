@@ -88,6 +88,40 @@
     candidates)
   )
 
+(use-package helm-swoop
+  :ensure t
+  :defer t
+  :config
+  ;; C-s in a buffer: open helm-swoop with empty search field
+  (setq helm-swoop-pre-input-function (lambda () nil))
+
+  (defun tl/helm-swoop-search (search-direction)
+    (if (boundp 'helm-swoop-pattern)
+        (if (equal helm-swoop-pattern "")
+            (previous-history-element 1)
+          ;;                (insert "haha")
+          (call-interactively search-direction))
+      (call-interactively 'search-direction)))
+
+  ;; C-s in helm-swoop with empty search field: activate previous search.
+  ;; C-s in helm-swoop with non-empty search field: go to next match.
+  (defun tl/helm-swoop-C-s ()
+    (interactive)
+    (tl/helm-swoop-search 'helm-next-line))
+
+  (defun tl/helm-swoop-C-r ()
+    (interactive)
+    (tl/helm-swoop-search 'helm-previous-line))
+
+  :bind (
+         ("C-s" . helm-swoop)
+         ("C-r" . helm-swoop)
+         :map helm-swoop-map
+         ("C-s" . tl/helm-swoop-C-s)
+         ("C-r" . tl/helm-swoop-C-r)
+         )
+  )
+
 (use-package helm-config
   :init
   (setq helm-command-prefix-key "C-c h"))

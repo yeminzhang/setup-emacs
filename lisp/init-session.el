@@ -139,7 +139,7 @@ A formatted list of window configs is presented as candidates."
                for i upfrom 0
                do (puthash elt i indices))
       (setq ido-temp-list
-            (sort (intersection buffer-names ido-temp-list :test 'equal)
+            (sort (-intersection buffer-names ido-temp-list)
                   (lambda (a b)
                     (< (gethash a indices)
                        (gethash b indices)))))))

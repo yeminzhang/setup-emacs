@@ -21,8 +21,6 @@
   :config
   (setq iedit-toggle-key-default (kbd "C-,")))
 
-(define-key evil-visual-state-map (kbd "C-g") (lambda()(interactive)(evil-local-mode -1)))
-
 ;; switch buffer
 (use-package helm-buffers
   :bind ("C-x C-b" . helm-buffers-list))

@@ -76,6 +76,7 @@
 (load-theme 'zenburn t)
 
 (set-cursor-color "#aaaaaa")
+(set-face-background 'hl-line "#4f4f4f")
 
 ;; override default volatile-highlights face
 (custom-set-faces

@@ -17,6 +17,10 @@
 ;; smooth scrolling
 (setq scroll-conservatively 101)
 
+;; define word boundary
+(modify-syntax-entry ?_ "w")
+(modify-syntax-entry ?- "w")
+
 ;; ido
 (use-package ido
   :defer t
@@ -108,13 +112,7 @@
   (add-to-list 'desktop-globals-to-save 'kill-ring))
 
 (use-package evil
-  :ensure t
-  :config
-  (defadvice evil-yank (after disable-evil activate)
-    (evil-local-mode -1))
-
-  (defadvice evil-delete (after disable-evil activate)
-    (evil-local-mode -1)))
+  :ensure t)
 
 (defun smart-kill-ring-save ()
   "When called interactively with no active region, copy the whole line."
@@ -148,6 +146,7 @@
 
 (use-package ace-isearch
   :ensure t
+  :disabled t
   :diminish ace-isearch-mode
   :defer t
   :config
@@ -155,7 +154,6 @@
         ace-isearch-func-delay 1
         ace-isearch-jump-delay 0.8)
   )
-(global-ace-isearch-mode 1)
 
 ;; auto-save file
 ;; Save all tempfiles in ~/.emacs-tmp/
