@@ -141,7 +141,7 @@
 
 (use-package ace-jump-mode
   :ensure t
-  :bind (("C-c /" . ace-jump-mode)
+  :bind (("C-j" . ace-jump-mode)
          ))
 
 (use-package ace-isearch
