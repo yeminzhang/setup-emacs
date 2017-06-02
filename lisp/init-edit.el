@@ -139,6 +139,13 @@
       ;; otherwise we just yank line before beginning of next line
       (call-interactively 'forward-char))))
 
+;; auto indent when paste something
+(defadvice insert-for-yank (after indent-region (str) activate)
+   (and (not current-prefix-arg)
+        (derived-mode-p 'prog-mode)
+        (let ((mark-even-if-inactive transient-mark-mode))
+          (indent-region (region-beginning) (region-end) nil))))
+
 ;; undo-tree
 (use-package undo-tree
   :ensure t
@@ -177,16 +184,6 @@
       `((".*" ,temporary-file-directory t)))
 (setq auto-save-interval 100)
 (setq auto-save-timeout 10)
-
-;; auto indent when paste something
-(dolist (command '(yank yank-pop))
-  (eval
-   `(defadvice ,command (after indent-region activate)
-      (and (not current-prefix-arg)
-           (derived-mode-p 'prog-mode)
-           (let ((mark-even-if-inactive transient-mark-mode))
-             (indent-region (region-beginning) (region-end) nil))))))
-
 
 ;; recentf
 (use-package recentf-ext
