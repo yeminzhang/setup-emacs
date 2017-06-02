@@ -144,7 +144,11 @@
    (and (not current-prefix-arg)
         (derived-mode-p 'prog-mode)
         (let ((mark-even-if-inactive transient-mark-mode))
-          (indent-region (region-beginning) (region-end) nil))))
+          (indent-region (region-beginning) (region-end) nil)
+          ;; if it is line copy, then stay in the end of last line
+          (when (char-equal (aref str (- (length str) 1)) ?\n)
+            (call-interactively 'backward-char))
+          )))
 
 ;; undo-tree
 (use-package undo-tree
