@@ -15,12 +15,6 @@
 (global-set-key (kbd "C-y") 'evil-paste-after)
 (global-set-key (kbd "C-x Y") 'evil-paste-before)
 
-;; iedit
-(use-package iedit-mode
-  :bind ("C-," . iedit-mode)
-  :config
-  (setq iedit-toggle-key-default (kbd "C-,")))
-
 ;; switch buffer
 (use-package helm-buffers
   :bind ("C-x C-b" . helm-buffers-list))

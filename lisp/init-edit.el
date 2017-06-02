@@ -192,8 +192,7 @@
       (bookmark-load bookmark-default-file)))
 
 (use-package iedit
-  :ensure t
-  :defer t)
+  :ensure t)
 
 ;; Auto save bookmark to file every 8 modifications
 (setq bookmark-save-flag 8)
