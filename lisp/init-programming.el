@@ -70,7 +70,6 @@
 
   (defun configure-programming-buffer-common ()
     (setq show-trailing-whitespace t)
-    (linum-relative-mode t)
     (linum-mode t)
     (highlight-parentheses-mode t)
     (local-set-key (kbd "C-.") 'er/expand-region)))
@@ -101,7 +100,8 @@
 (use-package company
   :defer t
   :config
-  (push '(company-semantic :with company-yasnippet) company-backends))
+  (setq company-backends (delete 'company-semantic company-backends)))
+;;  (push '(company-semantic :with company-yasnippet) company-backends))
 
 ;; which function mode
 (which-function-mode t)
@@ -112,9 +112,9 @@
 
 ;; configure semantic
 ;; TODO investigate how to use ycmd for auto complete
-(semantic-mode 1)
-(global-semanticdb-minor-mode 1)
-(global-semantic-idle-scheduler-mode -1)
+;;(semantic-mode 1)
+;;(global-semanticdb-minor-mode 1)
+;;(global-semantic-idle-scheduler-mode -1)
 
 ;; helm-gtags
 (use-package helm-gtags
