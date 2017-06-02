@@ -113,7 +113,18 @@
 (defun smart-kill-ring-save ()
   "When called interactively with no active region, copy the whole line."
   (interactive)
-  (if mark-active (kill-ring-save (region-beginning) (region-end))
+  (if mark-active
+      (if (= (region-beginning) (region-end))
+          ;; if mark is active but no text is selected, then copy the whole word
+          (progn
+            (deactivate-mark)
+            (call-interactively 'forward-to-word)
+            (call-interactively 'backward-word)
+            (call-interactively 'mark-sexp)
+            (smart-kill-ring-save))
+        ;; copy selected region
+        (kill-ring-save (region-beginning) (region-end)))
+    ;; copy the whole line
     (call-interactively 'evil-yank-line)))
 
 (defun smart-kill-region ()
