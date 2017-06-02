@@ -11,6 +11,10 @@
   (setq whitespace-style '(tab-mark)))  ;;turns on white space mode only for tabs
 (add-to-list 'write-file-hooks 'delete-trailing-whitespace)
 
+(setq inhibit-field-text-motion t)
+(use-package misc
+  :bind (("M-f" . forward-to-word)))
+
 ;; xclip
 (setq x-select-enable-clipboard t)
 
