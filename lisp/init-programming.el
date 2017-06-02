@@ -72,6 +72,9 @@
     (setq show-trailing-whitespace t)
     (linum-mode t)
     (highlight-parentheses-mode t)
+    ;; define word boundary
+    (modify-syntax-entry ?_ "w")
+    (modify-syntax-entry ?- "w")
     (local-set-key (kbd "C-.") 'er/expand-region)))
 
 (defun readelf (filename)

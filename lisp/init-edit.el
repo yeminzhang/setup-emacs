@@ -17,10 +17,6 @@
 ;; smooth scrolling
 (setq scroll-conservatively 101)
 
-;; define word boundary
-(modify-syntax-entry ?_ "w")
-(modify-syntax-entry ?- "w")
-
 ;; ido
 (use-package ido
   :defer t
