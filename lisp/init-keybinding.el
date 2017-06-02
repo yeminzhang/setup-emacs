@@ -9,11 +9,8 @@
 
 (global-set-key (kbd "M-y") 'helm-show-kill-ring)
 
-(global-set-key (kbd "M-i") 'evil-visual-line)
 (global-set-key (kbd "C-w") 'smart-kill-region)
 (global-set-key (kbd "M-w") 'smart-kill-ring-save)
-(global-set-key (kbd "C-y") 'evil-paste-after)
-(global-set-key (kbd "C-x Y") 'evil-paste-before)
 
 ;; switch buffer
 (use-package helm-buffers

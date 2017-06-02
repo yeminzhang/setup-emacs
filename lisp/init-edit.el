@@ -107,12 +107,9 @@
   :config
   (add-to-list 'desktop-globals-to-save 'kill-ring))
 
-(use-package evil
-  :ensure t)
-
-(defun smart-kill-ring-save ()
+(defun smart-kill-ring-save (&optional arg)
   "When called interactively with no active region, copy the whole line."
-  (interactive)
+  (interactive "^p")
   (if mark-active
       (if (= (region-beginning) (region-end))
           ;; if mark is active but no text is selected, then copy the whole word
@@ -125,13 +122,22 @@
         ;; copy selected region
         (kill-ring-save (region-beginning) (region-end)))
     ;; copy the whole line
-    (call-interactively 'evil-yank-line)))
+    (kill-ring-save (line-beginning-position) (line-beginning-position (+ arg 1)))))
 
-(defun smart-kill-region ()
+(defun smart-kill-region (&optional arg)
   "When called interactively with no active region, kill the whole line."
-  (interactive)
+  (interactive "^p")
   (if mark-active (kill-region (region-beginning) (region-end))
-    (call-interactively 'evil-delete-whole-line)))
+    (kill-region (line-beginning-position) (line-beginning-position (+ arg 1)))))
+
+(defadvice insert-for-yank (before newline-if-is-linestr (str) activate)
+  (when (char-equal (aref str (- (length str) 1)) ?\n)
+    (end-of-line)
+    (if (= (point) (point-max))
+        ;; if it reaches end of buffer, then create a newline
+        (newline)
+      ;; otherwise we just yank line before beginning of next line
+      (call-interactively 'forward-char))))
 
 ;; undo-tree
 (use-package undo-tree
@@ -173,7 +179,7 @@
 (setq auto-save-timeout 10)
 
 ;; auto indent when paste something
-(dolist (command '(yank yank-pop evil-paste-after evil-paste-before evil-paste-pop))
+(dolist (command '(yank yank-pop))
   (eval
    `(defadvice ,command (after indent-region activate)
       (and (not current-prefix-arg)
