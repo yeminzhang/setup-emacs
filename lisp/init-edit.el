@@ -102,10 +102,6 @@
   (run-with-timer 1800 1800 'updatedb)
   (setq updatedb-timer t))
 
-(defun insert-special-char (char_str)
-  (interactive (list (ido-completing-read "Char to insert: " (list "ö" "ä" "å" "Ö" "Ä" "Å" "~"))))
-  (insert char_str))
-
 (use-package desktop
   :defer t
   :config
