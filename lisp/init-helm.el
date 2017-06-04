@@ -7,12 +7,27 @@
   :config
   (setq helm-input-idle-delay 0.01
         helm-full-frame nil
-        helm-split-window-default-side 'other)
+        helm-split-window-preferred-function 'helm-split-window-my-fn)
+
   (defun helm-run (ARG prompt sources)
     (helm
      :prompt prompt
      :candidate-number-limit 25                 ;; up to 25 of each
      :sources sources))
+
+  (defun helm-split-window-my-fn (window)
+    (let (split-width-threshold)
+      (if (and (fboundp 'window-in-direction)
+               ;; Don't try to split when starting in a minibuffer
+               ;; e.g M-: and try to use helm-show-kill-ring.
+               (not (minibufferp helm-current-buffer)))
+          (if (or (one-window-p t)
+                  helm-split-window-in-side-p)
+              (split-window
+               (selected-window) nil 'right)
+            ;; If more than one window reuse one of them.
+            (other-window-for-scrolling))
+        (split-window-sensibly window))))
   )
 
 (use-package helm-mode
@@ -99,7 +114,6 @@
     (if (boundp 'helm-swoop-pattern)
         (if (equal helm-swoop-pattern "")
             (previous-history-element 1)
-          ;;                (insert "haha")
           (call-interactively search-direction))
       (call-interactively 'search-direction)))
 
