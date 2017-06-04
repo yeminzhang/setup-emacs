@@ -12,7 +12,24 @@
         (progn
           (kill-buffer (current-buffer))
           (setq file (concat "/sudo::" file))
-          (find-file file))))))
+          (find-file file)))))
+  :bind (:map view-mode-map
+              ("G" . end-of-buffer)
+              ("v" . View-scroll-page-backward)
+              ("J" . scroll-up-line)
+              ("K" . scroll-down-line)
+              ("h" . backward-char)
+              ("j" . next-line)
+              ("k" . previous-line)
+              ("l" . forward-char)
+              ("o" . other-window)
+              ("a" . move-beginning-of-line)
+              ("e" . move-end-of-line)
+              ("w" . kill-ring-save)
+              ("f" . forward-word)
+              ("b" . backward-word)
+              ("E" . my-View-exit)
+              ("q" . bury-buffer)))
 
 ;; man mode
 (use-package man

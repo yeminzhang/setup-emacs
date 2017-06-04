@@ -107,28 +107,35 @@
   :config
   (add-to-list 'desktop-globals-to-save 'kill-ring))
 
-(defun smart-kill-ring-save (&optional arg)
-  "When called interactively with no active region, copy the whole line."
-  (interactive "^p")
-  (if mark-active
-      (if (= (region-beginning) (region-end))
-          ;; if mark is active but no text is selected, then copy the whole word
-          (progn
-            (deactivate-mark)
-            (call-interactively 'forward-to-word)
-            (call-interactively 'backward-word)
-            (call-interactively 'mark-sexp)
-            (smart-kill-ring-save))
-        ;; copy selected region
-        (kill-ring-save (region-beginning) (region-end)))
-    ;; copy the whole line
-    (kill-ring-save (line-beginning-position) (line-beginning-position (+ arg 1)))))
+(use-package simple
+  :config
+  (defun smart-kill-ring-save (&optional arg)
+    "When called interactively with no active region, copy the whole line."
+    (interactive "^p")
+    (if mark-active
+        (if (= (region-beginning) (region-end))
+            ;; if mark is active but no text is selected, then copy the whole word
+            (progn
+              (deactivate-mark)
+              (call-interactively 'forward-to-word)
+              (call-interactively 'backward-word)
+              (call-interactively 'mark-sexp)
+              (smart-kill-ring-save))
+          ;; copy selected region
+          (kill-ring-save (region-beginning) (region-end)))
+      ;; copy the whole line
+      (kill-ring-save (line-beginning-position) (line-beginning-position (+ arg 1)))))
 
-(defun smart-kill-region (&optional arg)
-  "When called interactively with no active region, kill the whole line."
-  (interactive "^p")
-  (if mark-active (kill-region (region-beginning) (region-end))
-    (kill-region (line-beginning-position) (line-beginning-position (+ arg 1)))))
+  (defun smart-kill-region (&optional arg)
+    "When called interactively with no active region, kill the whole line."
+    (interactive "^p")
+    (if mark-active (kill-region (region-beginning) (region-end))
+      (kill-region (line-beginning-position) (line-beginning-position (+ arg 1)))))
+  :bind (
+         ("C-w" . smart-kill-region)
+         ("M-w" . smart-kill-ring-save)
+         ("M-j" . delete-indentation))
+  )
 
 (defadvice insert-for-yank (before newline-if-is-linestr (str) activate)
   (when (char-equal (aref str (- (length str) 1)) ?\n)

@@ -2,19 +2,6 @@
 ;; key bindings
 (global-set-key (kbd "C-o") 'other-window)
 (global-set-key (kbd "<backspace>") 'backward-delete-char)
-(global-set-key (kbd "M-j") 'delete-indentation)
-
-(global-set-key (kbd "C-x g") 'beginning-of-buffer)
-(global-set-key (kbd "C-x G") 'end-of-buffer)
-
-(global-set-key (kbd "M-y") 'helm-show-kill-ring)
-
-(global-set-key (kbd "C-w") 'smart-kill-region)
-(global-set-key (kbd "M-w") 'smart-kill-ring-save)
-
-;; switch buffer
-(use-package helm-buffers
-  :bind ("C-x C-b" . helm-buffers-list))
 
 (global-set-key (kbd "C-c f r") 'buffer-file-run)
 
@@ -28,24 +15,6 @@
 (global-set-key (kbd "C-c g d") 'magit-diff-popup)
 (global-set-key (kbd "C-c g b") 'magit-branch-popup)
 (global-set-key (kbd "C-c g P") 'magit-pull-popup)
-
-(use-package magit-status
-  :bind (:map magit-status-mode-map
-              ("C-c C-a" . magit-just-amend))
-  )
-
-(use-package magit-log
-  :bind (:map magit-log-mode-map
-              ("g" . beginning-of-buffer)
-              ("G" . end-of-buffer))
-  )
-
-(use-package company
-  :bind (:map company-active-map
-              ("C-n" . company-select-next-or-abort)
-              ("C-p" . company-select-previous-or-abort))
-  :config
-  (define-key company-active-map (kbd ";") 'company-complete-selection))
 
 (use-package dired
   :bind (:map dired-mode-map
@@ -144,25 +113,6 @@
   :defer t
   :config
   (define-key org-mode-map (kbd "<C-tab>") nil))
-
-(use-package view
-  :bind (:map view-mode-map
-              ("G" . end-of-buffer)
-              ("v" . View-scroll-page-backward)
-              ("J" . scroll-up-line)
-              ("K" . scroll-down-line)
-              ("h" . backward-char)
-              ("j" . next-line)
-              ("k" . previous-line)
-              ("l" . forward-char)
-              ("o" . other-window)
-              ("a" . move-beginning-of-line)
-              ("e" . move-end-of-line)
-              ("w" . kill-ring-save)
-              ("f" . forward-word)
-              ("b" . backward-word)
-              ("E" . my-View-exit)
-              ("q" . bury-buffer)))
 
 (global-set-key (kbd "C-c t") 'term-here)
 

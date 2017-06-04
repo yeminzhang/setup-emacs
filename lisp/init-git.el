@@ -18,6 +18,14 @@
     (save-window-excursion
       (shell-command "git --no-pager commit --amend --reuse-message=HEAD")
       (magit-refresh)))
+  :bind (:map magit-status-mode-map
+              ("C-c C-a" . magit-just-amend))
+  )
+
+(use-package magit-log
+  :bind (:map magit-log-mode-map
+              ("g" . beginning-of-buffer)
+              ("G" . end-of-buffer))
   )
 
 (use-package info

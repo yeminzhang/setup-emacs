@@ -101,7 +101,12 @@
   ;; list when narrowing
   (defun helm-buffers-sort-transformer (candidates _source)
     candidates)
-  )
+  :bind ("C-x C-b" . helm-buffers-list))
+
+
+(use-package helm-ring
+  :bind
+  (("M-y" . helm-show-kill-ring)))
 
 (use-package helm-swoop
   :ensure t
