@@ -1,11 +1,6 @@
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (when (file-exists-p custom-file) (load custom-file))
 
-;; optional for those who set keyboard layout to ö at ; in order to
-;; speed up switch-to-buffer and press RETURN in various mode.
-;; If your keyboard layout doesn't have ö set, then just ignore it.
-(defconst right-little-finger-key "ö")
-
 ;; OS
 (defconst *is-linux* (eq system-type 'gnu/linux))
 (defconst *is-mac* (eq system-type 'darwin))

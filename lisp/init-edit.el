@@ -1,3 +1,53 @@
+(show-paren-mode t)
+
+;; font style and size can be customized and saved in custom.el
+(customize-save-default 'default-frame-font "Monospace:pixelsize=14")
+(add-to-list 'default-frame-alist (cons 'font default-frame-font))
+;;(set-default-font "opendesktop-fonts")
+;;(setq font-use-system-font t)
+;;(add-to-list 'default-frame-alist '(font . "Monospace-12"))
+;;(add-to-list 'default-frame-alist '(font . "AR PL New Sung-12"))
+;;(set-fontset-font t  '(#x00 . #x7)  "Monospace")
+;;(set-face-background 'highlight nil)
+;;(set-face-foreground 'highlight nil)
+;;(set-face-underline-p 'highlight t)
+;; (set-background-color "grey5")
+;; (set-foreground-color "white")
+;; (set-cursor-color "red")
+
+(set-fontset-font t  '(#x80 . #x3FFFFF)  "Microsoft YaHei")
+
+;; Chinese Font, needs to be verified and improved in the future
+;;(dolist (charset '(kana han symbol cjk-misc bopomofo))
+;;  (set-fontset-font (frame-parameter nil 'font)
+;;                  charset
+;;                (font-spec :family "Microsoft YaHei" :size 22)))
+
+;; chinese input
+;;(set-language-environment 'utf-8)
+;; (set-keyboard-coding-system 'utf-8)
+;; (set-clipboard-coding-system 'euc-cn)
+;; (set-clipboard-coding-system 'utf-8)
+;; (set-clipboard-coding-system 'cn-gb-2312)
+;; (set-terminal-coding-system 'utf-8)
+;; (set-buffer-file-coding-system 'utf-8)
+;; (set-buffer-file-coding-system 'cn-gb-2312)
+;; (set-selection-coding-system 'euc-cn)
+;; (set-selection-coding-system 'chinese-iso-8bit-with-esc)
+;; (set-selection-coding-system 'cn-gb-2312)
+;; (set-default-coding-systems 'utf-8)
+;;(set-default-coding-systems 'cn-gb-2312)
+;; (setq locale-coding-system 'cp1252)
+;; (modify-coding-system-alist 'process "*" 'utf-8)
+;; (setq default-process-coding-system '(utf-8 . utf-8))
+;; (setq-default pathname-coding-system 'utf-8)
+
+
+(global-hl-line-mode 1)
+(column-number-mode 1)
+
+(set-face-background 'hl-line "#4f4f4f")
+
 ;; Tabsn
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
@@ -21,86 +71,12 @@
 ;; smooth scrolling
 (setq scroll-conservatively 101)
 
-;; ido
-(use-package ido
-  :defer t
-  :config
-  (setq ido-enable-flex-matching t
-        ido-enable-dot-prefix t
-        ido-enable-regexp nil
-        ido-ignore-extensions nil
-        ido-max-window-height 1
-        max-mini-window-height 1)
-  (add-to-list 'ido-ignore-buffers "\*helm")
-  (add-to-list 'ido-ignore-buffers "\*magit")
-  (add-to-list 'ido-ignore-buffers "TAGS")
-  (add-to-list 'ido-ignore-buffers "\*tramp")
-  (defun ido-common-bind-key ()
-    (define-key ido-common-completion-map (kbd ";") 'ido-exit-minibuffer)
-    (define-key ido-common-completion-map (kbd "SPC") 'ido-next-match)
-    (define-key ido-common-completion-map (kbd ",") 'ido-prev-match))
-  (add-hook 'ido-minibuffer-setup-hook 'ido-common-bind-key))
-(ido-mode 'both)
-
-(use-package smex
-  :ensure t
-  :bind ("M-x" . smex)
-  :config
-  ;; auto update smex cache after load a file
-  (defun smex-update-after-load (unused)
-    (when (boundp 'smex-cache)
-      (smex-update)))
-  (add-hook 'after-load-functions 'smex-update-after-load))
-
-(use-package ediff-wind
-  :defer t
-  :config
-  (setq ediff-split-window-function 'split-window-horizontally))
-
 ;; show number of matches in current search
 (use-package anzu
   :ensure t
   :defer t
   :diminish anzu-mode)
 (global-anzu-mode t)
-
-(defun maybe-split-window (&optional switch-window)
-  (when (one-window-p t)
-    (split-window-horizontally))
-  (when switch-window) (other-window 1))
-
-(defun keep-only-dirs (files)
-  (cl-loop for i in files
-           if (and (stringp i) (file-directory-p i))
-           collect i))
-
-(defun keep-only-files (files)
-  (cl-loop for i in files
-           if (and (stringp i) (not (file-directory-p i)))
-           collect i))
-
-;; By default regexp is not used. Add -r in a helm session to enable it
-(defun make-locate-command (ARG)
-  (let (
-        (locate-db-file
-         (if (or ARG
-                 (not (projectile-project-p))
-                 (not (file-exists-p (expand-file-name ".mlocate.db" (projectile-project-root)))))
-             locate-db-file
-           (expand-file-name ".mlocate.db" (projectile-project-root)))))
-    (concat "locate %s -d " locate-db-file " -e -A %s")))
-
-(setq locate-db-file "~/.mlocate.db")
-(customize-save-default 'updatedb-option "-l 0")
-
-(defun updatedb ()
-  (interactive)
-  (call-process-shell-command (concat "updatedb " updatedb-option " -o " locate-db-file) nil 0))
-
-;; updatedb every 30 minutes
-(unless (boundp 'updatedb-timer)
-  (run-with-timer 1800 1800 'updatedb)
-  (setq updatedb-timer t))
 
 (use-package desktop
   :defer t
@@ -166,7 +142,15 @@
 
 (use-package volatile-highlights
   :ensure t
-  :diminish volatile-highlights-mode)
+  :diminish volatile-highlights-mode
+  :config
+;; override default volatile-highlights face
+  (custom-set-faces
+   ;; custom-set-faces was added by Custom.
+   ;; If you edit it by hand, you could mess it up, so be careful.
+   ;; Your init file should contain only one such instance.
+   ;; If there is more than one, they won't work right.
+   '(vhl/default-face ((t (:inherit secondary-selection :background "DarkKhaki" :foreground "black"))))))
 ;; volatile-highlights
 (volatile-highlights-mode t)
 
@@ -186,40 +170,15 @@
         ace-isearch-jump-delay 0.8)
   )
 
-;; auto-save file
-;; Save all tempfiles in ~/.emacs-tmp/
-(setq temporary-file-directory  "~/.emacs-tmp/")
-(setq backup-directory-alist
-      `((".*" . ,temporary-file-directory)))
-(setq auto-save-file-name-transforms
-      `((".*" ,temporary-file-directory t)))
-(setq auto-save-interval 100)
-(setq auto-save-timeout 10)
-
-;; recentf
-(use-package recentf-ext
-  :ensure t
-  :config
-  (setq recentf-max-menu-items 100
-        recentf-max-saved-items nil
-        recentf-auto-cleanup 'never ;; in order to keep tramp files
-        ))
-
-;; bookmark+
-(defun bookmark-load-if-not ()
-  (use-package bookmark+
-    :ensure t)
-  (if (and (not bookmarks-already-loaded) (file-readable-p bookmark-default-file))
-      (bookmark-load bookmark-default-file)))
-
 (use-package iedit
   :ensure t)
 
-;; Auto save bookmark to file every 8 modifications
-(setq bookmark-save-flag 8)
+(use-package rainbow-mode
+  :defer t
+  :ensure t)
+
+(rainbow-mode t)
 
 (set-language-environment "UTF-8")
-
-(updatedb)
 
 (provide 'init-edit)
