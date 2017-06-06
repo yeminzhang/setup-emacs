@@ -156,6 +156,8 @@
 
 (use-package ace-jump-mode
   :ensure t
+  :config
+  (setq ace-jump-mode-submode-list '(ace-jump-word-mode ace-jump-line-mode ace-jump-char-mode))
   :bind (("C-j" . ace-jump-mode)
          ))
 
