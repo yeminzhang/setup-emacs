@@ -154,22 +154,14 @@
 ;; volatile-highlights
 (volatile-highlights-mode t)
 
-(use-package ace-jump-mode
+(use-package avy
   :ensure t
   :config
-  (setq ace-jump-mode-submode-list '(ace-jump-word-mode ace-jump-line-mode ace-jump-char-mode))
-  :bind (("C-j" . ace-jump-mode)
-         ))
-
-(use-package ace-isearch
-  :ensure t
-  :disabled t
-  :diminish ace-isearch-mode
-  :defer t
-  :config
-  (setq ace-isearch-use-jump 'never
-        ace-isearch-func-delay 1
-        ace-isearch-jump-delay 0.8)
+  (setq avy-background nil
+        avy-keys '(?a ?b ?c ?d ?e ?f ?g ?h ?i ?j ?k ?l ?m ?n ?o ?p ?q ?r ?s ?t ?u ?v ?w ?x ?y ?z))
+  :bind (("C-j" . avy-goto-word-1)
+         ("M-g M-g" . avy-goto-line)
+         ("M-g g" . avy-goto-line))
   )
 
 (use-package iedit
