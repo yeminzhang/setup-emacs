@@ -21,6 +21,9 @@
     (when (string-match "finished" string)
       (bury-buffer buffer)
       (replace-buffer-in-windows buffer)))
+  :bind (:map compilation-mode-map
+              ("C-o" . other-window)
+         )
   )
 
 (use-package gud
