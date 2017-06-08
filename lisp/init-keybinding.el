@@ -41,19 +41,6 @@
   (define-key yas-minor-mode-map (kbd "TAB")    nil)
   (define-key yas-minor-mode-map (kbd "S-SPC")  'helm-yas-complete))
 
-
-;; helm-gtags
-(use-package helm-gtags
-  :defer t
-  :config
-  ;; key bindings
-  (define-key helm-gtags-mode-map (kbd "C-c g a") 'helm-gtags-tags-in-this-function)
-  (define-key helm-gtags-mode-map (kbd "C-j") 'helm-code-select)
-  (define-key helm-gtags-mode-map (kbd "M-.") 'helm-gtags-dwim)
-  (define-key helm-gtags-mode-map (kbd "M-,") 'helm-gtags-pop-stack)
-  (define-key helm-gtags-mode-map (kbd "C-c <") 'helm-gtags-previous-history)
-  (define-key helm-gtags-mode-map (kbd "C-c >") 'helm-gtags-next-history))
-
 (use-package gud
   :bind (:map gud-mode-map
               ("C-q" . project-debug-quit)))
@@ -167,7 +154,6 @@
 
   (add-hook 'python-mode-hook
             (lambda ()
-              (local-set-key (kbd "C-j") 'helm-code-select)
               (local-set-key (kbd "C-c <") 'helm-gtags-previous-history)
               (local-set-key (kbd "C-c >") 'helm-gtags-next-history))))
 

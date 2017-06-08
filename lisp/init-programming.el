@@ -66,6 +66,7 @@
 (use-package prog-mode
   :defer t
   :config
+  (semantic-mode 1)
   (add-hook 'prog-mode-hook 'configure-programming-buffer-common)
 
   (defun configure-programming-buffer-common ()
@@ -115,7 +116,6 @@
 
 ;; configure semantic
 ;; TODO investigate how to use ycmd for auto complete
-;;(semantic-mode 1)
 ;;(global-semanticdb-minor-mode 1)
 ;;(global-semantic-idle-scheduler-mode -1)
 
@@ -131,19 +131,15 @@
    helm-gtags-use-input-at-cursor t
    helm-gtags-pulse-at-cursor t
 ;;   helm-gtags-prefix-key "\C-cg"
-   helm-gtags-suggested-key-mapping t))
-
-(defun helm-code-select ()
-  (interactive)
-  (require 'helm-semantic)
-  (require 'helm-gtags)
-  (helm
-   :prompt "Go to: "
-   :candidate-number-limit 9999
-   :sources
-   '(
-     helm-source-semantic
-     helm-source-gtags-select)))
+   helm-gtags-suggested-key-mapping t)
+  :bind (:map helm-gtags-mode-map
+              ("C-c h g a" . helm-gtags-tags-in-this-function)
+              ("C-c h g s" . helm-gtags-select)
+              ("M-." . helm-gtags-dwim)
+              ("M-," . helm-gtags-pop-stack)
+              ("C-c h g <" . helm-gtags-previous-history)
+              ("C-c h g >" . helm-gtags-next-history)
+              ))
 
 (defun format-buffer ()
   (interactive)
