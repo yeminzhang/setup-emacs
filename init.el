@@ -10,6 +10,7 @@
 (require 'init-env)
 (require 'init-basic)
 (require 'init-helm)
+(require 'init-ivy)
 (require 'init-company)
 (require 'init-buffer)
 (require 'init-window)

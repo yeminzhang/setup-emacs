@@ -10,7 +10,6 @@
   (setq projectile-find-dir-includes-top-level t)
   (setq projectile-tags-command nil)
   (setq projectile-idle-timer-hook (list 'project-update-tags 'project-updatedb))
-  (helm-projectile-on)
   (defun project-save-attribute (symbol value)
     (let (
           (default-directory (projectile-project-root))
@@ -164,12 +163,6 @@
         (with-current-buffer buffer (project-load-attributes)))))
   :init
   (setq projectile-enable-idle-timer t))
-
-(use-package helm-projectile
-  :ensure t
-  :defer t
-  :config
-  (setq helm-projectile-fuzzy-match nil))
 
 (set-display-buffer-other-window (rx bos "*Shell Command Output*" eos))
 

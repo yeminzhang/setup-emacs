@@ -104,4 +104,6 @@
 ;; Auto save bookmark to file every 8 modifications
 (setq bookmark-save-flag 8)
 
+(setq debug-on-error t)
+
 (provide 'init-basic)

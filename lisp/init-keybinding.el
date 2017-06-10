@@ -49,7 +49,6 @@
 (use-package projectile
   :defer t
   :config
-  (define-key projectile-mode-map (kbd "C-c p g") 'helm-projectile-grep)
   (define-key projectile-mode-map (kbd "C-c p R") 'project-update-tags)
   (define-key projectile-mode-map (kbd "C-c p c") 'project-compile)
   (define-key projectile-mode-map (kbd "C-c p r") 'project-run)

@@ -72,24 +72,28 @@
                  (looking-back " " (1- (point))))
         (delete-char -1)))))
 
-(defclass helm-eshell-dir-history-source (helm-source-sync)
-  ((init :initform
-         (lambda ()
-           ;; Same comment as in `helm-source-esh'.
-           (remove-hook 'minibuffer-setup-hook 'eshell-mode)))
-   (candidates
-    :initform
-    (lambda ()
-      (with-helm-current-buffer
-        (cl-loop for c from 0 to (ring-length eshell-last-dir-ring)
-                 collect (ring-ref eshell-last-dir-ring c)))))
-   (nomark :initform t)
-   (multiline :initform t)
-   (keymap :initform helm-eshell-history-map)
-   (candidate-number-limit :initform 9999)
-   (action :initform (lambda (candidate)
-                       (eshell-run-command (concat "cd " candidate)))))
-  "Helm class to define source for Eshell dir history.")
+(use-package helm-source
+  :defer t
+  :config
+  (defclass helm-eshell-dir-history-source (helm-source-sync)
+    ((init :initform
+           (lambda ()
+             ;; Same comment as in `helm-source-esh'.
+             (remove-hook 'minibuffer-setup-hook 'eshell-mode)))
+     (candidates
+      :initform
+      (lambda ()
+        (with-helm-current-buffer
+          (cl-loop for c from 0 to (ring-length eshell-last-dir-ring)
+                   collect (ring-ref eshell-last-dir-ring c)))))
+     (nomark :initform t)
+     (multiline :initform t)
+     (keymap :initform helm-eshell-history-map)
+     (candidate-number-limit :initform 9999)
+     (action :initform (lambda (candidate)
+                         (eshell-run-command (concat "cd " candidate)))))
+    "Helm class to define source for Eshell dir history.")
+  )
 
 (add-hook 'eshell-mode-hook 'eshell-register-desktop-save)
 (add-hook 'eshell-mode-hook 'company-mode)

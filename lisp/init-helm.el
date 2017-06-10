@@ -35,9 +35,10 @@
   :diminish helm-mode)
 
 (use-package helm-files
-  :bind (("C-x C-f" . helm-find-file)
-         ("C-x C-d" . helm-find-dir))
+  :after helm-mode
   :config
+  (global-set-key (kbd "C-x C-f")  'helm-find-file)
+  (global-set-key (kbd "C-x C-d")  'helm-find-dir)
   ;; Show full file-path in helm result
   (setq helm-ff-transformer-show-only-basename nil)
   (defclass helm-files-in-current-dir-source-no-fuzzy (helm-files-in-current-dir-source)
@@ -83,7 +84,7 @@
   )
 
 (use-package helm-locate
-  :defer t
+  :after helm-mode
   :config
   (setq helm-source-locate-dirs (copy-tree helm-source-locate))
   (setf (nth 1 (nth 8 helm-source-locate-dirs)) 'keep-only-dirs)
@@ -94,23 +95,24 @@
   )
 
 (use-package helm-buffers
-  :defer t
+  :after helm-mode
   :config
   (setq helm-buffers-fuzzy-matching t)
   ;; This is a patch to prevent helm from sorting the buffer
   ;; list when narrowing
   (defun helm-buffers-sort-transformer (candidates _source)
     candidates)
-  :bind ("C-x C-b" . helm-buffers-list))
+  (global-set-key (kbd "C-x C-b")  'helm-buffers-list))
 
 
 (use-package helm-ring
-  :bind
-  (("M-y" . helm-show-kill-ring)))
+  :after helm-mode
+  :config
+  (global-set-key (kbd "M-y")  'helm-show-kill-ring))
 
 (use-package helm-swoop
   :ensure t
-  :defer t
+  :after helm-mode
   :config
   ;; C-s in a buffer: open helm-swoop with empty search field
   (setq helm-swoop-pre-input-function (lambda () nil))
@@ -132,9 +134,9 @@
     (interactive)
     (tl/helm-swoop-search 'helm-previous-line))
 
+  (global-set-key (kbd "C-s")  'helm-swoop)
+  (global-set-key (kbd "C-r")  'helm-swoop)
   :bind (
-         ("C-s" . helm-swoop)
-         ("C-r" . helm-swoop)
          :map helm-swoop-map
          ("C-s" . tl/helm-swoop-C-s)
          ("C-r" . tl/helm-swoop-C-r)
@@ -142,9 +144,18 @@
   )
 
 (use-package helm-config
+  :after helm
   :init
   (setq helm-command-prefix-key "C-c h"))
 
-(helm-mode 1)
+(use-package helm-projectile
+  :ensure t
+  :after projectile helm-mode
+  :config
+  (helm-projectile-on)
+  (define-key projectile-mode-map (kbd "C-c p g") 'helm-projectile-grep)
+  (setq helm-projectile-fuzzy-match nil))
+
+;;(helm-mode 1)
 
 (provide 'init-helm)
