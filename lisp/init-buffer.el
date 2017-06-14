@@ -46,12 +46,12 @@
 
 (defun keep-only-dirs (files)
   (cl-loop for i in files
-           if (and (stringp i) (file-directory-p i))
-           collect i))
+           if (and (stringp i) (if (tramp-tramp-file-p i) (s-ends-with-p "/" i) (file-directory-p i)))
+           collect (if (s-ends-with-p "/" i) i (format "%s/" i))))
 
 (defun keep-only-files (files)
   (cl-loop for i in files
-           if (and (stringp i) (not (file-directory-p i)))
+           if (and (stringp i) (not (if (tramp-tramp-file-p i) (s-ends-with-p "/" i) (file-directory-p i))))
            collect i))
 
 ;; By default regexp is not used. Add -r in a helm session to enable it
