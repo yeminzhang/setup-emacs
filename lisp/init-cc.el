@@ -15,7 +15,7 @@
   (add-hook 'c-mode-common-hook
             (lambda ()
               (company-mode 1)
-              (helm-gtags-mode 1)
+              (counsel-gtags-mode 1)
               (yas-minor-mode-on))))
 
 (provide 'init-cc)

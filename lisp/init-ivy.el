@@ -26,7 +26,7 @@
 
   (defun counsel-locate-cmd (regex db-path)
     "Return a shell command based on INPUT."
-    (format "locate -i -e -A -l 50 --regex -d %s '%s'"
+    (format "locate -i -e -A --regex -d %s '%s'"
             db-path
             (counsel-unquote-regex-parens regex)))
 
@@ -95,6 +95,14 @@
   :after projectile counsel-mode ivy-mode
   :config
   (define-key projectile-mode-map (kbd "C-c p g") 'counsel-projectile-ag)
+  )
+
+(use-package counsel-gtags
+  :ensure t
+  :bind (:map counsel-gtags-mode-map
+              ("M-." . counsel-gtags-dwim)
+              ("M-," . counsel-gtags-pop)
+         )
   )
 
 (ivy-mode t)
