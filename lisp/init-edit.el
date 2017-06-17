@@ -1,7 +1,7 @@
 (show-paren-mode t)
 
 ;; font style and size can be customized and saved in custom.el
-(customize-save-default 'default-frame-font "Monospace:pixelsize=14")
+(customize-save-default 'default-frame-font "Dejavu Sans Mono:pixelsize=14")
 (add-to-list 'default-frame-alist (cons 'font default-frame-font))
 ;;(set-default-font "opendesktop-fonts")
 ;;(setq font-use-system-font t)
