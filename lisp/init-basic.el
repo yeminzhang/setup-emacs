@@ -21,6 +21,7 @@
 (setq inhibit-startup-message t)
 (fset 'yes-or-no-p 'y-or-n-p)
 (setq split-height-threshold nil)
+(setq ring-bell-function 'ignore)
 
 ;; color theme
 (use-package zenburn-theme
