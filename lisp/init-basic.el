@@ -26,7 +26,17 @@
 ;; color theme
 (use-package zenburn-theme
   :ensure t
-  :defer t)
+  :config
+  (when *is-mac*
+    (setq zenburn-override-colors-alist
+          '(("zenburn-bg"  . "#4F4F4F")
+            ("zenburn-bg+1"     . "#5F5F5F")
+            ("zenburn-bg+2"     . "#6F6F6F")
+            )))
+  (setq zenburn-colors-alist
+        (append zenburn-default-colors-alist zenburn-override-colors-alist))
+  )
+
 (load-theme 'zenburn t)
 
 (set-cursor-color "#aaaaaa")
