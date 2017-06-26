@@ -27,12 +27,16 @@
 (use-package zenburn-theme
   :ensure t
   :config
-  (when *is-mac*
-    (setq zenburn-override-colors-alist
-          '(("zenburn-bg"  . "#4F4F4F")
-            ("zenburn-bg+1"     . "#5F5F5F")
-            ("zenburn-bg+2"     . "#6F6F6F")
-            )))
+  (setq zenburn-override-colors-alist
+        '(
+          ("zenburn-bg-2"     . "#000000")
+          ("zenburn-bg-1"     . "#343434")
+          ("zenburn-bg-05"    . "#414141")
+          ("zenburn-bg"       . "#484848")
+          ("zenburn-bg+05"    . "#515151")
+          ("zenburn-bg+1"     . "#585858")
+          ("zenburn-bg+2"     . "#686868")
+          ))
   (setq zenburn-colors-alist
         (append zenburn-default-colors-alist zenburn-override-colors-alist))
   )

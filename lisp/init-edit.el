@@ -46,10 +46,6 @@
 (global-hl-line-mode 1)
 (column-number-mode 1)
 
-(if *is-mac*
-    (set-face-background 'hl-line "#5f5f5f")
-  (set-face-background 'hl-line "#4f4f4f"))
-
 ;; Tabsn
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
