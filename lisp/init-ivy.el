@@ -8,6 +8,7 @@
 
 (use-package counsel
   :ensure t
+  :diminish counsel-mode
   :config
   (defun counsel-match-default (regex source-list)
     (let* (
@@ -83,6 +84,7 @@
 
 (use-package ivy
   :ensure t
+  :diminish ivy-mode
   :config
   (setq ivy-height 20)
   :bind (:map ivy-minibuffer-map
@@ -99,6 +101,7 @@
 
 (use-package counsel-gtags
   :ensure t
+  :diminish counsel-gtags-mode
   :bind (:map counsel-gtags-mode-map
               ("M-." . counsel-gtags-dwim)
               ("M-," . counsel-gtags-pop)
