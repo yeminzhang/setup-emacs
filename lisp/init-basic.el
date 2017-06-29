@@ -45,6 +45,9 @@
 
 (set-cursor-color "#aaaaaa")
 
+(set-face-background 'vertical-border "dark grey")
+(set-face-foreground 'vertical-border (face-background 'vertical-border))
+
 (use-package smart-mode-line
   :ensure t
   :defer t
