@@ -165,6 +165,12 @@
 (use-package iedit
   :ensure t)
 
+(use-package mwim
+  :ensure t
+  :bind (
+   ("C-a" . mwim-beginning-of-code-or-line)
+   ("C-e" . mwim-end-of-code-or-line)))
+
 (use-package rainbow-mode
   :defer t
   :ensure t)
