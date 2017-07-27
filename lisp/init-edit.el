@@ -175,8 +175,6 @@
   :defer t
   :ensure t)
 
-(rainbow-mode t)
-
 (set-language-environment "UTF-8")
 
 (provide 'init-edit)
