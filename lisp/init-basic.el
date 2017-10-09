@@ -26,27 +26,15 @@
 ;; color theme
 (use-package zenburn-theme
   :ensure t
+  :defer t)
+
+(use-package solarized-theme
+  :ensure t
+  :defer t
   :config
-  (setq zenburn-override-colors-alist
-        '(
-          ("zenburn-bg-2"     . "#000000")
-          ("zenburn-bg-1"     . "#343434")
-          ("zenburn-bg-05"    . "#414141")
-          ("zenburn-bg"       . "#484848")
-          ("zenburn-bg+05"    . "#515151")
-          ("zenburn-bg+1"     . "#585858")
-          ("zenburn-bg+2"     . "#686868")
-          ))
-  (setq zenburn-colors-alist
-        (append zenburn-default-colors-alist zenburn-override-colors-alist))
-  )
+  (setq solarized-use-less-bold t))
 
-(load-theme 'zenburn t)
-
-(set-cursor-color "#aaaaaa")
-
-(set-face-background 'vertical-border "dark grey")
-(set-face-foreground 'vertical-border (face-background 'vertical-border))
+(load-theme 'solarized-dark t)
 
 (use-package smart-mode-line
   :ensure t
