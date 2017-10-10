@@ -176,9 +176,6 @@ A formatted list of window configs is presented as candidates."
     (setq eyebrowse-force-add-buffer nil))
 
   :init
-  (defface eyebrowse-mode-line-active
-    '((t (:foreground "#F0DFAF")))
-    "The face used to highlight the current perspective on the modeline.")
   (defvar eyebrowse-buffers (make-hash-table :test 'equal))
   (defvar eyebrowse-force-add-buffer nil)
   (defvar eyebrowse-buffers-filename (expand-file-name "eyebrowse-buffers" user-emacs-directory))

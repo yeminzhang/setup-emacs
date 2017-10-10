@@ -1,17 +1,22 @@
+(use-package s
+  :ensure t)
+
 ;; disable bold font globally
+(setq set-face-ignore-attributes '(:weight :height))
+
 (defadvice set-face-attribute
     (before ignore-attributes (face frame &rest args) activate)
-  (setq args
-        (apply 'nconc
-               (mapcar (lambda (i)
-                         (let ((attribute (nth i args))
-                               (value (nth (1+ i) args)))
-                           (if (not (memq attribute
-                                          set-face-ignore-attributes))
-                               (list attribute value))))
-                       (number-sequence 0 (1- (length args)) 2)))))
-
-(setq set-face-ignore-attributes '(:weight :height))
+  (unless (or (s-starts-with-p "sml" (symbol-name face)) ;; sml is an exception
+              (s-starts-with-p "ivy" (symbol-name face))) ;; ivy is an exception
+    (setq args
+          (apply 'nconc
+                 (mapcar (lambda (i)
+                           (let ((attribute (nth i args))
+                                 (value (nth (1+ i) args)))
+                             (if (not (memq attribute
+                                            set-face-ignore-attributes))
+                                 (list attribute value))))
+                         (number-sequence 0 (1- (length args)) 2))))))
 
 (menu-bar-mode -1)
 (tool-bar-mode -1)
@@ -30,7 +35,6 @@
 
 (use-package solarized-theme
   :ensure t
-  :defer t
   :config
   (setq solarized-use-less-bold t))
 
@@ -74,9 +78,6 @@
 (defun customize-save-default (symbol value)
   (unless (boundp symbol)
     (customize-save-variable symbol value)))
-
-(use-package s
-  :ensure t)
 
 (use-package subr-x)
 
