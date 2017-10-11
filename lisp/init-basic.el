@@ -1,13 +1,20 @@
 (use-package s
   :ensure t)
 
+(defun customize-save-default (symbol value)
+  (unless (boundp symbol)
+    (customize-save-variable symbol value)))
+
+(customize-save-default 'default-theme 'zenburn)
+
 ;; disable bold font globally
 (setq set-face-ignore-attributes '(:weight :height))
 
 (defadvice set-face-attribute
     (before ignore-attributes (face frame &rest args) activate)
-  (unless (or (s-starts-with-p "sml" (symbol-name face)) ;; sml is an exception
-              (s-starts-with-p "ivy" (symbol-name face))) ;; ivy is an exception
+  (unless (and (eq default-theme 'solarized-dark)
+               (or (s-starts-with-p "sml" (symbol-name face))   ;; solarized-dark sml is an exception
+                   (s-starts-with-p "ivy" (symbol-name face)))) ;; solarized-dark ivy is an exception
     (setq args
           (apply 'nconc
                  (mapcar (lambda (i)
@@ -31,14 +38,39 @@
 ;; color theme
 (use-package zenburn-theme
   :ensure t
-  :defer t)
+  :config
+  (setq zenburn-override-colors-alist
+        '(
+          ("zenburn-fg+1"     . "#FCFCEC")
+          ("zenburn-fg"       . "#D0D0C0")
+          ("zenburn-fg-1"     . "#626252")
+          ("zenburn-bg-2"     . "#030303")
+          ("zenburn-bg-1"     . "#2E2E2E")
+          ("zenburn-bg-05"    . "#3B3B3B")
+          ("zenburn-bg"       . "#424242")
+          ("zenburn-bg+05"    . "#4C4C4C")
+          ("zenburn-bg+1"     . "#525252")
+          ("zenburn-bg+2"     . "#626262")
+          ))
+  (setq zenburn-colors-alist
+        (append zenburn-default-colors-alist zenburn-override-colors-alist))
+  )
 
 (use-package solarized-theme
   :ensure t
+  :defer t
   :config
   (setq solarized-use-less-bold t))
 
-(load-theme 'solarized-dark t)
+
+(load-theme default-theme t)
+
+(fringe-mode 5)
+
+(when (eq default-theme 'zenburn)
+  (set-cursor-color "#aaaaaa")
+  (set-face-background 'vertical-border "dark grey")
+  (set-face-foreground 'vertical-border (face-background 'vertical-border)))
 
 (use-package smart-mode-line
   :ensure t
@@ -74,10 +106,6 @@
                        str)
     (setq str (replace-match "" t t str)))
   str)
-
-(defun customize-save-default (symbol value)
-  (unless (boundp symbol)
-    (customize-save-variable symbol value)))
 
 (use-package subr-x)
 
