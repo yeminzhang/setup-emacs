@@ -104,7 +104,7 @@
   :diminish counsel-gtags-mode
   :bind (:map counsel-gtags-mode-map
               ("M-." . counsel-gtags-dwim)
-              ("M-," . counsel-gtags-pop)
+              ("M-," . counsel-gtags-go-backward)
          )
   )
 

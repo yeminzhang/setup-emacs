@@ -121,10 +121,11 @@
   ;; Update GTAGS if it belongs to a project
   (defun project-update-tags ()
     (interactive)
-    (when (projectile-project-p)
-      (project-load-attributes)
-      (if (bound-and-true-p projectile-tags-command)
-          (call-process-shell-command projectile-tags-command nil 0))))
+    (let (
+          ;; hardcoded now, to be fixed in future
+          (projectile-tags-command (concat "cd " (projectile-project-root) ";gtags")))
+      ;; (projectile-regenerate-tags) is a blocking function, so we use our own function
+      (call-process-shell-command projectile-tags-command nil 0)))
 
   (defun project-updatedb ()
     (interactive)
