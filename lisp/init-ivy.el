@@ -94,7 +94,7 @@
 
 (use-package counsel-projectile
   :ensure t
-  :after projectile counsel-mode ivy-mode
+  :after projectile counsel ivy
   :config
   (define-key projectile-mode-map (kbd "C-c p g") 'counsel-projectile-ag)
   )
