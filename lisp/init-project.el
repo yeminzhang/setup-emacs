@@ -63,14 +63,12 @@
 
   (defun project-run (ARG)
     (interactive "P")
-    (let (
-          (executable-file (project-get-attribute :executable-file))
-          (executable-args (project-get-attribute :executable-args))
-          (executable-envs (project-get-attribute :executable-envs)))
-      (projectile-save-project-buffers)
-      (if (or ARG (not executable-file))
-          (project-set-running-command))
-      (shell-command (concat executable-file " "executable-args))))
+    (let ((projectile-project-run-cmd (project-get-attribute :run-cmd)))
+      (setq compilation-finish-functions nil)
+      (projectile-run-project (if projectile-project-run-cmd ARG t))
+      (if (or ARG (not projectile-project-run-cmd))
+          (project-save-attribute2 :run-cmd (gethash (projectile-project-root) projectile-run-cmd-map))))
+    )
 
   (defun project-debug (ARG)
     (interactive "P")
@@ -106,6 +104,7 @@
   (defun project-compile (ARG)
     (interactive "P")
     (let ((projectile-project-compilation-cmd (project-get-attribute :compilation-cmd)))
+      (setq compilation-finish-functions 'compile-autoclose)
       (projectile-compile-project (if projectile-project-compilation-cmd ARG t))
       (if (or ARG (not projectile-project-compilation-cmd))
           (project-save-attribute2 :compilation-cmd (gethash (projectile-project-root) projectile-compilation-cmd-map))))
@@ -131,7 +130,7 @@
     (interactive)
     (when (projectile-project-p)
       (call-process-shell-command
-       (concat "updatedb " updatedb-option " -U " (projectile-project-root) " -o " (expand-file-name ".mlocate.db" (projectile-project-root)))
+       (format updatedb-cmd (projectile-project-root) (expand-file-name ".mlocate.db" (projectile-project-root)))
        nil 0)))
 
   (defun project-configure (ARG)
