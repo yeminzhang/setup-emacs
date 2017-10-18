@@ -25,11 +25,16 @@
     (recentf-mode t)
     (counsel-match-default regex (mapcar #'substring-no-properties recentf-list)))
 
+  (defun remove-parens-for-mac (regex)
+    (when *is-mac*
+      (s-replace ")" "" (s-replace "(" "" regex))
+      ))
+
   (defun counsel-locate-cmd (regex db-path)
     "Return a shell command based on INPUT."
     (format "locate -i -e -A --regex -d %s '%s'"
             db-path
-            (counsel-unquote-regex-parens regex)))
+            (remove-parens-for-mac (counsel-unquote-regex-parens regex))))
 
   (defun counsel-locate-function (regex db-dir)
     (when (>= (length regex) 3)

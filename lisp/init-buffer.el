@@ -65,12 +65,14 @@
            (expand-file-name ".mlocate.db" (projectile-project-root)))))
     (concat "locate %s -d " locate-db-file " -e -A %s")))
 
-(setq locate-db-file "~/.mlocate.db")
-(customize-save-default 'updatedb-option "-l 0")
+(setq locate-db-file (expand-file-name ".mlocate.db" "~"))
+(if *is-linux*
+    (customize-save-default 'updatedb-cmd "updatedb -l 0 -U %s -o %s")
+  (customize-save-default 'updatedb-cmd "updatedb --localpaths='%s' --output='%s'"))
 
 (defun updatedb ()
   (interactive)
-  (call-process-shell-command (concat "updatedb " updatedb-option " -o " locate-db-file) nil 0))
+  (call-process-shell-command (format updatedb-cmd "/" locate-db-file) nil 0))
 
 ;; updatedb every 30 minutes
 (unless (boundp 'updatedb-timer)
