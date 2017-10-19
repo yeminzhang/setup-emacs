@@ -44,39 +44,41 @@
            "\n" t)
         nil)))
 
-  (defun counsel-find-file-function (input)
-    "find file for INPUT."
-    (let (
-          (regex (setq ivy--old-re (ivy--regex input))))
-      (or
-       (delete-dups
-        (funcall counsel-file-filter
-                 (append
-                  (counsel-file-in-current-dir-function regex)
-                  (counsel-recentf-function regex)
-                  (counsel-locate-function regex (locate-dominating-file default-directory ".mlocate.db")) ;;project files
-                  (if counsel-search-globally-p (counsel-locate-function regex "~")) ;;global locate file
-                  )))
-       (list ""))))
+  (defun counsel-find-file-list ()
+    (delete-dups
+     (append
+      (funcall 'keep-only-files (counsel-file-in-current-dir-function ""))
+      (funcall 'keep-only-files (counsel-recentf-function ""))
+      (when (projectile-project-p)
+        (or (project-get-attribute :files)
+            (progn (project-updatedb)
+                   (project-get-attribute :files)))) ;;project files
+      )))
+
+  (defun counsel-find-dir-list ()
+    (delete-dups
+     (append
+      (funcall 'keep-only-dirs (counsel-file-in-current-dir-function ""))
+      (funcall 'keep-only-dirs (counsel-recentf-function ""))
+      (when (projectile-project-p)
+        (or (project-get-attribute :dirs)
+            (progn (project-updatedb)
+                   (project-get-attribute :dirs)))) ;;project files
+      )))
 
   (defun counsel-my-find-file (ARG)
     (interactive "P")
-    (let ((counsel-file-filter 'keep-only-files)
-          (ivy--index 0)
+    (let ((ivy--index 0)
           (counsel-search-globally-p (if ARG t nil)))
-      (ivy-read "find file: " 'counsel-find-file-function
-                :dynamic-collection t
+      (ivy-read "find file: " (counsel-find-file-list)
                 :action 'find-file
                 :caller 'counsel-my-find-file)))
 
   (defun counsel-search-dir (ARG)
     (interactive "P")
-    (let ((counsel-file-filter 'keep-only-dirs)
-          (ivy--index 0)
-          (ivy-height 30)
+    (let ((ivy--index 0)
           (counsel-search-globally-p (if ARG t nil)))
-      (ivy-read "search in dir: " 'counsel-find-file-function
-                :dynamic-collection t
+      (ivy-read "search in dir: " (counsel-find-dir-list)
                 :action (lambda (candidate) (interactive) (counsel-ag "" candidate))
                 :caller 'counsel-search-dir)))
 

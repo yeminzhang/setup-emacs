@@ -5,11 +5,11 @@
   :ensure t
   :defer t
   :config
-  (setq projectile-completion-system 'helm)
-  (setq projectile-mode-line '(" Proj" (:eval (spinner-print compile--spinner))))
-  (setq projectile-find-dir-includes-top-level t)
-  (setq projectile-tags-command nil)
-  (setq projectile-idle-timer-hook (list 'project-update-tags 'project-updatedb))
+  (setq projectile-completion-system 'helm
+        projectile-mode-line '(" Proj" (:eval (spinner-print compile--spinner)))
+        projectile-find-dir-includes-top-level t
+        projectile-tags-command nil
+        projectile-idle-timer-hook (list 'project-update-tags 'project-updatedb))
   (defun project-save-attribute (symbol value)
     (let (
           (default-directory (projectile-project-root))
@@ -129,9 +129,15 @@
   (defun project-updatedb ()
     (interactive)
     (when (projectile-project-p)
-      (call-process-shell-command
-       (format updatedb-cmd (projectile-project-root) (expand-file-name ".mlocate.db" (projectile-project-root)))
-       nil 0)))
+      (project-save-attribute2 :files
+                               (split-string
+                                (shell-command-to-string (format "find %s -type f -name \"*\"" (projectile-project-root)))
+                                "\n" t))
+      (project-save-attribute2 :dirs
+                               (split-string
+                                (shell-command-to-string (format "find %s -type d -name \"*\"" (projectile-project-root)))
+                                "\n" t))
+      ))
 
   (defun project-configure (ARG)
     (interactive "P")
@@ -162,7 +168,9 @@
       (dolist (buffer (projectile-project-buffer-names))
         (with-current-buffer buffer (project-load-attributes)))))
   :init
-  (setq projectile-enable-idle-timer t))
+  (setq projectile-enable-idle-timer t
+        projectile-idle-timer-seconds 1800)
+  )
 
 (set-display-buffer-other-window (rx bos "*Shell Command Output*" eos))
 
