@@ -13,6 +13,7 @@
 (use-package eyebrowse
   :ensure t
   :defer t
+  :disabled
   :config
   (setq eyebrowse-wrap-around t
         eyebrowse-mode-line-separator ","
@@ -198,7 +199,5 @@ A formatted list of window configs is presented as candidates."
   ("M-n" . session-next)
   ("M-p" . session-previous)
 ))
-
-(eyebrowse-mode t)
 
 (provide 'init-session)
