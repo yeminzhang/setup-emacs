@@ -55,31 +55,28 @@
                   (counsel-file-in-current-dir-function regex)
                   (counsel-recentf-function regex)
                   (counsel-locate-function regex (locate-dominating-file default-directory ".mlocate.db")) ;;project files
-                  (if counsel-search-globally-p (counsel-locate-function regex "~")) ;;global locate file
+                  (counsel-locate-function regex "~") ;;global locate file
                   )))
        (list ""))))
 
-  (defun counsel-my-find-file (ARG)
-    (interactive "P")
+  (defun counsel-my-find-file ()
+    (interactive)
     (let ((counsel-file-filter 'keep-only-files)
-          (ivy--index 0)
-          (counsel-search-globally-p (if ARG t nil)))
+          (ivy--index 0))
       (ivy-read "find file: " 'counsel-find-file-function
                 :dynamic-collection t
                 :action 'find-file
                 :caller 'counsel-my-find-file)))
 
-  (defun counsel-search-dir (ARG)
-    (interactive "P")
+  (defun counsel-search-dir ()
+    (interactive)
     (let ((counsel-file-filter 'keep-only-dirs)
           (ivy--index 0)
-          (ivy-height 30)
-          (counsel-search-globally-p (if ARG t nil)))
+          (ivy-height 30))
       (ivy-read "search in dir: " 'counsel-find-file-function
                 :dynamic-collection t
                 :action (lambda (candidate) (interactive) (counsel-ag "" candidate))
                 :caller 'counsel-search-dir)))
-
   (ivy-set-actions
    'counsel-search-dir
    '(("f"
