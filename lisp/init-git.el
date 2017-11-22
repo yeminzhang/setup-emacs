@@ -28,6 +28,13 @@
               ("G" . end-of-buffer))
   )
 
+(use-package magit-svn
+  :ensure t
+  :defer t
+  :after magit
+  :config
+  (add-hook 'magit-mode-hook 'magit-svn-mode))
+
 (use-package info
   :defer t
   :config
