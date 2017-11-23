@@ -150,11 +150,34 @@
 
 (use-package helm-projectile
   :ensure t
+  :disabled
   :after projectile helm-mode
   :config
   (helm-projectile-on)
   (define-key projectile-mode-map (kbd "C-c p g") 'helm-projectile-grep)
   (setq helm-projectile-fuzzy-match nil))
+
+;; helm-gtags
+(use-package helm-gtags
+  :ensure t
+  :defer t
+  :diminish helm-gtags-mode
+  :config
+  (setq
+   helm-gtags-ignore-case t
+   helm-gtags-auto-update t
+   helm-gtags-use-input-at-cursor t
+   helm-gtags-pulse-at-cursor t
+   ;;   helm-gtags-prefix-key "\C-cg"
+   helm-gtags-suggested-key-mapping t)
+  :bind (:map helm-gtags-mode-map
+              ("C-c h g a" . helm-gtags-tags-in-this-function)
+              ("C-c h g s" . helm-gtags-select)
+              ("M-." . helm-gtags-dwim)
+              ("M-," . helm-gtags-pop-stack)
+              ("C-c h g <" . helm-gtags-previous-history)
+              ("C-c h g >" . helm-gtags-next-history)
+              ))
 
 ;;(helm-mode 1)
 

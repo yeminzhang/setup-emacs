@@ -5,7 +5,7 @@
   :ensure t
   :defer t
   :config
-  (setq projectile-completion-system 'helm)
+  (setq projectile-completion-system 'ido)
   (setq projectile-mode-line '(" Proj" (:eval (spinner-print compile--spinner))))
   (setq projectile-find-dir-includes-top-level t)
   (setq projectile-tags-command nil)

@@ -122,28 +122,6 @@
 (global-semanticdb-minor-mode -1)
 (global-semantic-idle-scheduler-mode -1)
 
-;; helm-gtags
-(use-package helm-gtags
-  :ensure t
-  :defer t
-  :diminish helm-gtags-mode
-  :config
-  (setq
-   helm-gtags-ignore-case t
-   helm-gtags-auto-update t
-   helm-gtags-use-input-at-cursor t
-   helm-gtags-pulse-at-cursor t
-;;   helm-gtags-prefix-key "\C-cg"
-   helm-gtags-suggested-key-mapping t)
-  :bind (:map helm-gtags-mode-map
-              ("C-c h g a" . helm-gtags-tags-in-this-function)
-              ("C-c h g s" . helm-gtags-select)
-              ("M-." . helm-gtags-dwim)
-              ("M-," . helm-gtags-pop-stack)
-              ("C-c h g <" . helm-gtags-previous-history)
-              ("C-c h g >" . helm-gtags-next-history)
-              ))
-
 (defun format-buffer ()
   (interactive)
   (when c-buffer-is-cc-mode (cc-format-buffer)))
