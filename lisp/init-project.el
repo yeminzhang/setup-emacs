@@ -5,11 +5,13 @@
   :ensure t
   :defer t
   :config
-  (setq projectile-completion-system 'ido)
-  (setq projectile-mode-line '(" Proj" (:eval (spinner-print compile--spinner))))
-  (setq projectile-find-dir-includes-top-level t)
-  (setq projectile-tags-command nil)
-  (setq projectile-idle-timer-hook (list 'project-update-tags 'project-updatedb))
+  (setq projectile-completion-system 'ido
+        projectile-mode-line '(" Proj" (:eval (spinner-print compile--spinner)))
+        projectile-find-dir-includes-top-level t
+        projectile-tags-command nil
+        projectile-idle-timer-hook (list 'project-update-tags 'project-updatedb)
+        projectile-switch-project-action 'projectile-project-buffers-other-buffer)
+
   (defun project-save-attribute (symbol value)
     (let (
           (default-directory (projectile-project-root))
