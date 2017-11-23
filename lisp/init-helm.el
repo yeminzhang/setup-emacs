@@ -161,6 +161,7 @@
 (use-package helm-gtags
   :ensure t
   :defer t
+  :disabled
   :diminish helm-gtags-mode
   :config
   (setq
@@ -178,7 +179,5 @@
               ("C-c h g <" . helm-gtags-previous-history)
               ("C-c h g >" . helm-gtags-next-history)
               ))
-
-;;(helm-mode 1)
 
 (provide 'init-helm)

@@ -144,12 +144,7 @@
   :defer t
   :config
   (define-key python-mode-map (kbd "M-.") 'jedi:goto-definition)
-  (define-key python-mode-map (kbd "M-,") 'jedi:goto-definition-pop-marker)
-
-  (add-hook 'python-mode-hook
-            (lambda ()
-              (local-set-key (kbd "C-c <") 'helm-gtags-previous-history)
-              (local-set-key (kbd "C-c >") 'helm-gtags-next-history))))
+  (define-key python-mode-map (kbd "M-,") 'jedi:goto-definition-pop-marker))
 
 (use-package doc-view
   :defer t
