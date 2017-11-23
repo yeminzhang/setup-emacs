@@ -38,30 +38,6 @@
   (gud-send-command "quit")
   )
 
-(defun cc-get-alternative-filename ()
-  (let
-      (
-       (bse (file-name-nondirectory (file-name-sans-extension buffer-file-name)))
-       (ext (downcase (file-name-extension buffer-file-name))))
-    (cond
-     ((equal ext "h")
-      (if (projectile-verify-file (concat bse ".c"))
-          (concat bse ".c")
-        (concat bse ".cc")))
-     ((equal ext "c")
-      (concat bse ".h"))
-     ((or (equal ext "cpp") (equal ext "cc"))
-      (if (projectile-verify-file (concat bse ".hh"))
-          (concat bse ".hh")
-        (concat bse ".h")))
-     ((equal ext "hh")
-      (concat bse ".cc"))
-     )))
-
-(defun cc-switch-source-header-file ()
-  (interactive)
-  (helm-gtags-find-files (cc-get-alternative-filename)))
-
 (defun cc-get-headers-path-system ()
   (if (and (projectile-project-p) (eq 'c/c++ projectile-project-type) (ede-cpp-root-load (projectile-project-root)))
       (oref (ede-cpp-root-load (projectile-project-root)) :system-include-path)

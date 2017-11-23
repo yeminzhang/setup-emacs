@@ -59,12 +59,7 @@
   :config
   (add-hook 'c-mode-common-hook
             (lambda ()
-              (local-set-key (kbd "C-i") 'clang-format)))
-
-  (dolist (mode-hook '(c-mode-hook c++-mode-hook))
-    (add-hook mode-hook
-              (lambda ()
-                (local-set-key  (kbd "C-c o") 'cc-switch-source-header-file)))))
+              (local-set-key (kbd "C-i") 'clang-format))))
 
 (defun eshell-set-keybindings ()
   (define-key eshell-mode-map (kbd "C-r")
