@@ -9,9 +9,15 @@
         projectile-mode-line '(" Proj" (:eval (spinner-print compile--spinner)))
         projectile-find-dir-includes-top-level t
         projectile-tags-command nil
-        projectile-idle-timer-hook (list 'project-update-tags 'project-updatedb)
+        projectile-idle-timer-hook (list 'project-update-tags)
         projectile-switch-project-action 'projectile-project-buffers-other-buffer
         projectile-enable-caching t)
+
+  (defun project-relative-filename (filename)
+    (message filename)
+    (if (and (projectile-project-p) (projectile-file-cached-p filename (projectile-project-name)))
+        (file-relative-name filename (projectile-project-root))
+      filename))
 
   (defun project-save-attribute (symbol value)
     (let (
@@ -112,7 +118,6 @@
       (if (or ARG (not projectile-project-compilation-cmd))
           (project-save-attribute2 :compilation-cmd (gethash (projectile-project-root) projectile-compilation-cmd-map))))
     (project-update-tags)
-    (project-updatedb)
     )
 
   (defun project-configure--tags-command ()
@@ -128,13 +133,6 @@
           (projectile-tags-command (concat "cd " (projectile-project-root) ";gtags")))
       ;; (projectile-regenerate-tags) is a blocking function, so we use our own function
       (call-process-shell-command projectile-tags-command nil 0)))
-
-  (defun project-updatedb ()
-    (interactive)
-    (when (projectile-project-p)
-      (call-process-shell-command
-       (format updatedb-cmd (projectile-project-root) (expand-file-name ".mlocate.db" (projectile-project-root)))
-       nil 0)))
 
   (defun project-configure (ARG)
     (interactive "P")

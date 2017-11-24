@@ -41,7 +41,7 @@
            "\n" t)
         nil)))
 
-  (defun counsel-find-file-function (input)
+  (defun counsel-find-other-file-function (input)
     "find file for INPUT."
     (let (
           (regex (setq ivy--old-re (ivy--regex input))))
@@ -51,37 +51,78 @@
                  (append
                   (counsel-file-in-current-dir-function regex)
                   (counsel-recentf-function regex)
-                  (counsel-locate-function regex (locate-dominating-file default-directory ".mlocate.db")) ;;project files
                   (counsel-locate-function regex "~") ;;global locate file
                   )))
        (list ""))))
 
-  (defun counsel-my-find-file ()
+  (defun counsel-find-project-file-function ()
+    "find file for INPUT."
+    (or
+     (delete-dups
+      (append
+       (projectile-dir-files default-directory)
+       (projectile-recentf-files)
+       (projectile-current-project-files)))
+     (list "")))
+
+  (defun counsel-find-other-file ()
     (interactive)
     (let ((counsel-file-filter 'keep-only-files)
           (ivy--index 0))
-      (ivy-read "find file: " 'counsel-find-file-function
+      (ivy-read "find file: " 'counsel-find-other-file-function
                 :dynamic-collection t
                 :action 'find-file
-                :caller 'counsel-my-find-file)))
+                :caller 'counsel-find-other-file)))
 
-  (defun counsel-search-dir ()
+  (defun counsel-find-project-file ()
+    (interactive)
+    (let ((ivy--index 0))
+      (ivy-read "find file: " (counsel-find-project-file-function)
+                :action (lambda (candidate)
+                          (interactive)
+                          (find-file (expand-file-name candidate (projectile-project-root))))
+                :caller 'counsel-find-project-file)))
+
+  (defun counsel-my-find-file (ARG)
+    (interactive "P")
+    (if ARG
+        (counsel-find-other-file)
+      (counsel-find-project-file)))
+
+  (defun counsel-search-project-dir ()
+    (interactive)
+    (let ((ivy--index 0)
+          (ivy-height 30))
+      (ivy-read "search in dir: " (append '("./") (projectile-current-project-dirs))
+                :action (lambda (candidate)
+                          (interactive)
+                          (counsel-ag "" (expand-file-name candidate (projectile-project-root))))
+                :caller 'counsel-search-project-dir)))
+
+  (defun counsel-search-other-dir ()
     (interactive)
     (let ((counsel-file-filter 'keep-only-dirs)
           (ivy--index 0)
           (ivy-height 30))
-      (ivy-read "search in dir: " 'counsel-find-file-function
+      (ivy-read "search in dir: " 'counsel-find-other-file-function
                 :dynamic-collection t
                 :action (lambda (candidate) (interactive) (counsel-ag "" candidate))
-                :caller 'counsel-search-dir)))
+                :caller 'counsel-search-other-dir)))
+
+  (defun counsel-my-search-dir (ARG)
+    (interactive "P")
+    (if ARG
+        (counsel-search-other-dir)
+      (counsel-search-project-dir)))
+
   (ivy-set-actions
-   'counsel-search-dir
+   'counsel-search-other-dir
    '(("f"
       (lambda (candidate) (interactive) (find-file candidate))
       "open")))
   :bind (:map counsel-mode-map
               ("C-x C-f" . counsel-my-find-file)
-              ("C-x C-d" . counsel-search-dir)
+              ("C-x C-d" . counsel-my-search-dir)
               ))
 
 (use-package ivy
