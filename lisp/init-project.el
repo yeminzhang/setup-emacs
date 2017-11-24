@@ -10,7 +10,8 @@
         projectile-find-dir-includes-top-level t
         projectile-tags-command nil
         projectile-idle-timer-hook (list 'project-update-tags 'project-updatedb)
-        projectile-switch-project-action 'projectile-project-buffers-other-buffer)
+        projectile-switch-project-action 'projectile-project-buffers-other-buffer
+        projectile-enable-caching t)
 
   (defun project-save-attribute (symbol value)
     (let (
