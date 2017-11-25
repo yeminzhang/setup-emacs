@@ -85,7 +85,7 @@
 
   (defun counsel-my-find-file (ARG)
     (interactive "P")
-    (if ARG
+    (if (or ARG (not (projectile-project-p)))
         (counsel-find-other-file)
       (counsel-find-project-file)))
 
@@ -111,7 +111,7 @@
 
   (defun counsel-my-search-dir (ARG)
     (interactive "P")
-    (if ARG
+    (if (or ARG (not (projectile-project-p)))
         (counsel-search-other-dir)
       (counsel-search-project-dir)))
 
