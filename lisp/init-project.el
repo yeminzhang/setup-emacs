@@ -19,6 +19,10 @@
         (file-relative-name filename (projectile-project-root))
       filename))
 
+  (defun project-switch-to-last-project ()
+    (interactive)
+    (projectile-switch-project-by-name (car (projectile-relevant-open-projects))))
+
   (defun project-save-attribute (symbol value)
     (let (
           (default-directory (projectile-project-root))
@@ -163,7 +167,14 @@
       (dolist (buffer (projectile-project-buffer-names))
         (with-current-buffer buffer (project-load-attributes)))))
   :init
-  (setq projectile-enable-idle-timer t))
+  (setq projectile-enable-idle-timer t)
+  :bind (:map projectile-command-map
+              ("R" . project-update-tags)
+              ("c" . project-compile)
+              ("r" . project-run)
+              ("d" . project-debug)
+              ("<tab>" . project-switch-to-last-project))
+  )
 
 (set-display-buffer-other-window (rx bos "*Shell Command Output*" eos))
 

@@ -45,15 +45,6 @@
   :bind (:map gud-mode-map
               ("C-q" . project-debug-quit)))
 
-;; projectile
-(use-package projectile
-  :defer t
-  :config
-  (define-key projectile-mode-map (kbd "C-c p R") 'project-update-tags)
-  (define-key projectile-mode-map (kbd "C-c p c") 'project-compile)
-  (define-key projectile-mode-map (kbd "C-c p r") 'project-run)
-  (define-key projectile-mode-map (kbd "C-c p d") 'project-debug))
-
 (use-package cc-mode
   :defer t
   :config
