@@ -55,16 +55,6 @@
                   )))
        (list ""))))
 
-  (defun counsel-find-project-file-function ()
-    "find file for INPUT."
-    (or
-     (delete-dups
-      (append
-       (projectile-dir-files default-directory)
-       (projectile-recentf-files)
-       (projectile-current-project-files)))
-     (list "")))
-
   (defun counsel-find-other-file ()
     (interactive)
     (let ((counsel-file-filter 'keep-only-files)
@@ -76,12 +66,12 @@
 
   (defun counsel-find-project-file ()
     (interactive)
-    (let ((ivy--index 0))
-      (ivy-read "find file: " (counsel-find-project-file-function)
-                :action (lambda (candidate)
-                          (interactive)
-                          (find-file (expand-file-name candidate (projectile-project-root))))
-                :caller 'counsel-find-project-file)))
+    (ivy-read "find file: " (projectile-current-project-files)
+              :action (lambda (candidate)
+                        (interactive)
+                        (find-file (expand-file-name candidate (projectile-project-root))))
+              :preselect (file-relative-name (buffer-file-name) (projectile-project-root))
+              :caller 'counsel-find-project-file))
 
   (defun counsel-my-find-file (ARG)
     (interactive "P")
