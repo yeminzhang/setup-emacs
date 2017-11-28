@@ -64,13 +64,29 @@
                 :action 'find-file
                 :caller 'counsel-find-other-file)))
 
+  (defun counsel-find-file-matcher (regexp candidates)
+    (let ((dup-result (ivy--re-filter regexp candidates))
+          (no-dup-result '()))
+      (if (< (length dup-result) 10)
+          (progn
+            (dolist (cand dup-result)
+              (add-to-list 'no-dup-result cand t))
+            (delete-dups no-dup-result))
+        dup-result)))
+
+  (defun counsel-find-project-file-function ()
+    (append
+     (if (>= (length (projectile-recentf-files)) 1) (cdr (projectile-recentf-files))) ;; remove current displayed file
+     (projectile-current-project-files)))
+
   (defun counsel-find-project-file ()
     (interactive)
-    (ivy-read "find file: " (projectile-current-project-files)
+    (ivy-read "find file: " (counsel-find-project-file-function)
               :action (lambda (candidate)
                         (interactive)
                         (find-file (expand-file-name candidate (projectile-project-root))))
               :preselect (file-relative-name (buffer-file-name) (projectile-project-root))
+              :matcher 'counsel-find-file-matcher
               :caller 'counsel-find-project-file))
 
   (defun counsel-my-find-file (ARG)
