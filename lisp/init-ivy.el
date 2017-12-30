@@ -1,6 +1,6 @@
 (use-package swiper
   :ensure t
-  :after ivy-mode
+  :after ivy
   :config
   (global-set-key (kbd "C-s") 'swiper)
   (global-set-key (kbd "C-r") 'swiper)
