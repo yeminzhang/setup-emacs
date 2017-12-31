@@ -173,9 +173,7 @@
               ("c" . project-compile)
               ("r" . project-run)
               ("d" . project-debug)
-              ("<tab>" . project-switch-to-last-project)
-              :map projectile-mode-map
-              ("<M-tab>" . project-switch-to-last-project))
+              ("<tab>" . project-switch-to-last-project))
   )
 
 (set-display-buffer-other-window (rx bos "*Shell Command Output*" eos))
