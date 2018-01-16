@@ -85,7 +85,7 @@
               :action (lambda (candidate)
                         (interactive)
                         (find-file (expand-file-name candidate (projectile-project-root))))
-              :preselect (file-relative-name (buffer-file-name) (projectile-project-root))
+              :preselect (when (buffer-file-name) (file-relative-name (buffer-file-name) (projectile-project-root)))
               :matcher 'counsel-find-file-matcher
               :caller 'counsel-find-project-file))
 
