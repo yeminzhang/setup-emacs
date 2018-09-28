@@ -17,6 +17,16 @@
                if (and (stringp i) (string-match regex i))
                collect i)))
 
+  ;; redefine counsel-yank-pop-action, replace insert with insert-for-yank
+  ;; in order to get same behavior as C-y
+  (defun counsel-yank-pop-action (s)
+    "Insert S into the buffer, overwriting the previous yank."
+    (with-ivy-window
+      (delete-region ivy-completion-beg
+                     ivy-completion-end)
+      (insert-for-yank (substring-no-properties s))
+      (setq ivy-completion-end (point))))
+
   (defun counsel-file-in-current-dir-function (regex)
     (counsel-match-default regex (directory-files default-directory t)))
 
