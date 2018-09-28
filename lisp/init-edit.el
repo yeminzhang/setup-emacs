@@ -51,6 +51,13 @@
 (setq-default tab-width 4)
 (setq-default c-basic-offset 4)
 
+(defun edit-below ()
+  (interactive)
+  (end-of-line)
+  (newline nil t))
+
+(global-set-key (kbd "C-o") 'edit-below)
+
 ;; whitespace
 (setq-default show-trailing-whitespace nil)
 (use-package whitespace

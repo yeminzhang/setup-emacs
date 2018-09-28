@@ -1,6 +1,5 @@
 
 ;; key bindings
-(global-set-key (kbd "C-o") 'other-window)
 (global-set-key (kbd "<backspace>") 'backward-delete-char)
 
 (global-set-key (kbd "C-c f r") 'buffer-file-run)
