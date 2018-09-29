@@ -49,12 +49,4 @@
       (current-buffer))
     ))
 
-(defun dropbox-start ()
-  (interactive)
-  (if (executable-find "dropbox")
-      (apply 'call-process "dropbox" nil 0 nil
-             (list "start"))))
-
-(dropbox-start)
-
 (provide 'init-remote)
