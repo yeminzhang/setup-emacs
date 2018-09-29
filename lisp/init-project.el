@@ -22,25 +22,13 @@
     (interactive)
     (projectile-switch-project-by-name (car (projectile-relevant-open-projects))))
 
-  (defun project-save-attribute (symbol value)
-    (let (
-          (default-directory (projectile-project-root))
-          (buffer-name (current-buffer))
-          )
-      (delete-dir-local-variable nil symbol)
-      (add-dir-local-variable nil symbol value)
-      (save-buffer)
-      (bury-buffer)
-      (set-buffer buffer-name)
-      ))
-
   (defun project-set-running-command ()
     (setq executable-file (ido-read-file-name "Executable: "))
     (setq executable-args (read-from-minibuffer "Parameters: "))
     (setq executable-envs (read-from-minibuffer "Envs: "))
-    (project-save-attribute2 :executable-file executable-file)
-    (project-save-attribute2 :executable-args executable-args)
-    (project-save-attribute2 :executable-envs executable-envs))
+    (project-save-attribute :executable-file executable-file)
+    (project-save-attribute :executable-args executable-args)
+    (project-save-attribute :executable-envs executable-envs))
 
   (defun project-load-attributes()
     (hack-dir-local-variables)
@@ -64,7 +52,7 @@
           (plist-get project-plist (car attribute))
         nil)))
 
-  (defun project-save-attribute2(&rest attributes)
+  (defun project-save-attribute(&rest attributes)
     (let (
           (project-plist (project-get-plist)))
       (if project-plist
@@ -79,7 +67,7 @@
       (setq compilation-finish-functions nil)
       (projectile-run-project (if projectile-project-run-cmd ARG t))
       (if (or ARG (not projectile-project-run-cmd))
-          (project-save-attribute2 :run-cmd (gethash (projectile-project-root) projectile-run-cmd-map))))
+          (project-save-attribute :run-cmd (gethash (projectile-project-root) projectile-run-cmd-map))))
     )
 
   (defun project-debug (ARG)
@@ -93,7 +81,7 @@
           (debug-prerun (project-get-attribute :debug-prerun)))
       (when (not debug-program)
         (setq debug-program (ido-completing-read "Debugger: " (list "gdb")))
-        (project-save-attribute2 :debug-program debug-program))
+        (project-save-attribute :debug-program debug-program))
       (if (or ARG (not executable-file))
           (project-set-running-command))
       (if (or ARG (not debug-prerun))
@@ -119,14 +107,9 @@
       (setq compilation-finish-functions 'compile-autoclose)
       (projectile-compile-project (if projectile-project-compilation-cmd ARG t))
       (if (or ARG (not projectile-project-compilation-cmd))
-          (project-save-attribute2 :compilation-cmd (gethash (projectile-project-root) projectile-compilation-cmd-map))))
+          (project-save-attribute :compilation-cmd (gethash (projectile-project-root) projectile-compilation-cmd-map))))
     (project-update-tags)
     )
-
-  (defun project-configure--tags-command ()
-    (let
-        ((project-tags-root (read-directory-name "GTAGS root dir:" (projectile-project-root))))
-      (project-save-attribute 'projectile-tags-command (concat "cd " project-tags-root ";gtags"))))
 
   ;; Update GTAGS if it belongs to a project
   (defun project-update-tags ()
@@ -149,22 +132,6 @@
          ;; For future expansion here
          ))))
 
-  (defun project-configure--cpp-project ()
-    (let* (
-           (ede-cpp-root-project-local (ede-cpp-root-load (projectile-project-root)))
-           (ede-include-path-user (split-string (read-from-minibuffer "ede include path user:" (if ede-cpp-root-project-local (s-join " " (oref ede-cpp-root-project-local :include-path)) nil))))
-           (ede-include-path-system (split-string (read-from-minibuffer "ede include path system:" (if ede-cpp-root-project-local (s-join " " (oref ede-cpp-root-project-local :system-include-path)) nil)))))
-      (project-save-attribute 'projectile-project-type 'c/c++)
-      (project-save-attribute 'eval (list ede-cpp-root-project (projectile-project-root)
-                                          :file (expand-file-name ".dir-locals.el" (projectile-project-root))
-                                          :include-path (cons 'list ede-include-path-user)
-                                          :system-include-path (cons 'list ede-include-path-system)))
-      (ede-cpp-root-project (projectile-project-root)
-                            :file (expand-file-name ".dir-locals.el" (projectile-project-root))
-                            :include-path ede-include-path-user
-                            :system-include-path ede-include-path-system)
-      (dolist (buffer (projectile-project-buffer-names))
-        (with-current-buffer buffer (project-load-attributes)))))
   :init
   (setq projectile-enable-idle-timer nil)
   :bind (:map projectile-command-map
@@ -178,8 +145,5 @@
 (set-display-buffer-other-window (rx bos "*Shell Command Output*" eos))
 
 (projectile-global-mode 1)
-
-;; ede for semantic
-(global-ede-mode)
 
 (provide 'init-project)
