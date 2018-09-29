@@ -9,7 +9,6 @@
         projectile-mode-line '(" Proj" (:eval (spinner-print compile--spinner)))
         projectile-find-dir-includes-top-level t
         projectile-tags-command nil
-        projectile-idle-timer-hook (list 'project-update-tags)
         projectile-switch-project-action 'projectile-project-buffers-other-buffer
         projectile-enable-caching t)
 
@@ -167,7 +166,7 @@
       (dolist (buffer (projectile-project-buffer-names))
         (with-current-buffer buffer (project-load-attributes)))))
   :init
-  (setq projectile-enable-idle-timer t)
+  (setq projectile-enable-idle-timer nil)
   :bind (:map projectile-command-map
               ("R" . project-update-tags)
               ("c" . project-compile)
