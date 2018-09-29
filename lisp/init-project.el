@@ -30,12 +30,6 @@
     (project-save-attribute :executable-args executable-args)
     (project-save-attribute :executable-envs executable-envs))
 
-  (defun project-load-attributes()
-    (hack-dir-local-variables)
-    (dolist (pair dir-local-variables-alist)
-      (set (make-local-variable (car pair)) (cdr pair)))
-    )
-
   (customize-save-default 'project-list '())
 
   (defun project-get-plist()
@@ -119,18 +113,6 @@
           (projectile-tags-command (concat "cd " (projectile-project-root) ";gtags")))
       ;; (projectile-regenerate-tags) is a blocking function, so we use our own function
       (call-process-shell-command projectile-tags-command nil 0)))
-
-  (defun project-configure (ARG)
-    (interactive "P")
-    (when (projectile-project-p)
-      (project-load-attributes)
-      (let (
-            (project-type (if (or (not projectile-project-type) ARG) (ido-completing-read "project type: " '("C/C++" "other")) projectile-project-type)))
-        (if (y-or-n-p "Do you want to set the tags command? ") (project-configure--tags-command))
-        (cond
-         ((or (string= "C/C++" project-type) (eq 'c/c++ project-type)) (project-configure--cpp-project))
-         ;; For future expansion here
-         ))))
 
   :init
   (setq projectile-enable-idle-timer nil)
