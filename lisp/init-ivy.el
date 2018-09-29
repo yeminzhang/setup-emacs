@@ -84,14 +84,9 @@
             (delete-dups no-dup-result))
         dup-result)))
 
-  (defun counsel-find-project-file-function ()
-    (append
-     (if (>= (length (projectile-recentf-files)) 1) (cdr (projectile-recentf-files))) ;; remove current displayed file
-     (projectile-current-project-files)))
-
   (defun counsel-find-project-file ()
     (interactive)
-    (ivy-read "find file: " (counsel-find-project-file-function)
+    (ivy-read "find file: " (projectile-current-project-files)
               :action (lambda (candidate)
                         (interactive)
                         (find-file (expand-file-name candidate (projectile-project-root))))
