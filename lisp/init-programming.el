@@ -107,7 +107,10 @@
 (use-package company
   :defer t
   :config
-  (setq company-backends (delete 'company-semantic company-backends)))
+  (setq company-backends (delete 'company-semantic company-backends))
+  (setq company-backends (delete 'company-clang company-backends))
+  (setq company-backends (delete 'company-capf company-backends))
+  )
 ;;  (push '(company-semantic :with company-yasnippet) company-backends))
 
 ;; which function mode
