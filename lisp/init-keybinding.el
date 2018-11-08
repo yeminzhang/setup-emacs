@@ -51,25 +51,6 @@
             (lambda ()
               (local-set-key (kbd "C-i") 'clang-format))))
 
-(defun eshell-set-keybindings ()
-  (define-key eshell-mode-map (kbd "C-r")
-    (lambda ()
-      (interactive)
-      (let (
-            (helm-split-window-default-side 'below))
-        (recenter)
-        (helm-eshell-history))))
-  (define-key eshell-mode-map (kbd "C-j")
-    (lambda ()
-      (interactive)
-      (let (
-            (helm-split-window-default-side 'below))
-        (recenter)
-        (helm-eshell-dir-history))))
-  (define-key eshell-mode-map (kbd "C-w") 'eshell-kill-input))
-
-(add-hook 'eshell-mode-hook 'eshell-set-keybindings)
-
 (global-set-key (kbd "C-c e") 'eshell-here)
 
 (use-package org-agenda

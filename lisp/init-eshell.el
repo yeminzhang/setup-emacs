@@ -48,52 +48,17 @@
         (ring-insert eshell-history-ring last-command)
         (eshell-write-history)))))
 
-(defun helm-eshell-dir-history ()
-  "Preconfigured helm for eshell history."
+(defun counsel-eshell-dir-history ()
   (interactive)
-  (require 'helm-elisp)
-  (require 'helm-eshell)
-  (let* ((end   (point))
-         (beg   (save-excursion (eshell-bol) (point)))
-         (input (buffer-substring beg end))
-         flag-empty)
-    (when (eq beg end)
-      (insert " ")
-      (setq flag-empty t)
-      (setq end (point)))
-    (unwind-protect
-        (with-helm-show-completion beg end
-          (helm :sources (helm-make-source "Eshell dir history"
-                             'helm-eshell-dir-history-source)
-                :buffer "*helm eshell dir history*"
-                :resume 'noresume
-                :input input))
-      (when (and flag-empty
-                 (looking-back " " (1- (point))))
-        (delete-char -1)))))
+  (require 'em-dirs)
+  (counsel--browse-history eshell-last-dir-ring))
 
-(use-package helm-source
-  :defer t
-  :config
-  (defclass helm-eshell-dir-history-source (helm-source-sync)
-    ((init :initform
-           (lambda ()
-             ;; Same comment as in `helm-source-esh'.
-             (remove-hook 'minibuffer-setup-hook 'eshell-mode)))
-     (candidates
-      :initform
-      (lambda ()
-        (with-helm-current-buffer
-          (cl-loop for c from 0 to (ring-length eshell-last-dir-ring)
-                   collect (ring-ref eshell-last-dir-ring c)))))
-     (nomark :initform t)
-     (multiline :initform t)
-     (keymap :initform helm-eshell-history-map)
-     (candidate-number-limit :initform 9999)
-     (action :initform (lambda (candidate)
-                         (eshell-run-command (concat "cd " candidate)))))
-    "Helm class to define source for Eshell dir history.")
-  )
+(defun eshell-set-keybindings ()
+  (define-key eshell-mode-map (kbd "C-r") 'counsel-esh-history)
+  (define-key eshell-mode-map (kbd "C-j") 'counsel-eshell-dir-history)
+  (define-key eshell-mode-map (kbd "C-w") 'eshell-kill-input))
+
+(add-hook 'eshell-mode-hook 'eshell-set-keybindings)
 
 (add-hook 'eshell-mode-hook 'eshell-register-desktop-save)
 (add-hook 'eshell-mode-hook 'company-mode)
