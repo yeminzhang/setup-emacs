@@ -13,7 +13,6 @@
 (use-package eyebrowse
   :ensure t
   :defer t
-  :disabled
   :config
   (setq eyebrowse-wrap-around t
         eyebrowse-mode-line-separator ","
@@ -74,116 +73,11 @@ A formatted list of window configs is presented as candidates."
       (if candidate
           (cdr candidate)
         candidate-tag)))
-
-  (defadvice switch-to-buffer (after eyebrowse-add-buffers)
-    (let ((buf (ad-get-arg 0)))
-      (when buf
-        (eyebrowse-add-buffer buf eyebrowse-force-add-buffer))))
-
-  (defadvice display-buffer (after eyebrowse-add-buffers)
-    (when ad-return-value
-      (let ((buf (ad-get-arg 0))
-            (frame (window-frame ad-return-value)))
-        (when (and buf frame)
-          (with-selected-frame frame
-            (eyebrowse-add-buffer buf eyebrowse-force-add-buffer))))))
-
-  (defadvice set-window-buffer (after eyebrowse-add-buffers)
-    (let ((buf (ad-get-arg 1))
-          (frame (window-frame (ad-get-arg 0))))
-      (when (and buf frame)
-        (with-selected-frame frame
-          (eyebrowse-add-buffer buf eyebrowse-force-add-buffer)))))
-
-  (defun eyebrowse-activate-buffer-management ()
-    (ad-activate 'switch-to-buffer)
-    (ad-activate 'display-buffer)
-    (ad-activate 'set-window-buffer))
-
-  (defun eyebrowse-buffer-in-other-session-p (buffer-name)
-    (let ((result nil))
-      (dolist (slot (hash-table-keys eyebrowse-buffers))
-        (unless (= slot (eyebrowse--get 'current-slot))
-          (dolist (buffer (gethash slot eyebrowse-buffers))
-            (when (string= buffer-name buffer)
-              (setq result t)))
-          )
-        )
-      result))
-
-  (defun eyebrowse-add-buffer (buffer &optional FORCE)
-    (let (
-          (buffer-list (gethash (eyebrowse--get 'current-slot) eyebrowse-buffers))
-          (buffer-str (if (stringp buffer) buffer (buffer-name buffer)))
-          )
-      (when (or (string= buffer-str "*scratch*")
-                (not (eyebrowse-buffer-in-other-session-p buffer-str))
-                FORCE)
-        (if buffer-list
-            (puthash (eyebrowse--get 'current-slot) (delete-dups (cons buffer-str buffer-list)) eyebrowse-buffers)
-          (puthash (eyebrowse--get 'current-slot) (list buffer-str) eyebrowse-buffers))
-        (add-hook 'kill-buffer-hook 'eyebrowse-remove-buffer)
-        )))
-
-  (defun eyebrowse-remove-buffer ()
-    (let (
-          (buffer-str (if (stringp (current-buffer)) (current-buffer) (buffer-name (current-buffer))))
-          )
-      (dolist (slot (hash-table-keys eyebrowse-buffers))
-        (puthash slot (remove buffer-str (gethash slot eyebrowse-buffers)) eyebrowse-buffers))))
-
-  (defun eyebrowse-set-ido-buffers ()
-    "Restrict the ido buffer to the current perspective."
-    (let* ((buffer-names (gethash (eyebrowse--get 'current-slot) eyebrowse-buffers))
-          (indices (make-hash-table :test 'equal)))
-      (cl-loop for elt in ido-temp-list
-               for i upfrom 0
-               do (puthash elt i indices))
-      (setq ido-temp-list
-            (sort (-intersection buffer-names ido-temp-list)
-                  (lambda (a b)
-                    (< (gethash a indices)
-                       (gethash b indices)))))))
-
-  (add-hook 'ido-make-buffer-list-hook 'eyebrowse-set-ido-buffers)
-
-  (defun eyebrowse-save-buffers ()
-    (with-temp-file eyebrowse-buffers-filename
-      (prin1 eyebrowse-buffers (current-buffer))))
-
-  (defun eyebrowse-load-buffers ()
-    (if (file-exists-p eyebrowse-buffers-filename)
-    (with-temp-buffer
-      (insert-file-contents eyebrowse-buffers-filename)
-      (goto-char (point-min))
-      (setq eyebrowse-buffers
-            (read (current-buffer)))))
-    )
-
-  (add-hook 'eyebrowse-mode-hook 'eyebrowse-load-buffers)
-  (add-hook 'desktop-save-hook 'eyebrowse-save-buffers)
-  (add-hook 'desktop-delay-hook 'eyebrowse-activate-buffer-management)
-  (add-hook 'desktop-no-desktop-file-hook 'eyebrowse-activate-buffer-management)
-  (add-hook 'desktop-not-loaded-hook 'eyebrowse-activate-buffer-management)
-
-  ;; use helm-buffers-list to show all buffers and add buffer to session by force
-  (defadvice helm-buffers-list (before eyebrowse-disable-modify-list activate)
-    (remove-hook 'ido-make-buffer-list-hook 'eyebrowse-set-ido-buffers)
-    (setq eyebrowse-force-add-buffer t)
-    )
-
-  (defadvice helm-buffers-list (after eyebrowse-disable-modify-list activate)
-    (add-hook 'ido-make-buffer-list-hook 'eyebrowse-set-ido-buffers)
-    (setq eyebrowse-force-add-buffer nil))
-
   :init
   (if (eq default-theme 'zenburn)
       (defface eyebrowse-mode-line-active
         '((t (:foreground "#F0DFAF")))
         "The face used to highlight the current perspective on the modeline."))
-  (defvar eyebrowse-buffers (make-hash-table :test 'equal))
-  (defvar eyebrowse-force-add-buffer nil)
-  (defvar eyebrowse-buffers-filename (expand-file-name "eyebrowse-buffers" user-emacs-directory))
 
   :bind (
   ("C-c s s" . session-switch)
@@ -200,4 +94,5 @@ A formatted list of window configs is presented as candidates."
   ("M-p" . session-previous)
 ))
 
+(eyebrowse-mode t)
 (provide 'init-session)

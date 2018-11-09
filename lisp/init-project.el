@@ -114,6 +114,31 @@
       ;; (projectile-regenerate-tags) is a blocking function, so we use our own function
       (call-process-shell-command projectile-tags-command nil 0)))
 
+  ;; put project buffers in the beginning of a buffer list
+  (defun project-prioritized-buffer-list ()
+    (let* ((project-root (projectile-project-root))
+           (project-buffer-names
+            (delete (buffer-name (current-buffer))
+                    (mapcar #'buffer-name (cl-remove-if-not
+                                           (lambda (buffer)
+                                             (projectile-project-buffer-p buffer project-root))
+                                           (buffer-list)))))
+           (other-buffer-names
+            (mapcar #'buffer-name (cl-remove-if
+                                   (lambda (buffer)
+                                     (projectile-project-buffer-p buffer project-root))
+                                   (buffer-list)))))
+      (append project-buffer-names other-buffer-names)))
+
+  (defun project-switch-to-buffer ()
+    (interactive)
+    (if (projectile-project-p)
+        (let ((projectile-completion-system 'ido))
+          (switch-to-buffer (projectile-completing-read "" (project-prioritized-buffer-list))))
+      (ido-switch-buffer)))
+
+  (global-set-key (kbd "C-x b") 'project-switch-to-buffer)
+
   :init
   (setq projectile-enable-idle-timer nil)
   :bind (:map projectile-command-map
