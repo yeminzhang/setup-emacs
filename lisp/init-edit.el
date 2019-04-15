@@ -125,18 +125,19 @@
         ;; if it reaches end of buffer, then create a newline
         (newline)
       ;; otherwise we just yank line before beginning of next line
-      (call-interactively 'forward-char))))
+      (call-interactively 'forward-char)))
+  ;; update region-beginning otherwise (indent-region) will use wrong (region-beginning)
+  (setq region-beginning-update (point)))
 
 ;; auto indent when paste something
 (defadvice insert-for-yank (after indent-region (str) activate)
    (and (not current-prefix-arg)
         (derived-mode-p 'prog-mode)
         (let ((mark-even-if-inactive transient-mark-mode))
-          (indent-region (region-beginning) (region-end) nil)
+          (indent-region region-beginning-update (region-end) nil)
           ;; if it is line copy, then stay in the end of last line
           (when (char-equal (aref str (- (length str) 1)) ?\n)
-            (call-interactively 'backward-char))
-          )))
+            (call-interactively 'backward-char)))))
 
 ;; undo-tree
 (use-package undo-tree
