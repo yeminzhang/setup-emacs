@@ -118,6 +118,8 @@
          ("M-j" . delete-indentation))
   )
 
+(defvar region-beginning-update 0)
+
 (defadvice insert-for-yank (before newline-if-is-linestr (str) activate)
   (when (char-equal (aref str (- (length str) 1)) ?\n)
     (end-of-line)
