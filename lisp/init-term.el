@@ -98,5 +98,7 @@
           (default-directory parent))
     (multi-term))))
 
+(use-package multi-vterm
+  :ensure t)
 
 (provide 'init-term)

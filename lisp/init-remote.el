@@ -35,7 +35,10 @@
          (multi-term-program-switches host)
          (index 1)
          )
-    (multi-term)
+    (multi-vterm)
+    (vterm--goto-line -1)
+    (vterm-send-string (concat "ssh " host))
+    (vterm-send-return)
 ;;    (term-send-raw-string "export TERM=xterm")
     ;;  (term-send-return)
     ;; Compute index.
