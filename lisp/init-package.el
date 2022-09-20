@@ -1,5 +1,6 @@
 (require 'package)
-(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
+;;(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
+(add-to-list 'package-archives '("melpa" . "http://1.15.88.122/melpa/") t)
 
 ;; install use-package
 (unless (package-installed-p 'use-package)
