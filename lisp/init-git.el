@@ -28,6 +28,12 @@
               ("G" . end-of-buffer))
   )
 
+(use-package magit-diff
+  :bind (:map magit-diff-mode-map
+              ;; the original M-TAB is really a trouble under linux
+              ("C-o" . magit-section-cycle-diffs))
+  )
+
 (use-package magit-svn
   :ensure t
   :defer t

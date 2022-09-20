@@ -88,7 +88,7 @@ A formatted list of window configs is presented as candidates."
   ("C-c s f" . toggle-frame-fullscreen)
   ("C-c s <tab>" . session-last)
   ("<M-tab>" . session-last)
-  ("M-;" . session-switch)
+  ;;("M-;" . session-switch)
   ("M-o" . session-next)
   ("M-n" . session-next)
   ("M-p" . session-previous)

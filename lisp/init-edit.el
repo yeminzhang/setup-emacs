@@ -165,7 +165,12 @@
   )
 
 (use-package iedit
-  :ensure t)
+  :ensure t
+  :bind (:map iedit-mode-keymap
+              ("M-;" . iedit-mode))
+  )
+;; the original C-; just doesn't work in terminal mode under terminator
+(global-set-key (kbd "M-;") 'iedit-mode)
 
 (use-package mwim
   :ensure t
