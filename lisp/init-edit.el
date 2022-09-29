@@ -43,7 +43,7 @@
 ;; (setq-default pathname-coding-system 'utf-8)
 
 
-(global-hl-line-mode 1)
+(global-hl-line-mode -1)
 (column-number-mode 1)
 
 ;; Tabsn
