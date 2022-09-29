@@ -68,9 +68,7 @@
 (fringe-mode 5)
 
 (when (eq default-theme 'zenburn)
-  (set-cursor-color "#aaaaaa")
-  (set-face-background 'vertical-border "dark grey")
-  (set-face-foreground 'vertical-border (face-background 'vertical-border)))
+  (set-cursor-color "#aaaaaa"))
 
 (use-package smart-mode-line
   :ensure t
