@@ -74,7 +74,7 @@
 
   (defun configure-programming-buffer-common ()
     (setq show-trailing-whitespace t)
-    (linum-mode t)
+    ;;(linum-mode t)
     (hl-line-mode 1)
     (highlight-parentheses-mode t)
     ;; define word boundary
@@ -100,9 +100,9 @@
   :config
   (yas-reload-all))
 
-(use-package helm-c-yasnippet
-  :ensure t
-  :defer t)
+;;(use-package helm-c-yasnippet
+  ;;:ensure t
+  ;;:defer t)
 
 ;; TODO investigate how to use ycmd for auto complete
 (use-package company
