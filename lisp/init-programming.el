@@ -74,7 +74,7 @@
 
   (defun configure-programming-buffer-common ()
     (setq show-trailing-whitespace t)
-    ;;(linum-mode t)
+    (display-line-numbers-mode t)
     (hl-line-mode 1)
     (highlight-parentheses-mode t)
     ;; define word boundary
