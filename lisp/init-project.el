@@ -150,6 +150,6 @@
 
 (set-display-buffer-other-window (rx bos "*Shell Command Output*" eos))
 
-(projectile-global-mode 1)
+(projectile-mode 1)
 
 (provide 'init-project)
