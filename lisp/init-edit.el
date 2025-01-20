@@ -42,6 +42,8 @@
 ;; (setq default-process-coding-system '(utf-8 . utf-8))
 ;; (setq-default pathname-coding-system 'utf-8)
 
+(when (eq default-theme 'zenburn)
+  (set-face-attribute 'region nil :background "#808080" :foreground "black"))
 
 (global-hl-line-mode -1)
 (column-number-mode 1)
