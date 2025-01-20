@@ -5,7 +5,7 @@
 (global-set-key (kbd "C-c f r") 'buffer-file-run)
 
 ;; jump to bookmarked buffer
-(global-set-key (kbd "C-x r b") 'helm-bookmarks)
+;;(global-set-key (kbd "C-x r b") 'helm-bookmarks)
 
 (global-set-key (kbd "C-x K") 'kill-this-buffer)
 
@@ -37,8 +37,8 @@
   :config
   (define-key yas-minor-mode-map [backtab] nil)
   (define-key yas-minor-mode-map [(tab)]        nil)
-  (define-key yas-minor-mode-map (kbd "TAB")    nil)
-  (define-key yas-minor-mode-map (kbd "S-SPC")  'helm-yas-complete))
+  (define-key yas-minor-mode-map (kbd "TAB")    nil))
+  ;;(define-key yas-minor-mode-map (kbd "S-SPC")  'helm-yas-complete))
 
 (use-package gud
   :bind (:map gud-mode-map
