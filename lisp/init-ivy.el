@@ -152,6 +152,7 @@
   :after projectile counsel ivy
   :config
   (define-key projectile-mode-map (kbd "C-c p g") 'counsel-projectile-ag)
+  (define-key projectile-mode-map (kbd "C-c p f") 'counsel-projectile-find-file)
   )
 
 (use-package counsel-gtags
