@@ -152,7 +152,9 @@
 
 (use-package volatile-highlights
   :ensure t
-  :diminish volatile-highlights-mode)
+  :diminish volatile-highlights-mode
+  :custom-face
+  (vhl/default-face ((t (:foreground , (face-attribute 'region :foreground) :background , (face-attribute 'region :background))))))
 ;; volatile-highlights
 (volatile-highlights-mode t)
 
