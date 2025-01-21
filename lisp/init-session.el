@@ -2,6 +2,8 @@
 (use-package desktop
   :defer t
   :config
+  (customize-set-variable 'desktop-base-file-name (convert-standard-filename (format "%s.%s" ".emacs.desktop" (system-name))))
+  (customize-set-variable 'desktop-base-lock-name (convert-standard-filename (format "%s.%s" desktop-base-file-name "lock")))
   (setq desktop-path (list user-emacs-directory)
         desktop-restore-eager t
         desktop-restore-frames t
