@@ -13,4 +13,9 @@
   (interactive (list (ido-read-file-name "file: ")))
   (shell-command (concat "file " filename)))
 
+(use-package calculator
+  :ensure t
+  :config
+  (customize-set-variable 'calculator-number-digits 5))
+
 (provide 'init-misc)
