@@ -54,33 +54,6 @@
            if (and (stringp i) (not (if (tramp-tramp-file-p i) (s-ends-with-p "/" i) (file-directory-p i))))
            collect i))
 
-;; By default regexp is not used. Add -r in a helm session to enable it
-(defun make-locate-command (ARG)
-  (let (
-        (locate-db-file
-         (if (or ARG
-                 (not (projectile-project-p))
-                 (not (file-exists-p (expand-file-name ".mlocate.db" (projectile-project-root)))))
-             locate-db-file
-           (expand-file-name ".mlocate.db" (projectile-project-root)))))
-    (concat "locate %s -d " locate-db-file " -e -A %s")))
-
-(setq locate-db-file (expand-file-name ".mlocate.db" "~"))
-(if *is-linux*
-    (customize-save-default 'updatedb-cmd "updatedb -l 0 -U %s -o %s")
-  (customize-save-default 'updatedb-cmd "updatedb --localpaths='%s' --output='%s'"))
-
-(defun updatedb ()
-  (interactive)
-  (call-process-shell-command (format updatedb-cmd "/" locate-db-file) nil 0))
-
-;; updatedb every 30 minutes
-(unless (boundp 'updatedb-timer)
-  (run-with-timer 1800 1800 'updatedb)
-  (setq updatedb-timer t))
-
-(updatedb)
-
 ;; recentf
 (use-package recentf-ext
   :ensure t
