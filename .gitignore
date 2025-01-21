@@ -1,5 +1,5 @@
-.emacs.desktop
-.emacs.desktop.lock
+.emacs.desktop.*
+.emacs.desktop.*.lock
 allfolder
 elpa/
 eshell/history
