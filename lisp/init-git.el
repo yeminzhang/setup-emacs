@@ -1,6 +1,5 @@
 (use-package magit
   :ensure t
-  :defer t
   :config
   (setq magit-status-buffer-switch-function 'switch-to-buffer
         magit-push-always-verify nil)
@@ -10,7 +9,6 @@
   (set-display-buffer-other-window (rx bos "*magit:")))
 
 (use-package magit-status
-  :defer t
   :config
   ;; C-c C-a to amend without any prompt
   (defun magit-just-amend ()
