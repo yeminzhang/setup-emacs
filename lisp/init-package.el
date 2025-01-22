@@ -1,7 +1,8 @@
 (require 'package)
 ;;(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
-(add-to-list 'package-archives '("gnu"   . "http://mirrors.cloud.tencent.com/elpa/gnu/") t)
-(add-to-list 'package-archives '("melpa" . "http://mirrors.cloud.tencent.com/elpa/melpa/") t)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+;;(add-to-list 'package-archives '("gnu-cn"   . "http://mirrors.cloud.tencent.com/elpa/gnu/") t)
+;;(add-to-list 'package-archives '("melpa-cn" . "http://mirrors.cloud.tencent.com/elpa/melpa/") t)
 
 ;; install use-package
 (unless (package-installed-p 'use-package)
