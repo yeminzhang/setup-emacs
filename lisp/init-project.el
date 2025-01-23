@@ -6,11 +6,19 @@
   :defer t
   :config
   (setq projectile-completion-system 'ivy
-        projectile-mode-line '(" Proj" (:eval (spinner-print compile--spinner)))
         projectile-find-dir-includes-top-level t
         projectile-tags-command nil
         projectile-switch-project-action 'projectile-project-buffers-other-buffer
-        projectile-enable-caching t)
+        projectile-enable-caching t
+        projectile-mode-line-prefix "Proj"
+        projectile-mode-line-function 'project-mode-line)
+
+  (defun project-mode-line ()
+    "Report project name and type in the modeline."
+    (let ((project-name (projectile-project-name)))
+      (format "%s[%s]"
+              projectile-mode-line-prefix
+              (or project-name "-"))))
 
   (defun project-relative-filename (filename)
     (message filename)
