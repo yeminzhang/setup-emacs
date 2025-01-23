@@ -138,15 +138,16 @@
 
   (global-set-key (kbd "C-x b") 'project-switch-to-buffer)
 
-  (define-key projectile-mode-map (kbd "C-c p R") 'project-update-tags)
-  (define-key projectile-mode-map (kbd "C-c p c") 'project-compile)
-  (define-key projectile-mode-map (kbd "C-c p r") 'project-run)
-  (define-key projectile-mode-map (kbd "C-c p d") 'project-debug)
-  (define-key projectile-mode-map (kbd "C-c p TAB") 'project-switch-to-last-project)
-
   :init
   (setq projectile-enable-idle-timer nil)
-  )
+  :bind (:map projectile-mode-map
+              ("C-c p R" . project-update-tags)
+              ("C-c p c" . project-compile)
+              ("C-c p r" . project-run)
+              ("C-c p d" . project-debug)
+              ("C-c p TAB" . project-switch-to-last-project)
+              ("C-c p a" . projectile-find-other-file)
+  ))
 
 (set-display-buffer-other-window (rx bos "*Shell Command Output*" eos))
 
