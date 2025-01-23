@@ -10,7 +10,7 @@
         projectile-tags-command nil
         projectile-switch-project-action 'projectile-project-buffers-other-buffer
         projectile-enable-caching t
-        projectile-mode-line-prefix "Proj"
+        projectile-mode-line-prefix " Proj"
         projectile-mode-line-function 'project-mode-line)
 
   (defun project-mode-line ()
