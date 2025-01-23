@@ -105,6 +105,12 @@
     (project-update-tags)
     )
 
+  (defun project-ag (ARG)
+    (interactive "P")
+    (let ((project-ag-option (if ARG (read-from-minibuffer "ag option: ") (project-get-attribute :ag-option))))
+      (if ARG (project-save-attribute :ag-option project-ag-option))
+      (counsel-projectile-ag project-ag-option)))
+
   ;; Update GTAGS if it belongs to a project
   (defun project-update-tags ()
     (interactive)
